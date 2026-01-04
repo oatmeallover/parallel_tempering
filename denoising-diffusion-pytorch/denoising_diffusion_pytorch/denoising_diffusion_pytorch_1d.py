@@ -549,8 +549,9 @@ class GaussianDiffusion1D(Module):
         posterior_log_variance_clipped = extract(self.posterior_log_variance_clipped, t, x_t.shape)
         return posterior_mean, posterior_variance, posterior_log_variance_clipped
     
-    def temporal_score_rescaling(self, k):
-        return 1/k
+    def constant_score_scaling(self, k, t, x_shape):
+        alpha_bar = extract(self.alphas_cumprod, t, x_shape)
+        return (alpha_bar + 1.0) / (alpha_bar / k + 1.0)
 
     def constant_noise_scaling(self, k_cns):
         return 1/np.sqrt(k_cns)
@@ -562,7 +563,7 @@ class GaussianDiffusion1D(Module):
 
         model_output = self.model(x, t, **model_forward_kwargs)
 
-        model_output = model_output * self.temporal_score_rescaling(k)
+        model_output = model_output * self.constant_score_scaling(k, t, x.shape)
 
         maybe_clip = partial(torch.clamp, min = -1., max = 1.) if clip_x_start else identity
 

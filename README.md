@@ -1,3 +1,3 @@
-This repository tests out temporal score rescaling and constant noise rescaling according to the paper on TEMPORAL SCORE RESCALING FOR TEMPERATURE SAMPLING IN DIFFUSION AND FLOW MODELS. Standard DDPM code from https://github.com/lucidrains/denoising-diffusion-pytorch is altered to include temperature k and cns k_cns as well as a 1d CFG file called classifier_free_guidance_1d.py for toy examples.
+This repository tests out temporal score rescaling and constant noise rescaling according to the paper on TEMPORAL SCORE RESCALING FOR TEMPERATURE SAMPLING IN DIFFUSION AND FLOW MODELS. Standard DDPM code from https://github.com/lucidrains/denoising-diffusion-pytorch is altered to include temperature k and cns k_cns as well as a 1d CFG file called denoising_diffusion_pytorch_1d.py for toy examples.
 
 First toy example is a mixture of 1D gaussians. See parallel_toy.ipynb
