@@ -26,6 +26,7 @@ from denoising_diffusion_pytorch.version import __version__
 #own imports
 
 import numpy as np
+import sys
 
 # constants
 
@@ -550,12 +551,60 @@ class GaussianDiffusion1D(Module):
         return posterior_mean, posterior_variance, posterior_log_variance_clipped
     
     def constant_score_scaling(self, k, t, x_shape):
-        alpha_bar = extract(self.alphas_cumprod, t, x_shape)
-        return (alpha_bar + 1.0) / (alpha_bar / k + 1.0)
+        return 1/k
+        # alpha_bar = extract(self.alphas_cumprod, t, x_shape)
+        # one_minus_alpha_bar = 1.0 - alpha_bar
 
-    def constant_noise_scaling(self, k_cns):
-        return 1/np.sqrt(k_cns)
+        # numerator = alpha_bar + one_minus_alpha_bar
+        # denominator = alpha_bar / k + one_minus_alpha_bar
+
+        # return numerator / denominator
+
+    def constant_noise_scaling(self, k_cns, t, x_shape):
+        return 1/ np.sqrt(k_cns)
+        # r = self.constant_score_scaling(1/np.sqrt(k_cns), t, x_shape)
+        # return r
+
     
+    def G_inv_func(self, score, tau):
+
+        score = score.unsqueeze(-1) # bs x 1 x 1 x 1
+
+        bs, c, hs, ws = score.shape
+
+        # compute outer product
+        outer_product = torch.einsum("bchw,bdhw-> cd", score, score) / (bs * hs * ws)
+
+        G =  torch.eye(c, dtype = score.dtype, device = score.device) + tau * outer_product
+
+        # normalize 
+        eigvals, eigvecs = torch.linalg.eigh(G)
+        eigvals_inv = 1 / eigvals
+
+        G_inv = eigvecs @ torch.diag(eigvals_inv) @ eigvecs.T
+
+        print(eigvals_inv.mean().item())
+
+        return G_inv
+
+    def G_inv_sqrt_func(self, G_inv, eps=1e-6):
+        """
+        score: Tensor of shape (bs, 2)
+        returns: (2, 2)
+        """
+
+        eigvals, eigvecs = torch.linalg.eigh(G_inv)
+
+        eigvals = torch.clamp(eigvals, min=eps)
+
+        G_inv_sqrt = eigvecs @ torch.diag(eigvals.sqrt()) @ eigvecs.T
+
+        return G_inv_sqrt
+
+    def mm(self, M, v):
+
+        return torch.einsum('ij,bjh->bih', M, v) 
+        
     def model_predictions(self, x, t, k, x_self_cond = None, clip_x_start = False, rederive_pred_noise = False, model_forward_kwargs: dict = dict()):
 
         if exists(x_self_cond):
@@ -563,7 +612,11 @@ class GaussianDiffusion1D(Module):
 
         model_output = self.model(x, t, **model_forward_kwargs)
 
-        model_output = model_output * self.constant_score_scaling(k, t, x.shape)
+        G_inv = self.G_inv_func(model_output, 1.0)
+
+        model_output = self.mm(G_inv, model_output)
+
+        model_output = model_output * self.constant_score_scaling(k, t, x.shape) # constant noise rescaling
 
         maybe_clip = partial(torch.clamp, min = -1., max = 1.) if clip_x_start else identity
 
@@ -586,30 +639,34 @@ class GaussianDiffusion1D(Module):
             x_start = maybe_clip(x_start)
             pred_noise = self.predict_noise_from_start(x, t, x_start)
 
-        return ModelPrediction(pred_noise, x_start)
+        return ModelPrediction(pred_noise, x_start), G_inv
 
     def p_mean_variance(self, x, t, k, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
 
         if exists(x_self_cond):
             model_forward_kwargs = {**model_forward_kwargs, 'self_cond': x_self_cond}
 
-        preds = self.model_predictions(x, t, k, **model_forward_kwargs)
+        preds, G_inv = self.model_predictions(x, t, k, **model_forward_kwargs)
         x_start = preds.pred_x_start
 
         if clip_denoised:
             x_start.clamp_(-1., 1.)
 
         model_mean, posterior_variance, posterior_log_variance = self.q_posterior(x_start = x_start, x_t = x, t = t)
-        return model_mean, posterior_variance, posterior_log_variance, x_start
+        return model_mean, posterior_variance, posterior_log_variance, x_start, G_inv
 
     @torch.no_grad()
     def p_sample(self, x, t: int, k: int, k_cns: int, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
         b, *_, device = *x.shape, x.device
         batched_times = torch.full((b,), t, device = x.device, dtype = torch.long)
-        model_mean, _, model_log_variance, x_start = self.p_mean_variance(x = x, t = batched_times, k = k, x_self_cond = x_self_cond, clip_denoised = clip_denoised, model_forward_kwargs = model_forward_kwargs)
-        noise = torch.randn_like(x) if t > 0 else 0. # no noise if t == 0
+        model_mean, _, model_log_variance, x_start, G_inv = self.p_mean_variance(x = x, t = batched_times, k = k, x_self_cond = x_self_cond, clip_denoised = clip_denoised, model_forward_kwargs = model_forward_kwargs)
+        noise = torch.randn_like(x) if t > 0 else torch.zeros_like(x)
 
-        noise = noise * self.constant_noise_scaling(k_cns) # constant noise rescaling
+        G_inv_sqrt = self.G_inv_sqrt_func(G_inv)
+
+        noise = self.mm(G_inv_sqrt, noise)
+
+        noise = noise * self.constant_noise_scaling(k_cns, batched_times, x.shape) # constant noise rescaling
 
         pred_img = model_mean + (0.5 * model_log_variance).exp() * noise
         return pred_img, x_start
