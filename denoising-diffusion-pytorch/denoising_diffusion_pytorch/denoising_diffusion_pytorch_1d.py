@@ -551,70 +551,85 @@ class GaussianDiffusion1D(Module):
         return posterior_mean, posterior_variance, posterior_log_variance_clipped
     
     def constant_score_scaling(self, k, t, x_shape):
-        return 1/k
-        # alpha_bar = extract(self.alphas_cumprod, t, x_shape)
-        # one_minus_alpha_bar = 1.0 - alpha_bar
+        alpha_bar = extract(self.alphas_cumprod, t, x_shape)
+        one_minus_alpha_bar = 1.0 - alpha_bar
 
-        # numerator = alpha_bar + one_minus_alpha_bar
-        # denominator = alpha_bar / k + one_minus_alpha_bar
+        numerator = alpha_bar + one_minus_alpha_bar
+        denominator = alpha_bar / k + one_minus_alpha_bar
 
-        # return numerator / denominator
+        return numerator / denominator
 
     def constant_noise_scaling(self, k_cns, t, x_shape):
         return 1/ np.sqrt(k_cns)
-        # r = self.constant_score_scaling(1/np.sqrt(k_cns), t, x_shape)
-        # return r
 
-    
     def G_inv_func(self, score, tau):
-
-        score = score.unsqueeze(-1) # bs x 1 x 1 x 1
-
-        bs, c, hs, ws = score.shape
-
-        # compute outer product
-        outer_product = torch.einsum("bchw,bdhw-> cd", score, score) / (bs * hs * ws)
-
-        G =  torch.eye(c, dtype = score.dtype, device = score.device) + tau * outer_product
-
-        # normalize 
-        eigvals, eigvecs = torch.linalg.eigh(G)
-        eigvals_inv = 1 / eigvals
-
-        G_inv = eigvecs @ torch.diag(eigvals_inv) @ eigvecs.T
-
-        print(eigvals_inv.mean().item())
-
+        score_flat = score.squeeze(-1).squeeze(-1) # bs value
+        score_sq = score_flat**2 
+        G_inv = tau*  (1/( score_sq.mean().item())) + (1-tau)
+        print( G_inv)
         return G_inv
 
-    def G_inv_sqrt_func(self, G_inv, eps=1e-6):
-        """
-        score: Tensor of shape (bs, 2)
-        returns: (2, 2)
-        """
-
-        eigvals, eigvecs = torch.linalg.eigh(G_inv)
-
-        eigvals = torch.clamp(eigvals, min=eps)
-
-        G_inv_sqrt = eigvecs @ torch.diag(eigvals.sqrt()) @ eigvecs.T
-
-        return G_inv_sqrt
-
-    def mm(self, M, v):
-
-        return torch.einsum('ij,bjh->bih', M, v) 
+    def tester(self, x, score, tau):
         
-    def model_predictions(self, x, t, k, x_self_cond = None, clip_x_start = False, rederive_pred_noise = False, model_forward_kwargs: dict = dict()):
+        # mask = (x < 0.1)  & ( x >-0.1) 
+        # score_chunk = score[mask]
+
+        # G_inv = self.G_inv_func(score_chunk, tau)
+
+        # new_score =  G_inv * score_chunk
+
+        # score[mask] = new_score
+
+        return score
+    
+    def tester_noise(self, x, score, noise, tau, n_chunks):
+        """
+        x:     [B, ...]
+        score: [B, ...]
+        noise: [B, ...]
+        """
+
+        boundaries = torch.linspace(
+            -1.0, 1.0, n_chunks + 1, device=x.device
+        )
+
+        x_flat = x.squeeze(-1).squeeze(-1)
+
+        for i in range(n_chunks):
+            if i == 0:
+                mask = x_flat <= boundaries[i + 1]
+            elif i == n_chunks - 1:
+                mask = x_flat > boundaries[i]
+            else:
+                mask = (x_flat > boundaries[i]) & (x_flat <= boundaries[i + 1])
+
+            if not mask.any():
+                continue
+
+            score_chunk = score[mask]
+            noise_chunk = noise[mask]
+
+            G_inv = self.G_inv_func(score_chunk, tau)
+
+            # IMPORTANT: apply G_inv consistently
+            # If G_inv is a scalar or diagonal scaling:
+            new_noise = np.sqrt(G_inv) * noise_chunk
+
+            noise[mask] = new_noise
+
+        return noise
+
+    
+    def model_predictions(self, x, t, k, tau, n_chunks, x_self_cond = None, clip_x_start = False, rederive_pred_noise = False, model_forward_kwargs: dict = dict()):
 
         if exists(x_self_cond):
             model_forward_kwargs = {**model_forward_kwargs, 'self_cond': x_self_cond}
 
         model_output = self.model(x, t, **model_forward_kwargs)
 
-        G_inv = self.G_inv_func(model_output, 1.0)
+        model_output_original = model_output.clone().detach()
 
-        model_output = self.mm(G_inv, model_output)
+        # model_output = self.tester(x, model_output, tau)
 
         model_output = model_output * self.constant_score_scaling(k, t, x.shape) # constant noise rescaling
 
@@ -639,32 +654,30 @@ class GaussianDiffusion1D(Module):
             x_start = maybe_clip(x_start)
             pred_noise = self.predict_noise_from_start(x, t, x_start)
 
-        return ModelPrediction(pred_noise, x_start), G_inv
+        return ModelPrediction(pred_noise, x_start), model_output_original
 
-    def p_mean_variance(self, x, t, k, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
+    def p_mean_variance(self, x, t, k, tau, n_chunks, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
 
         if exists(x_self_cond):
             model_forward_kwargs = {**model_forward_kwargs, 'self_cond': x_self_cond}
 
-        preds, G_inv = self.model_predictions(x, t, k, **model_forward_kwargs)
+        preds, model_output_original = self.model_predictions(x, t, k, tau, n_chunks, **model_forward_kwargs)
         x_start = preds.pred_x_start
 
         if clip_denoised:
             x_start.clamp_(-1., 1.)
 
         model_mean, posterior_variance, posterior_log_variance = self.q_posterior(x_start = x_start, x_t = x, t = t)
-        return model_mean, posterior_variance, posterior_log_variance, x_start, G_inv
+        return model_mean, posterior_variance, posterior_log_variance, x_start, model_output_original
 
     @torch.no_grad()
-    def p_sample(self, x, t: int, k: int, k_cns: int, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
+    def p_sample(self, x, t: int, k: int, k_cns: int, tau: float, n_chunks: int, x_self_cond = None, clip_denoised = True, model_forward_kwargs: dict = dict()):
         b, *_, device = *x.shape, x.device
         batched_times = torch.full((b,), t, device = x.device, dtype = torch.long)
-        model_mean, _, model_log_variance, x_start, G_inv = self.p_mean_variance(x = x, t = batched_times, k = k, x_self_cond = x_self_cond, clip_denoised = clip_denoised, model_forward_kwargs = model_forward_kwargs)
+        model_mean, _, model_log_variance, x_start, model_output_original = self.p_mean_variance(x = x, t = batched_times, k = k, tau = tau, n_chunks = n_chunks, x_self_cond = x_self_cond, clip_denoised = clip_denoised, model_forward_kwargs = model_forward_kwargs)
         noise = torch.randn_like(x) if t > 0 else torch.zeros_like(x)
 
-        G_inv_sqrt = self.G_inv_sqrt_func(G_inv)
-
-        noise = self.mm(G_inv_sqrt, noise)
+        noise = self.tester_noise(x, model_output_original, noise, tau, n_chunks)
 
         noise = noise * self.constant_noise_scaling(k_cns, batched_times, x.shape) # constant noise rescaling
 
@@ -672,7 +685,7 @@ class GaussianDiffusion1D(Module):
         return pred_img, x_start
 
     @torch.no_grad()
-    def p_sample_loop(self, k, k_cns, shape, return_noise = False, model_forward_kwargs: dict = dict()):
+    def p_sample_loop(self, k, k_cns, tau, n_chunks, shape, return_noise = False, model_forward_kwargs: dict = dict()):
         batch, device = shape[0], self.betas.device
 
         noise = torch.randn(shape, device=device)
@@ -682,7 +695,7 @@ class GaussianDiffusion1D(Module):
 
         for t in tqdm(reversed(range(0, self.num_timesteps)), desc = 'sampling loop time step', total = self.num_timesteps):
             self_cond = x_start if self.self_condition else None
-            img, x_start = self.p_sample(img, t, k, k_cns, self_cond, model_forward_kwargs = model_forward_kwargs)
+            img, x_start = self.p_sample(img, t, k, k_cns, tau, n_chunks, self_cond, model_forward_kwargs = model_forward_kwargs)
 
         img = self.unnormalize(img)
 
@@ -733,12 +746,12 @@ class GaussianDiffusion1D(Module):
         return img, noise
 
     @torch.no_grad()
-    def sample(self, k = 1.0, k_cns = 1.0, batch_size = 16, return_noise = False, model_forward_kwargs: dict = dict()):
+    def sample(self, k = 1.0, k_cns = 1.0, tau = 1.0, n_chunks = 1, batch_size = 16, return_noise = False, model_forward_kwargs: dict = dict()):
         seq_length, channels = self.seq_length, self.channels
         sample_fn = self.p_sample_loop if not self.is_ddim_sampling else self.ddim_sample
 
         shape = (batch_size, channels, seq_length) if self.channel_first else (batch_size, seq_length, channels)
-        return sample_fn(k, k_cns, shape, return_noise = return_noise, model_forward_kwargs = model_forward_kwargs)
+        return sample_fn(k, k_cns, tau, n_chunks, shape, return_noise = return_noise, model_forward_kwargs = model_forward_kwargs)
 
     @torch.no_grad()
     def interpolate(self, x1, x2, t = None, lam = 0.5):
