@@ -557,69 +557,45 @@ class GaussianDiffusion1D(Module):
         numerator = alpha_bar + one_minus_alpha_bar
         denominator = alpha_bar / k + one_minus_alpha_bar
 
-        return numerator / denominator
+        score_scale = numerator / denominator
+
+        return score_scale
 
     def constant_noise_scaling(self, k_cns, t, x_shape):
         return 1/ np.sqrt(k_cns)
 
-    def G_inv_func(self, score, tau):
-        score_flat = score.squeeze(-1).squeeze(-1) # bs value
-        score_sq = score_flat**2 
-        G_inv = tau*  (1/( score_sq.mean().item())) + (1-tau)
-        print( G_inv)
-        return G_inv
-
-    def tester(self, x, score, tau):
-        
-        # mask = (x < 0.1)  & ( x >-0.1) 
-        # score_chunk = score[mask]
-
-        # G_inv = self.G_inv_func(score_chunk, tau)
-
-        # new_score =  G_inv * score_chunk
-
-        # score[mask] = new_score
-
-        return score
     
-    def tester_noise(self, x, score, noise, tau, n_chunks):
-        """
-        x:     [B, ...]
-        score: [B, ...]
-        noise: [B, ...]
-        """
+    def riemannian(self, noise, tau):
 
-        boundaries = torch.linspace(
-            -1.0, 1.0, n_chunks + 1, device=x.device
-        )
+        bs, C, S = noise.shape
 
-        x_flat = x.squeeze(-1).squeeze(-1)
+        # compute outer products across channels per pixel: ε_i * ε_j
+        cov = noise[:, :, None, :] * noise[:, None, :, :]
+        cov = cov.squeeze(-1)
 
-        for i in range(n_chunks):
-            if i == 0:
-                mask = x_flat <= boundaries[i + 1]
-            elif i == n_chunks - 1:
-                mask = x_flat > boundaries[i]
-            else:
-                mask = (x_flat > boundaries[i]) & (x_flat <= boundaries[i + 1])
+        # shape: (bs, C, C)
+        eigvals, eigvecs = torch.linalg.eigh(cov)  # (..., C), (..., C, C)
 
-            if not mask.any():
-                continue
+        # Clamp for numerical stability
+        eigvals_clamped = torch.clamp(eigvals, min=1e-5)
 
-            score_chunk = score[mask]
-            noise_chunk = noise[mask]
+        # sqrt of eigenvalues
+        sqrt_eigvals = eigvals_clamped #torch.sqrt(eigvals_clamped)  # (..., C)
 
-            G_inv = self.G_inv_func(score_chunk, tau)
+        # Recompose: Q * sqrt(Lambda) * Q^T
+        sqrt_cov = (
+            eigvecs * sqrt_eigvals.unsqueeze(-2)
+        ) @ eigvecs.transpose(-2, -1) 
 
-            # IMPORTANT: apply G_inv consistently
-            # If G_inv is a scalar or diagonal scaling:
-            new_noise = np.sqrt(G_inv) * noise_chunk
+        I = torch.eye(C, device=sqrt_cov.device, dtype=sqrt_cov.dtype)
+        I = I.unsqueeze(0).expand(bs, C, C)   # bs × C × C
 
-            noise[mask] = new_noise
+        interpolated_cov = tau * sqrt_cov + I
 
-        return noise
+        pred_noise = torch.einsum('bij,bjh->bih', interpolated_cov, noise)
 
-    
+        return pred_noise
+
     def model_predictions(self, x, t, k, tau, n_chunks, x_self_cond = None, clip_x_start = False, rederive_pred_noise = False, model_forward_kwargs: dict = dict()):
 
         if exists(x_self_cond):
@@ -629,14 +605,16 @@ class GaussianDiffusion1D(Module):
 
         model_output_original = model_output.clone().detach()
 
-        # model_output = self.tester(x, model_output, tau)
-
-        model_output = model_output * self.constant_score_scaling(k, t, x.shape) # constant noise rescaling
-
         maybe_clip = partial(torch.clamp, min = -1., max = 1.) if clip_x_start else identity
 
         if self.objective == 'pred_noise':
             pred_noise = model_output
+
+            if tau > 0.0:
+                pred_noise = self.riemannian(pred_noise, tau)
+            
+            pred_noise = pred_noise * self.constant_score_scaling(k, t, x.shape)
+
             x_start = self.predict_start_from_noise(x, t, pred_noise)
             x_start = maybe_clip(x_start)
 
@@ -677,9 +655,9 @@ class GaussianDiffusion1D(Module):
         model_mean, _, model_log_variance, x_start, model_output_original = self.p_mean_variance(x = x, t = batched_times, k = k, tau = tau, n_chunks = n_chunks, x_self_cond = x_self_cond, clip_denoised = clip_denoised, model_forward_kwargs = model_forward_kwargs)
         noise = torch.randn_like(x) if t > 0 else torch.zeros_like(x)
 
-        noise = self.tester_noise(x, model_output_original, noise, tau, n_chunks)
+        #noise = self.normalized_riemannian(k_cns, x, batched_times, model_output_original, tau, n_chunks, noise)
 
-        noise = noise * self.constant_noise_scaling(k_cns, batched_times, x.shape) # constant noise rescaling
+        #noise = noise * self.constant_noise_scaling(k_cns, batched_times, x.shape) # constant noise rescaling
 
         pred_img = model_mean + (0.5 * model_log_variance).exp() * noise
         return pred_img, x_start
