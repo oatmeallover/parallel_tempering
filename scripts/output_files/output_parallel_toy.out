@@ -1,0 +1,115 @@
+Device:                  cuda
+Figure rows will be: 	 method
+Figure columns will be:  k
+
+Running sampling with method = DDPM and k = 0.25
+
+time 90: x has standard deviation 1.04
+
+time 80: x has standard deviation 1.22
+
+time 70: x has standard deviation 1.48
+
+time 60: x has standard deviation 1.76
+
+time 50: x has standard deviation 2.03
+
+time 40: x has standard deviation 2.27
+
+time 30: x has standard deviation 2.48
+
+time 20: x has standard deviation 2.63
+
+time 10: x has standard deviation 2.72
+
+time 0: x has standard deviation 2.76
+
+Running sampling with method = DDPM and k = 0.5
+
+time 90: x has standard deviation 1.04
+
+time 80: x has standard deviation 1.20
+
+time 70: x has standard deviation 1.43
+
+time 60: x has standard deviation 1.69
+
+time 50: x has standard deviation 1.94
+
+time 40: x has standard deviation 2.16
+
+time 30: x has standard deviation 2.35
+
+time 20: x has standard deviation 2.48
+
+time 10: x has standard deviation 2.57
+
+time 0: x has standard deviation 2.60
+
+Running sampling with method = DDPM and k = 1.0
+
+time 90: x has standard deviation 1.04
+
+time 80: x has standard deviation 1.20
+
+time 70: x has standard deviation 1.41
+
+time 60: x has standard deviation 1.66
+
+time 50: x has standard deviation 1.89
+
+time 40: x has standard deviation 2.10
+
+time 30: x has standard deviation 2.28
+
+time 20: x has standard deviation 2.41
+
+time 10: x has standard deviation 2.50
+
+time 0: x has standard deviation 2.54
+
+Running sampling with method = DDPM and k = 2.0
+
+time 90: x has standard deviation 1.04
+
+time 80: x has standard deviation 1.19
+
+time 70: x has standard deviation 1.40
+
+time 60: x has standard deviation 1.64
+
+time 50: x has standard deviation 1.87
+
+time 40: x has standard deviation 2.08
+
+time 30: x has standard deviation 2.25
+
+time 20: x has standard deviation 2.38
+
+time 10: x has standard deviation 2.47
+
+time 0: x has standard deviation 2.51
+
+Running sampling with method = DDPM and k = 4.0
+
+time 90: x has standard deviation 1.03
+
+time 80: x has standard deviation 1.18
+
+time 70: x has standard deviation 1.39
+
+time 60: x has standard deviation 1.63
+
+time 50: x has standard deviation 1.85
+
+time 40: x has standard deviation 2.06
+
+time 30: x has standard deviation 2.23
+
+time 20: x has standard deviation 2.37
+
+time 10: x has standard deviation 2.46
+
+time 0: x has standard deviation 2.51
+
+Running sampling with method = ULA and k = 0.25

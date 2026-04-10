@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/eval.py", line 146, in <module>
+    _ = plot_samples_grid(
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/eval.py", line 91, in plot_samples_grid
+    x_sampled = sampling(
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/sample.py", line 158, in sampling
+    x_less_temp_corrected, accept_mask = compute_correction(model, x_less_temp, x_more_temp, t, step_size, k_more, sigma, dataset_config)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/sample.py", line 86, in compute_correction
+    log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, dataset_config)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/sample.py", line 46, in compute_log_transition_ratio
+    score_x_hat = compute_score(model, x_hat, t, sigma, dataset_config) 
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+TypeError: compute_score() missing 1 required positional argument: 'dataset_config'
+srun: error: holygpu8a19301: task 0: Exited with exit code 1
