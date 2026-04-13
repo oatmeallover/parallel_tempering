@@ -15,7 +15,7 @@
 
 module purge
 module load python # we are in scripts
-source activate /n/netscratch/kempner_undergrads/Everyone/zwu/conda_envs/parallel_toy
+source activate /n/netscratch/kempner_undergrads/Everyone/zwu/environments/parallel_toy_fixed
 
 cd ..
-srun python -m src.eval
+srun python -m src.train

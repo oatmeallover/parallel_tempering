@@ -13,7 +13,7 @@ ckpt_dir = CKPT_DIR
 
 # ---------- sampling utilities (compute_score, compute_tsr, etc.) ----------
 @torch.no_grad()
-def compute_score(model, x, t, k, sigma, dataset_config):
+def compute_score(model, x, t, k, sigma):
 	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
 
 	ones = torch.ones_like(x, device=device)
@@ -42,8 +42,8 @@ def r_deriv_func(x, x_hat, s):
 @torch.no_grad()
 def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, dataset_config):
 	"""Computes log [ k(x | x_hat) / k(x_hat | x) ]"""
-	score_x = compute_score(model, x, t, k, sigma, dataset_config) 
-	score_x_hat = compute_score(model, x_hat, t, sigma, dataset_config) 
+	score_x = compute_score(model, x, t, k, sigma) 
+	score_x_hat = compute_score(model, x_hat, t, k, sigma) 
 
 	forward_diff = x_hat - x - step_size * score_x 
 	forward_sq = - 0.5 * forward_diff**2/ (2.0 * step_size)
@@ -57,24 +57,18 @@ def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, datase
 @torch.no_grad()
 def compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config, n_segments=5): # k closer to target
 	"""Computes energy of a noise-based model thrfugh integration"""
-	a_bar = alpha_bars[t]
 
 	s = torch.linspace(0.0, 1.0, n_segments, device=device)
 
 	r = r_curve_func(x, x_hat, s)
 	r_deriv = r_deriv_func(x, x_hat, s)
 
-	r_flat = r.reshape(-1,1) # B*S, 1
-	t_batch = t * torch.ones_like(r_flat)
+	r_flat = r.reshape(-1,1)
 
-	eps_hat = model(r_flat, t_batch).reshape(r.shape[0], -1)
+	score = compute_score(model, r_flat, t, k, sigma).reshape(r.shape[0], -1)
 
-	integrand = k * eps_hat * r_deriv 
-
-	temp_t = compute_tsr_schedule(k, sigma, t)
-
+	integrand = score * r_deriv 
 	f = torch.trapz(integrand, s, dim=1).unsqueeze(-1)
-	f = - f * temp_t / torch.sqrt(1.0 - a_bar) 
 
 	return f 
 
@@ -94,6 +88,23 @@ def compute_correction(model, x, x_hat, t, step_size, k, sigma, dataset_config):
 	return x, accept_mask
 
 
+@torch.no_grad()
+def compute_parallel_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, dataset_config):
+	"""Computes acceptance rate for MALA and returns corrected x"""
+	# f = compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config) 
+	f = compute_score_integral(model, x, x_hat, t, k_hat, sigma, dataset_config)
+	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k_hat, sigma, dataset_config)
+
+	a = torch.clamp(torch.exp(-f-log_transition_ratio), max=1.0)  #  p_k hat (x) /  p_k hat(x hat)
+	
+	u = torch.rand_like(a)
+	accept_mask = (u < a).float()
+	x_new = accept_mask * x_hat + (1 - accept_mask) * x
+	x_hat_new = accept_mask * x + (1 - accept_mask) * x_hat
+
+	return x_new, x_hat_new, accept_mask
+
+
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
 def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_langevin_steps=3, debug=True, log_freq=10):
@@ -102,9 +113,10 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 	dataset_shape = dataset_config["dataset_shape"]
 	x = torch.randn(dataset_shape, device=device)
 
-	ladder_length = 3
+	ladder_length = 4
 
-	k_ladder = np.linspace(1.0, k, ladder_length)
+	k_ladder = np.linspace(1.0/k, k+1, ladder_length)
+	print(f"Swaps within {k_ladder}")
 
 	for t in ts_desc:
 
@@ -116,7 +128,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 		sqrt_alpha_t = torch.sqrt(alpha_t)
 		sqrt_beta_t = torch.sqrt(beta_t)
 
-		score_hat = compute_score(model, x, t, k, sigma, dataset_config)
+		score_hat = compute_score(model, x, t, k, sigma)
 
 		noise = torch.randn_like(x, device=device)
 		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
@@ -134,7 +146,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 
 				for k_val in k_ladder:
 
-					score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, dataset_config)
+					score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma)
 
 					noise = torch.randn_like(x_ladder[k_val])
 					x_hat = x_ladder[k_val] + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise	
@@ -147,7 +159,9 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 
 					x_ladder[k_val] = x_hat
 
-				for i in range(ladder_length-1): # odd then even
+				start = n % 2  # 0 if n even, 1 if n odd
+
+				for i in range(start, len(k_ladder) - 1, 2):
 
 					k_more = k_ladder[i+1]
 					k_less = k_ladder[i]
@@ -155,14 +169,15 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 					x_more_temp = x_ladder[k_more]
 					x_less_temp = x_ladder[k_less]
 					
-					x_less_temp_corrected, accept_mask = compute_correction(model, x_less_temp, x_more_temp, t, step_size, k_more, sigma, dataset_config)
-					x_more_temp_corrected = accept_mask * x_less_temp + (1 - accept_mask) * x_more_temp
+					# if an x less sample is more distributionally correct under k more than a k more sample is, we swap the two
+					# ie p_{k more} (x_less) / p_{k more} (x_more), we swap
+					x_less_temp_corrected, x_more_temp_corrected, accept_mask = compute_parallel_correction(model, x_less_temp, x_more_temp, t, step_size, k_less, k_more, sigma, dataset_config)
 
 					x_ladder[k_more] = x_more_temp_corrected
 					x_ladder[k_less] = x_less_temp_corrected
 
 					if t % log_freq == 0 and debug == True:
-						print(f"time {t} acceptance {accept_mask.mean().item()}")
+						print(f"From chain k={k_more} and k={k_less} acceptance {accept_mask.mean().item()}")
 
 			x = x_ladder[k]
 

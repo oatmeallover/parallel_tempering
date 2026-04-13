@@ -98,9 +98,9 @@ def train_model(name, dataset_config, existing_checkpoint=None, load_file=None, 
 
 if __name__ == "__main__":	
 
-	dataset_names = ["single", "barrier", "composed"]
+	dataset_names = ["composed"]
 	k = 1.0
-	is_ebm = False
+	is_ebm = True
 
 	for name in dataset_names:
 		

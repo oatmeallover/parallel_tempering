@@ -137,9 +137,9 @@ def plot_samples_grid(dataset_name, method, k, sigma, step_scale, n_langevin_ste
 if __name__ == "__main__":
 	dataset_name = "composed"
 	methods = ["DDPM", "ULA"]
-	k = [0.25, 0.5, 1.0, 2.0, 4.0]
+	k = [2.0, 3.0, 4.0]
 	sigma = 0.5
-	step_scale = 2
+	step_scale = 0.5
 	n_langevin_steps = 10
 	filename = None
 
