@@ -13,17 +13,34 @@ ckpt_dir = CKPT_DIR
 
 # ---------- sampling utilities (compute_score, compute_tsr, etc.) ----------
 @torch.no_grad()
-def compute_score(model, x, t, k, sigma):
+def compute_score(model, x, t, k, sigma, is_ebm):
 	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
 
-	ones = torch.ones_like(x, device=device)
+	x_shape = x.shape
+
+	ones = torch.ones((x_shape[0], 1), device=device)
+
 	eps_hat = model(x, t * ones)   
 
-	a_bar = alpha_bars[t]
+	if is_ebm == False:
 
-	temp_t = compute_tsr_schedule(k, sigma, t)
+		a_bar = alpha_bars[t]
 
-	return - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
+		temp_t = compute_tsr_schedule(k, sigma, t)
+
+		score_hat= - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
+
+	else:
+
+		score_hat = - torch.autograd.grad(
+			outputs=eps_hat,
+			inputs=x,
+			grad_outputs=torch.ones_like(eps_hat),
+			create_graph=False,       # keep graph if you need higher-order grads
+			retain_graph=False        # if you will use output again
+		)[0]
+
+	return score_hat
 	
 
 @torch.no_grad()
@@ -40,10 +57,10 @@ def r_deriv_func(x, x_hat, s):
 
 
 @torch.no_grad()
-def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, dataset_config):
+def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm):
 	"""Computes log [ k(x | x_hat) / k(x_hat | x) ]"""
-	score_x = compute_score(model, x, t, k, sigma) 
-	score_x_hat = compute_score(model, x_hat, t, k, sigma) 
+	score_x = compute_score(model, x, t, k, sigma, is_ebm) 
+	score_x_hat = compute_score(model, x_hat, t, k, sigma, is_ebm) 
 
 	forward_diff = x_hat - x - step_size * score_x 
 	forward_sq = - 0.5 * forward_diff**2/ (2.0 * step_size)
@@ -55,7 +72,7 @@ def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, datase
 
 
 @torch.no_grad()
-def compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config, n_segments=5): # k closer to target
+def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=5): # k closer to target
 	"""Computes energy of a noise-based model thrfugh integration"""
 
 	s = torch.linspace(0.0, 1.0, n_segments, device=device)
@@ -65,7 +82,7 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config, n_segme
 
 	r_flat = r.reshape(-1,1)
 
-	score = compute_score(model, r_flat, t, k, sigma).reshape(r.shape[0], -1)
+	score = compute_score(model, r_flat, t, k, sigma, is_ebm).reshape(r.shape[0], -1)
 
 	integrand = score * r_deriv 
 	f = torch.trapz(integrand, s, dim=1).unsqueeze(-1)
@@ -74,10 +91,10 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config, n_segme
 
 
 @torch.no_grad()
-def compute_correction(model, x, x_hat, t, step_size, k, sigma, dataset_config):
+def compute_correction(model, x, x_hat, t, step_size, k, sigma):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config)
-	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, dataset_config)
+	f = compute_score_integral(model, x, x_hat, t, k, sigma)
+	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma)
 
 	a = torch.clamp(torch.exp(f + log_transition_ratio), max=1.0) # add a_bar back
 	
@@ -89,35 +106,36 @@ def compute_correction(model, x, x_hat, t, step_size, k, sigma, dataset_config):
 
 
 @torch.no_grad()
-def compute_parallel_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, dataset_config):
+def compute_parallel_correction(model, x, x_hat, t, step_size, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	# f = compute_score_integral(model, x, x_hat, t, k, sigma, dataset_config) 
-	f = compute_score_integral(model, x, x_hat, t, k_hat, sigma, dataset_config)
-	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k_hat, sigma, dataset_config)
+	f = compute_score_integral(model, x, x_hat, t, k_hat, sigma, is_ebm)
+	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k_hat, sigma, is_ebm)
 
-	a = torch.clamp(torch.exp(-f-log_transition_ratio), max=1.0)  #  p_k hat (x) /  p_k hat(x hat)
+	a = torch.clamp(torch.exp(- f - log_transition_ratio), max=1.0)  #  p_k hat (x) /  p_k hat(x hat)
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
 	x_new = accept_mask * x_hat + (1 - accept_mask) * x
 	x_hat_new = accept_mask * x + (1 - accept_mask) * x_hat
 
-	return x_new, x_hat_new, accept_mask
+	return x_new, x_hat_new, a
 
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_langevin_steps=3, debug=True, log_freq=10):
+def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_langevin_steps=3, is_ebm = False, debug=True, log_freq=10):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	dataset_shape = dataset_config["dataset_shape"]
 	x = torch.randn(dataset_shape, device=device)
 
-	ladder_length = 4
+	ladder_length = 2
 
-	k_ladder = np.linspace(1.0/k, k+1, ladder_length)
+	k_ladder = np.linspace(1.0, k, ladder_length)
 	print(f"Swaps within {k_ladder}")
 
+	acceptance_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
+	
 	for t in ts_desc:
 
 		if t % log_freq == 0 and debug==True:
@@ -128,7 +146,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 		sqrt_alpha_t = torch.sqrt(alpha_t)
 		sqrt_beta_t = torch.sqrt(beta_t)
 
-		score_hat = compute_score(model, x, t, k, sigma)
+		score_hat = compute_score(model, x, t, k, sigma, is_ebm)
 
 		noise = torch.randn_like(x, device=device)
 		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
@@ -146,7 +164,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 
 				for k_val in k_ladder:
 
-					score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma)
+					score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
 
 					noise = torch.randn_like(x_ladder[k_val])
 					x_hat = x_ladder[k_val] + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise	
@@ -171,7 +189,13 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 					
 					# if an x less sample is more distributionally correct under k more than a k more sample is, we swap the two
 					# ie p_{k more} (x_less) / p_{k more} (x_more), we swap
-					x_less_temp_corrected, x_more_temp_corrected, accept_mask = compute_parallel_correction(model, x_less_temp, x_more_temp, t, step_size, k_less, k_more, sigma, dataset_config)
+					x_less_temp_corrected, x_more_temp_corrected, accept_mask = compute_parallel_correction(model, x_less_temp, x_more_temp, t, step_size, k_more, sigma, is_ebm)
+
+					acceptance_ladder[(k_less, k_more)].append({
+						"t": t,
+						"langevin_step": n,
+						"acceptance": accept_mask
+					})
 
 					x_ladder[k_more] = x_more_temp_corrected
 					x_ladder[k_less] = x_less_temp_corrected
@@ -181,5 +205,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 
 			x = x_ladder[k]
 
-	return x
+	figures = acceptance_ladder
+
+	return x, figures
 

@@ -2,6 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from collections import defaultdict
 
 from .model import MLP       
 from .dataset import compute_mixture_pdf  
@@ -88,7 +89,7 @@ def plot_samples_grid(dataset_name, method, k, sigma, step_scale, n_langevin_ste
 
 			print(f"\nRunning sampling with {row_name} = {row_val} and {col_name} = {col_val}")
 
-			x_sampled = sampling(
+			x_sampled, figures = sampling(
 				model=model,
 				dataset_config=dataset_config,
 				method=working_params["method"],
@@ -132,7 +133,37 @@ def plot_samples_grid(dataset_name, method, k, sigma, step_scale, n_langevin_ste
 	plt.savefig(save_path, dpi=200)
 	plt.show()
 
-	return samples
+	return samples, figures
+
+
+def plot_acceptance_over_time(acceptance_ladder):
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    for (k_less, k_more), records in acceptance_ladder.items():
+        # Group acceptance rates by timestep t
+        by_time = defaultdict(list)
+        for r in records:
+            by_time[r["t"]].append(r["acceptance"].cpu().mean().item())
+
+        # Average over langevin steps at each t
+        ts = sorted(by_time.keys())
+        ts_cpu = [item.cpu() for item in ts]
+
+        avg_acceptance = [sum(by_time[t]) / len(by_time[t]) for t in ts]
+
+        ax.plot(ts_cpu, avg_acceptance, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
+
+    ax.set_xlabel("Timestep t")
+    ax.set_ylabel("Average Acceptance Rate")
+    ax.set_title("Parallel Tempering Acceptance Rate Over Time")
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+    return fig
+
 
 if __name__ == "__main__":
 	dataset_name = "composed"
