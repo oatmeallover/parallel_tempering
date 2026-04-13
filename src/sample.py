@@ -13,7 +13,7 @@ ckpt_dir = CKPT_DIR
 
 # ---------- sampling utilities (compute_score, compute_tsr, etc.) ----------
 @torch.no_grad()
-def compute_score(model, x, t, k, sigma, is_ebm):
+def compute_score(model, x, t, k, sigma, is_ebm=False):
 	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
 
 	x_shape = x.shape
@@ -31,6 +31,7 @@ def compute_score(model, x, t, k, sigma, is_ebm):
 		score_hat= - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
 
 	else:
+		print("Taking grad")
 
 		score_hat = - torch.autograd.grad(
 			outputs=eps_hat,
@@ -87,7 +88,14 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=5): 
 	integrand = score * r_deriv 
 	f = torch.trapz(integrand, s, dim=1).unsqueeze(-1)
 
-	return f 
+	# f should be roughly log-ratio scale, so mostly in range [-10, 10]
+	print("f range:", f.min().item(), f.max().item())
+
+	# score should be order 1 for a well-trained model
+	print("score norm:", score.norm(dim=-1).mean().item())
+
+	return f # getting f.mean().item() values going from 0.0020048681180924177 to -74.98202514648438 to 6807.927734375, super invariable
+
 
 
 @torch.no_grad()
@@ -108,6 +116,7 @@ def compute_correction(model, x, x_hat, t, step_size, k, sigma):
 @torch.no_grad()
 def compute_parallel_correction(model, x, x_hat, t, step_size, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
+
 	f = compute_score_integral(model, x, x_hat, t, k_hat, sigma, is_ebm)
 	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k_hat, sigma, is_ebm)
 
@@ -123,13 +132,13 @@ def compute_parallel_correction(model, x, x_hat, t, step_size, k_hat, sigma, is_
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_langevin_steps=3, is_ebm = False, debug=True, log_freq=10):
+def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_langevin_steps=3, is_ebm = False, debug=True, log_freq=1):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	dataset_shape = dataset_config["dataset_shape"]
 	x = torch.randn(dataset_shape, device=device)
 
-	ladder_length = 2
+	ladder_length = 3
 
 	k_ladder = np.linspace(1.0, k, ladder_length)
 	print(f"Swaps within {k_ladder}")
@@ -138,44 +147,50 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 	
 	for t in ts_desc:
 
-		if t % log_freq == 0 and debug==True:
-			print(f"\ntime {t}: x has standard deviation {x.std().item():.2f}")
+		x_ladder = {k_val: x.clone() for k_val in k_ladder}
 
-		alpha_t = alphas[t]
-		beta_t = betas[t]
-		sqrt_alpha_t = torch.sqrt(alpha_t)
-		sqrt_beta_t = torch.sqrt(beta_t)
+		for k_val in k_ladder:
 
-		score_hat = compute_score(model, x, t, k, sigma, is_ebm)
+			if t % log_freq == 0 and debug==True:
+				print(f"\ntime {t}: x has standard deviation {x.std().item():.2f}")
 
-		noise = torch.randn_like(x, device=device)
-		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+			alpha_t = alphas[t]
+			beta_t = betas[t]
+			sqrt_alpha_t = torch.sqrt(alpha_t)
+			sqrt_beta_t = torch.sqrt(beta_t)
+
+			score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
+
+			noise = torch.randn_like(x, device=device)
+			x_ladder[k_val] = (x_ladder[k_val] + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+			print(f"time {t}: x has standard deviation {x.std().item():.2f}")
 
 		if method in ["ULA", "MALA"]:
 
 			step_size = beta_t * torch.tensor(step_scale,  device=device)
 			
-			x_ladder = {k_val: x.clone() for k_val in k_ladder}
-
 			for n in range(n_langevin_steps):
-
-				if t % log_freq == 0 and debug == True:
-					print(f"\nLangevin step {n}")
 
 				for k_val in k_ladder:
 
-					score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
+					if t % log_freq == 0 and debug == True:
+						print(f"Langevin step {n}")
 
-					noise = torch.randn_like(x_ladder[k_val])
-					x_hat = x_ladder[k_val] + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise	
+						print(f"time {t} chain {k_val}: input to chain {x_ladder[k_val].std().item()}")
 
-					# if method == "MALA":
-					# 	x_hat, accept_mask = compute_correction(model, x, x_hat, t, step_size, k, sigma, dataset_config)
+						score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
 
-					# 	if t % log_freq == 0 and debug==True:
-					# 		print(f"time {t} acceptance {accept_mask.mean().item()}")
+						noise = torch.randn_like(x_ladder[k_val])
+						x_hat = x_ladder[k_val] + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise	
 
-					x_ladder[k_val] = x_hat
+						# if method == "MALA":
+						# 	x_hat, accept_mask = compute_correction(model, x, x_hat, t, step_size, k, sigma, dataset_config)
+
+						# 	if t % log_freq == 0 and debug==True:
+						# 		print(f"time {t} acceptance {accept_mask.mean().item()}")
+
+						x_ladder[k_val] = x_hat
+						print(f"x hat has standard deviation {x_hat.std().item():.2f}")
 
 				start = n % 2  # 0 if n even, 1 if n odd
 
@@ -202,6 +217,7 @@ def sampling(model, dataset_config, method, k=1.0, sigma=1.0, step_scale=5, n_la
 
 					if t % log_freq == 0 and debug == True:
 						print(f"From chain k={k_more} and k={k_less} acceptance {accept_mask.mean().item()}")
+						print("x - x_hat norm:", (x - x_hat).norm(dim=-1).mean().item())
 
 			x = x_ladder[k]
 
