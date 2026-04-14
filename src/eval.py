@@ -23,7 +23,7 @@ def load_model(path):
 	return model
 
 
-def ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
+def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
 	os.makedirs(save_dir, exist_ok=True)
 	n_rows = n_replicas
 	n_cols = 2
@@ -60,6 +60,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_
 		k=k,
 		sigma=sigma,
 		step_scale=step_scale,
+		n_langevin_steps=n_langevin_steps,
 		n_replicas=n_replicas,
 		k_ladder=k_ladder
 	)
@@ -90,6 +91,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_
 			k=k_val,
 			sigma=sigma,
 			step_scale=step_scale,
+			n_langevin_steps=n_langevin_steps,
 			n_replicas=1,
 			k_ladder=None
 		)
@@ -127,7 +129,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_
 	return x_ladder, a_ladder
 
 
-def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename=None):
+def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename="swaps_acceptance_time.png"):
 
 	fig, ax = plt.subplots(figsize=(10, 5))
 
@@ -152,9 +154,6 @@ def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename=No
 	ax.grid(True, alpha=0.3)
 	plt.tight_layout()
 
-	if filename is None:
-		filename = f"swaps_{n_replicas}_{k}_over_time.png"
-
 	save_path = os.path.join(save_dir, filename)
 	plt.savefig(save_path, dpi=200)
 
@@ -162,7 +161,7 @@ def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename=No
 
 	return fig
 
-def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=[10, 50, 90], save_dir="figures", filename=None):
+def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=[10, 50, 90], save_dir="figures", filename="swaps_acceptance_position.png"):
 	x_np = x_final.detach().cpu().numpy().flatten()
 	
 	bins = np.linspace(x_np.min(), x_np.max(), 40)
@@ -226,9 +225,6 @@ def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=
 
 	fig.suptitle("Acceptance Rate by Position", fontsize=14, y=1.01)
 	plt.tight_layout()
-
-	if filename is None:
-		filename = f"swaps_{n_replicas}_{k}_over_pos.png"
 
 	save_path = os.path.join(save_dir, filename)
 	plt.savefig(save_path, dpi=200)

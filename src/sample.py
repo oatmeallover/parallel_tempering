@@ -104,7 +104,7 @@ def compute_correction(model, x, x_hat, t, step_size, k, sigma, is_ebm):
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_replicas=1, k_ladder=None, is_ebm = False, debug=True):
+def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	x_initial = torch.randn(dataset_shape, device=device)
@@ -144,6 +144,11 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_replicas=1,
 			x_ladder[k_val] = (x_ladder[k_val] + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 
 			std_prints[k_val] += f"{x_ladder[k_val].std().item():5.2f} -> "
+
+			for n in range(n_langevin_steps):
+				score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
+				noise = torch.randn_like(x_ladder[k_val])
+				x_ladder[k_val] = x_ladder[k_val] + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
 			
 		updated = set()
 
