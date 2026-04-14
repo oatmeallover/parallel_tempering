@@ -93,7 +93,7 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 
 	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
-	a = torch.clamp(torch.exp(f + f_hat), max=1.0) # add a_bar back
+	a = torch.clamp(torch.exp(-f - f_hat), max=1.0) # add a_bar back
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
