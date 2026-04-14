@@ -1,0 +1,11 @@
+/n/netscratch/kempner_undergrads/Everyone/zwu/environments/parallel_toy_fixed/lib/python3.10/site-packages/torch/cuda/__init__.py:174: UserWarning: CUDA initialization: CUDA driver initialization failed, you might not have a CUDA gpu. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:109.)
+  return torch._C._cuda_getDeviceCount() > 0
+Traceback (most recent call last):
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/environments/parallel_toy_fixed/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/environments/parallel_toy_fixed/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/src/eval.py", line 244, in <module>
+    x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
+TypeError: ladder_ddpm() missing 1 required positional argument: 'n_replicas'
+srun: error: holygpu8a19501: task 0: Exited with exit code 1

@@ -82,18 +82,16 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=5): 
 	integrand = score * r_deriv 
 	f = torch.trapz(integrand, s, dim=1).unsqueeze(-1)
 
-	return f # getting f.mean().item() values going from 0.0020048681180924177 to -74.98202514648438 to 6807.927734375, super invariable
+	return f 
 
 
 @torch.no_grad()
-def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
+def compute_correction(model, x, x_hat, t, step_size, k, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 	f = compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm)
-	f_hat = compute_score_integral(model, x_hat, x, t, k_hat, sigma, is_ebm)
+	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
-	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
-
-	a = torch.clamp(torch.exp(-f - f_hat), max=1.0) # add a_bar back
+	a = torch.clamp(torch.exp(f + log_transition_ratio), max=1.0) # add a_bar back
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
@@ -114,6 +112,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 	if k_ladder is None: k_ladder = np.linspace(k, 1.0, n_replicas)
 	x_ladder = {k_val: x_initial.clone() for k_val in k_ladder}
 	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
+	median_k = sorted(k_ladder)[len(k_ladder) // 2]
 
 	if debug==True: 
 		
@@ -161,10 +160,12 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 			k_1 = k_ladder[i+1]
 			k_2 = k_ladder[i] # more tempered
 
+			k_target = min(k_1, k_2, key=lambda k: abs(k - median_k))
+
 			x_1_temp = x_ladder[k_1]
 			x_2_temp = x_ladder[k_2]
 			
-			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
+			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_target, sigma, is_ebm)
 
 			a_ladder[(k_2, k_1)].append({
 				"t": t,
