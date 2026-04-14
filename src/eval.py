@@ -23,109 +23,100 @@ def load_model(path):
 	return model
 
 
-def plot_samples_grid(dataset_name, method, k, sigma, step_scale, n_langevin_steps, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
-	"""Generate samples and plot against true distribution. Two parameters must be lists, if you want a single plot, need list with one item"""
+def ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
 	os.makedirs(save_dir, exist_ok=True)
+	n_rows = n_replicas
+	n_cols = 2
 
-	params = {
-		"dataset_name": dataset_name,
-		"method": method,
-		"k": k,
-		"sigma": sigma,
-		"step_scale": step_scale,
-		"n_langevin_steps": n_langevin_steps,
-	}
-
-	list_params = [name for name, val in params.items() if isinstance(val, list)]
-	if len(list_params) != 2:
-		raise ValueError(f"Expected exactly 2 list parameters, got {len(list_params)}: {list_params}")
-	
-	row_name, col_name = list_params
-	print(f"Device:                  {device}")
-	print(f"Figure rows will be: 	 {row_name}")
-	print(f"Figure columns will be:  {col_name}")
-
-	row_vals = params[row_name]
-	col_vals = params[col_name]
-
-	n_rows = len(row_vals)
-	n_cols = len(col_vals)
+	y_max = 0.0
 
 	fig_width = figsize_per_panel[0] * n_cols
 	fig_height = figsize_per_panel[0] * n_rows
+
 	fig, axes = plt.subplots(n_rows, n_cols, figsize=(fig_width, fig_height), squeeze=False)
 
-	overall_title = f"Mixture of Gaussians Score Rescaling"
-	fig.suptitle(overall_title, fontsize=14, fontweight='bold')
+	axes[0, 0].set_title("Replica Swaps", fontsize=11, fontweight="bold")
+	axes[0, 1].set_title("No Replica Swaps", fontsize=11, fontweight="bold")
 
+	overall_title = f"Comparison of Exchanged Chains and DDPM"
+	fig.suptitle(overall_title, fontsize=14, fontweight='bold')
+	
 	x_axis = np.linspace(-x_limit, x_limit, 500)
 	bins = np.linspace(-x_limit, x_limit, 200)
 
-	samples = {}
 	y_max = 0.0
 
-	if "dataset_name" != row_name:
-		model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt")
-		dataset_config = DATASETS[dataset_name]
+	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt") # dataset name would always be first if it is a param
+	dataset_config = DATASETS[dataset_name]
+	dataset_shape = dataset_config["dataset_shape"]
 
-	for i, row_val in enumerate(row_vals):
+	k_ladder = np.linspace(k, 1.0, n_replicas)
 
-		if "dataset_name" == row_name:
-			name = row_val
-			model = load_model(f"{ckpt_dir}/{name}_1.0.pt") # dataset name would always be first if it is a param
-			dataset_config = DATASETS[name]
+	# for our swaps
 
-		for j, col_val in enumerate(col_vals):
+	x_ladder, a_ladder = sampling(
+		model=model,
+		dataset_shape=dataset_shape,
+		k=k,
+		sigma=sigma,
+		step_scale=step_scale,
+		n_replicas=n_replicas,
+		k_ladder=k_ladder
+	)
 
-			ax = axes[i, j]
+	for i in range(n_replicas):
+		ax = axes[i, 0]
+		k_val = k_ladder[i]
+		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
 
-			working_params = params.copy()
-			working_params[row_name] = row_val
-			working_params[col_name] = col_val
+		ax.hist(x_ladder[k_val].cpu().numpy(),
+		  bins = bins,
+		  density=True,
+		  alpha=0.5, 
+		  label=f"k = {k_val}")
+	
+		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
+		ax.set_xlim(-x_limit, x_limit)
 
-			k_pdf = working_params["k"]
+		ax.legend(fontsize=8)
+		y_max = max(y_max, ax.get_ylim()[1])
+		axes[i, 0].set_ylabel(f"k = {k_val}", fontsize=11)
 
-			pdf = compute_mixture_pdf(dataset_config, x_axis, k_pdf)
+	for i, k_val in enumerate(k_ladder):
 
-			print(f"\nRunning sampling with {row_name} = {row_val} and {col_name} = {col_val}")
+		x_ladder_tsr, a_ladder_tsr = sampling(
+			model=model,
+			dataset_shape=dataset_shape,
+			k=k_val,
+			sigma=sigma,
+			step_scale=step_scale,
+			n_replicas=1,
+			k_ladder=None
+		)
 
-			x_sampled, figures = sampling(
-				model=model,
-				dataset_config=dataset_config,
-				method=working_params["method"],
-				k=working_params["k"],
-				sigma=working_params["sigma"],
-				step_scale=working_params["step_scale"],
-				n_langevin_steps=working_params["n_langevin_steps"]
-			)
+		ax = axes[i, 1]
+		k_val = k_ladder[i]
+		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
 
-			samples[(i, j)] = {"params": params, "samples": x_sampled}
+		ax.hist(x_ladder_tsr[k_val].cpu().numpy(),
+		  bins = bins,
+		  density=True,
+		  alpha=0.5, 
+		  label=f"k = {k_val}")
+	
+		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
+		ax.set_xlim(-x_limit, x_limit)
 
-			ax.hist(
-				x_sampled.cpu().numpy(),
-				bins=bins,
-				density=True,
-				alpha=0.5,
-				label=f"Samples ({row_name}={row_val}, {col_name}={col_val})"
-			)
+		ax.legend(fontsize=8)
+		y_max = max(y_max, ax.get_ylim()[1])
 
-			ax.plot(x_axis, pdf, label=f"True k={k_pdf} PDF")
-			ax.set_xlim(-x_limit, x_limit)
-
-			if i == 0 and len(col_vals) > 1:
-				ax.set_title(f"{col_name} = {col_val}", fontsize=11, fontweight="bold")
-			if j == 0 and len(row_vals) > 1:
-				ax.set_ylabel(f"{row_name} = {row_val}", fontsize=11, fontweight="bold")
-
-			ax.legend(fontsize=8)
-			y_max = max(y_max, ax.get_ylim()[1])
 
 	for row in axes:
 		for ax in row:
 			ax.set_ylim(0,y_max)
 
 	if filename is None:
-		filename = f"{row_name}_{col_name}.png"
+		filename = f"swaps_{n_replicas}_{k}.png"
 
 	save_path = os.path.join(save_dir, filename)
 	
@@ -133,53 +124,127 @@ def plot_samples_grid(dataset_name, method, k, sigma, step_scale, n_langevin_ste
 	plt.savefig(save_path, dpi=200)
 	plt.show()
 
-	return samples, figures
+	return x_ladder, a_ladder
 
 
-def plot_acceptance_over_time(acceptance_ladder):
+def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename=None):
 
-    fig, ax = plt.subplots(figsize=(10, 5))
+	fig, ax = plt.subplots(figsize=(10, 5))
 
-    for (k_less, k_more), records in acceptance_ladder.items():
-        # Group acceptance rates by timestep t
-        by_time = defaultdict(list)
-        for r in records:
-            by_time[r["t"]].append(r["acceptance"].cpu().mean().item())
+	for (k_less, k_more), records in acceptance_ladder.items():
+		# Group acceptance rates by timestep t
+		by_time = defaultdict(list)
+		for r in records:
+			by_time[r["t"]].append(r["acceptance"].cpu().mean().item())
 
-        # Average over langevin steps at each t
-        ts = sorted(by_time.keys())
-        ts_cpu = [item.cpu() for item in ts]
+		# Average over langevin steps at each t
+		ts = sorted(by_time.keys())
+		ts_cpu = [item.cpu() for item in ts]
 
-        avg_acceptance = [sum(by_time[t]) / len(by_time[t]) for t in ts]
+		avg_acceptance = [sum(by_time[t]) / len(by_time[t]) for t in ts]
 
-        ax.plot(ts_cpu, avg_acceptance, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
+		ax.plot(ts_cpu, avg_acceptance, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
 
-    ax.set_xlabel("Timestep t")
-    ax.set_ylabel("Average Acceptance Rate")
-    ax.set_title("Parallel Tempering Acceptance Rate Over Time")
-    ax.legend()
-    ax.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.show()
+	ax.set_xlabel("Timestep t")
+	ax.set_ylabel("Average Acceptance Rate")
+	ax.set_title("Parallel Tempering Acceptance Rate Over Time")
+	ax.legend()
+	ax.grid(True, alpha=0.3)
+	plt.tight_layout()
 
-    return fig
+	if filename is None:
+		filename = f"swaps_{n_replicas}_{k}_over_time.png"
 
+	save_path = os.path.join(save_dir, filename)
+	plt.savefig(save_path, dpi=200)
+
+	plt.show()
+
+	return fig
+
+def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=[10, 50, 90], save_dir="figures", filename=None):
+	x_np = x_final.detach().cpu().numpy().flatten()
+	
+	bins = np.linspace(x_np.min(), x_np.max(), 40)
+	bin_centers = 0.5 * (bins[:-1] + bins[1:])
+	bin_width = bins[1] - bins[0]
+
+	y_min = 1.0
+
+	n_pairs = len(acceptance_ladder)
+	n_times = len(timesteps_to_show)
+	
+	fig, axes = plt.subplots(
+		n_pairs, n_times,
+		figsize=(5 * n_times, 3 * n_pairs),
+		sharex=True
+	)
+	if n_pairs == 1:
+		axes = axes[np.newaxis, :]
+	if n_times == 1:
+		axes = axes[:, np.newaxis]
+
+	for row, ((k_less, k_more), records) in enumerate(acceptance_ladder.items()):
+		by_time = defaultdict(list)
+		for r in records:
+			by_time[r["t"]].append(r["acceptance"].cpu())
+
+		for col, t in enumerate(timesteps_to_show):
+			ax = axes[row, col]
+
+			closest_t = min(by_time.keys(), key=lambda t_: abs(t_ - t))
+			stacked = torch.stack(by_time[closest_t], dim=0).float()  # (n_langevin, n_particles)
+			per_particle_acceptance = stacked.mean(dim=0).numpy().flatten()
+
+			bin_indices = np.digitize(x_np, bins) - 1
+			bin_indices = np.clip(bin_indices, 0, len(bin_centers) - 1)
+
+			bin_acceptance = np.full(len(bin_centers), np.nan)
+			
+			for b in range(len(bin_centers)):
+				mask = bin_indices == b
+				if mask.sum() > 0:
+					bin_acceptance[b] = per_particle_acceptance[mask].mean()
+					y_min = min(y_min, per_particle_acceptance[mask].mean())
+
+			valid = ~np.isnan(bin_acceptance)
+			ax.bar(bin_centers[valid], bin_acceptance[valid],
+				   width=bin_width * 0.9, color="crimson", alpha=0.8)
+			
+			mean_acc = np.nanmean(bin_acceptance)
+			ax.axhline(mean_acc, color='black', linestyle='--', linewidth=1,
+					   label=f"mean={mean_acc:.3f}")
+			
+			ax.set_ylabel("Acceptance rate")
+			ax.set_xlabel("x")
+			ax.set_title(f"k={k_less:.2f}↔{k_more:.2f},  t≈{closest_t}")
+			ax.legend(fontsize=8)
+
+	for row in range(n_pairs):
+		for col in range(n_times):
+			axes[row, col].set_ylim(y_min * 0.98, 1)
+
+	fig.suptitle("Acceptance Rate by Position", fontsize=14, y=1.01)
+	plt.tight_layout()
+
+	if filename is None:
+		filename = f"swaps_{n_replicas}_{k}_over_pos.png"
+
+	save_path = os.path.join(save_dir, filename)
+	plt.savefig(save_path, dpi=200)
+
+	plt.show()
+	return fig
 
 if __name__ == "__main__":
-	dataset_name = "composed"
-	methods = ["DDPM", "ULA"]
-	k = [2.0, 3.0, 4.0]
-	sigma = 0.5
-	step_scale = 0.5
-	n_langevin_steps = 10
-	filename = None
 
-	_ = plot_samples_grid(
-		dataset_name=dataset_name, 
-		method=methods, 
-		k=k, 
-		sigma=sigma, 
-		step_scale=step_scale, 
-		n_langevin_steps=n_langevin_steps, 
-		x_limit = 10, save_dir="figures", filename=filename
-	)
+	dataset_name = "composed"
+	k = 4.0
+	sigma = 0.5
+	step_scale = 1
+	n_replicas = 4
+	filename = "k_4_replica_exchange_ddpm_comparison"
+	
+	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
+	plot_acceptance_over_time(a_ladder)
+	plot_acceptance_over_position(a_ladder, x_ladder[k])
