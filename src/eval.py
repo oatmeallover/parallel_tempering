@@ -35,8 +35,8 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	fig, axes = plt.subplots(n_rows, n_cols, figsize=(fig_width, fig_height), squeeze=False)
 
-	axes[0, 0].set_title("Replica Swaps", fontsize=11, fontweight="bold")
-	axes[0, 1].set_title("No Replica Swaps", fontsize=11, fontweight="bold")
+	# axes[0, 0].set_title("Replica Swaps", fontsize=11, fontweight="bold")
+	# axes[0, 1].set_title("No Replica Swaps", fontsize=11, fontweight="bold")
 
 	overall_title = f"Comparison of Exchanged Chains and DDPM"
 	fig.suptitle(overall_title, fontsize=14, fontweight='bold')
@@ -68,6 +68,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 	for cols in range(n_cols):
 
 		j = int(N_DIFFUSION_STEPS * cols / n_cols)
+		axes[0, cols].set_title(f"{j}", fontsize=11, fontweight="bold")
 
 		for i in range(n_replicas):
 			ax = axes[i, cols]
