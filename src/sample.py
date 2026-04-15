@@ -157,26 +157,26 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 		start = t % 2  # 0 if n even, 1 if n odd
 
-		for i in range(start, len(k_ladder) - 1, 2):
+		# for i in range(start, len(k_ladder) - 1, 2):
 
-			k_1 = k_ladder[i+1]
-			k_2 = k_ladder[i] # more tempered
+		# 	k_1 = k_ladder[i+1]
+		# 	k_2 = k_ladder[i] # more tempered
 
-			x_1_temp = x_ladder[t.item()][k_1]
-			x_2_temp = x_ladder[t.item()][k_2]
+		# 	x_1_temp = x_ladder[t.item()][k_1]
+		# 	x_2_temp = x_ladder[t.item()][k_2]
 			
-			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
+		# 	x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
 
-			a_ladder[(k_2, k_1)].append({
-				"t": t,
-				"acceptance": accept_mask
-			})
+		# 	a_ladder[(k_2, k_1)].append({
+		# 		"t": t,
+		# 		"acceptance": accept_mask
+		# 	})
 
-			x_ladder[t.item()][k_1] = x_1_temp
-			x_ladder[t.item()][k_2] = x_2_temp
+		# 	x_ladder[t.item()][k_1] = x_1_temp
+		# 	x_ladder[t.item()][k_2] = x_2_temp
 
-			swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
-			updated.add(k_1)
+		# 	swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
+		# 	updated.add(k_1)
 
 		if t!= ts_desc[-1]:
 			for k_val in k_ladder:
