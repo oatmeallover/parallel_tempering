@@ -26,7 +26,7 @@ def load_model(path):
 def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
 	os.makedirs(save_dir, exist_ok=True)
 	n_rows = n_replicas
-	n_cols = 2
+	n_cols = 10
 
 	y_max = 0.0
 
@@ -65,52 +65,56 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 		k_ladder=k_ladder
 	)
 
-	for i in range(n_replicas):
-		ax = axes[i, 0]
-		k_val = k_ladder[i]
-		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
+	for cols in range(n_cols):
 
-		ax.hist(x_ladder[k_val].cpu().numpy(),
-		  bins = bins,
-		  density=True,
-		  alpha=0.5, 
-		  label=f"k = {k_val}")
+		j = int(N_DIFFUSION_STEPS * cols / n_cols)
+
+		for i in range(n_replicas):
+			ax = axes[i, cols]
+			k_val = k_ladder[i]
+			pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
+
+			ax.hist(x_ladder[j][k_val].cpu().numpy(),
+			bins = bins,
+			density=True,
+			alpha=0.5, 
+			label=f"k = {k_val} t = {j}")
+		
+			ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
+			ax.set_xlim(-x_limit, x_limit)
+
+			ax.legend(fontsize=8)
+			y_max = max(y_max, ax.get_ylim()[1])
+			axes[i, 0].set_ylabel(f"k = {k_val}", fontsize=11)
+
+	# for i, k_val in enumerate(k_ladder):
+
+	# 	x_ladder_tsr, a_ladder_tsr = sampling(
+	# 		model=model,
+	# 		dataset_shape=dataset_shape,
+	# 		k=k_val,
+	# 		sigma=sigma,
+	# 		step_scale=step_scale,
+	# 		n_langevin_steps=n_langevin_steps,
+	# 		n_replicas=1,
+	# 		k_ladder=None
+	# 	)
+
+	# 	ax = axes[i, 1]
+	# 	k_val = k_ladder[i]
+	# 	pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
+
+	# 	ax.hist(x_ladder_tsr[0][k_val].cpu().numpy(),
+	# 	  bins = bins,
+	# 	  density=True,
+	# 	  alpha=0.5, 
+	# 	  label=f"k = {k_val}")
 	
-		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
-		ax.set_xlim(-x_limit, x_limit)
+	# 	ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
+	# 	ax.set_xlim(-x_limit, x_limit)
 
-		ax.legend(fontsize=8)
-		y_max = max(y_max, ax.get_ylim()[1])
-		axes[i, 0].set_ylabel(f"k = {k_val}", fontsize=11)
-
-	for i, k_val in enumerate(k_ladder):
-
-		x_ladder_tsr, a_ladder_tsr = sampling(
-			model=model,
-			dataset_shape=dataset_shape,
-			k=k_val,
-			sigma=sigma,
-			step_scale=step_scale,
-			n_langevin_steps=n_langevin_steps,
-			n_replicas=1,
-			k_ladder=None
-		)
-
-		ax = axes[i, 1]
-		k_val = k_ladder[i]
-		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
-
-		ax.hist(x_ladder_tsr[k_val].cpu().numpy(),
-		  bins = bins,
-		  density=True,
-		  alpha=0.5, 
-		  label=f"k = {k_val}")
-	
-		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
-		ax.set_xlim(-x_limit, x_limit)
-
-		ax.legend(fontsize=8)
-		y_max = max(y_max, ax.get_ylim()[1])
+	# 	ax.legend(fontsize=8)
+	# 	y_max = max(y_max, ax.get_ylim()[1])
 
 
 	for row in axes:
@@ -235,12 +239,12 @@ def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=
 if __name__ == "__main__":
 
 	dataset_name = "composed"
-	k = 4.0
+	k = 7.0
 	sigma = 0.5
 	step_scale = 1
-	n_replicas = 4
-	filename = "k_4_replica_exchange_ddpm_comparison"
-	
-	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
+	n_langevin_steps = 3
+	n_replicas = 7
+
+	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
 	plot_acceptance_over_time(a_ladder)
-	plot_acceptance_over_position(a_ladder, x_ladder[k])
+	plot_acceptance_over_position(a_ladder, x_ladder[0][k])
