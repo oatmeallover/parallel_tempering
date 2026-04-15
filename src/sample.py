@@ -90,9 +90,13 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm) # E(x 2) - E(x 1)
 
+	print("f mean",f.mean().item())
+
 	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	a = torch.clamp(torch.exp((k - k_hat) * f ), max=1.0) # add a_bar back
+
+	print("a mean ",a.mean().item())
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
@@ -105,7 +109,7 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=True):
+def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=False):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	x_initial = torch.randn(dataset_shape, device=device)
@@ -122,12 +126,15 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 		for k_val in k_ladder:
 			swap_prints.setdefault(k_val, "")
 	
-	x_ladder = {t.item(): {k_val.item(): x_initial.clone() for k_val in k_ladder} for t in ts_desc}
+	ts_desc_init = torch.arange(N_DIFFUSION_STEPS, -1, -1, device=device)
+	x_ladder = {t.item(): {k_val.item(): x_initial.clone()  for k_val in k_ladder} for t in ts_desc_init}
+
+
 	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
 	
-	for t in ts_desc:
+	for t in ts_desc: # goes from 11 to 0
 
-		time_prints += f"{t:>5}  | "
+		if debug==True: time_prints += f"{t:>5}  | "
 
 		alpha_t = alphas[t]
 		beta_t = betas[t]
@@ -151,6 +158,14 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 				x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
 
 			x_ladder[t.item()][k_val] = x_t_k.clone()
+
+		print(x_ladder[t.item()][1].std().item())
+		print(x_ladder[t.item()][2].std().item())
+		print('swap')
+
+		x_ladder[t.item()][1], x_ladder[t.item()][2], a = compute_correction(model, x_ladder[t.item()][1], x_ladder[t.item()][2], t, step_size, 1.0, 1.0, sigma, is_ebm)
+		print(x_ladder[t.item()][1].std().item())
+		print(x_ladder[t.item()][2].std().item())
 
 			
 		if debug==True: updated = set()
@@ -199,6 +214,8 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 				swap_prints = {k_val:  f"  Swap   ^ : " for k_val in k_ladder[0:]}
 				for k_val in k_ladder:
 					swap_prints.setdefault(k_val, "")
+
+
 
 	return x_ladder, a_ladder
 

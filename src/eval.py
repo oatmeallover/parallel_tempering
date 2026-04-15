@@ -67,7 +67,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	for cols in range(n_cols):
 
-		j = int(N_DIFFUSION_STEPS * cols / n_cols)
+		j = int(N_DIFFUSION_STEPS * cols / (n_cols-1))
 		axes[0, cols].set_title(f"{j}", fontsize=11, fontweight="bold")
 
 		for i in range(n_replicas):
