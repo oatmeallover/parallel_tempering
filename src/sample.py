@@ -88,13 +88,12 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=10):
 @torch.no_grad() # x is k_2 x hat is k_1
 def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm) # E(x 2) - E(x 1)
-
-	print("f mean",f.mean().item())
+	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm)
 
 	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	a = torch.clamp(torch.exp((k - k_hat) * f ), max=1.0) # add a_bar back
+	# a = torch.clamp(torch.exp( f ), max=1.0) # add a_bar back
 
 	print("a mean ",a.mean().item())
 	
@@ -141,36 +140,32 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 		sqrt_alpha_t = torch.sqrt(alpha_t)
 		sqrt_beta_t = torch.sqrt(beta_t)
 		step_size = beta_t * torch.tensor(step_scale, device=device)
+		noise = torch.randn(dataset_shape, device=device)
 
 		for k_val in k_ladder:
 
 			x_t_k = x_ladder[t.item()][k_val].clone()
-
 			score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-			noise = torch.randn(dataset_shape, device=device)
 			x_t_k = (x_t_k + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 
 			if debug==True: std_prints[k_val] += f"{x_t_k.std().item():5.2f} -> "
 
-			for n in range(n_langevin_steps):
-				score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-				noise = torch.randn_like(x_t_k)
-				x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
+			# for n in range(n_langevin_steps):
+			# 	score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
+			# 	noise = torch.randn_like(x_t_k)
+			# 	x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
 
 			x_ladder[t.item()][k_val] = x_t_k.clone()
 
-		print(x_ladder[t.item()][1].std().item())
-		print(x_ladder[t.item()][2].std().item())
-		print('swap')
 
-		x_ladder[t.item()][1], x_ladder[t.item()][2], a = compute_correction(model, x_ladder[t.item()][1], x_ladder[t.item()][2], t, step_size, 1.0, 1.0, sigma, is_ebm)
-		print(x_ladder[t.item()][1].std().item())
-		print(x_ladder[t.item()][2].std().item())
+		k_1 = k_ladder[-1]
+		k_2 = k_ladder[-2]
 
-			
+		x_ladder[t.item()][k_1], x_ladder[t.item()][k_2], accept_mask = compute_correction(model, x_ladder[t.item()][k_1], x_ladder[t.item()][k_2], t, step_size, k_1, k_2, sigma, is_ebm)
+		
 		if debug==True: updated = set()
 
-		start = t % 2  # 0 if n even, 1 if n odd
+		# start = t % 2  # 0 if n even, 1 if n odd
 
 		# for i in range(start, len(k_ladder) - 1, 2):
 
