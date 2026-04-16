@@ -93,9 +93,6 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	a = torch.clamp(torch.exp((k - k_hat) * f ), max=1.0) # add a_bar back
-	# a = torch.clamp(torch.exp( f ), max=1.0) # add a_bar back
-
-	print("a mean ",a.mean().item())
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
@@ -108,7 +105,7 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=False):
+def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	x_initial = torch.randn(dataset_shape, device=device)
@@ -117,7 +114,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 	if debug==True: 
 		
-		print(f"Tester with {N_DIFFUSION_STEPS} steps for {k_ladder}")
+		print(f"Running with {N_DIFFUSION_STEPS} steps for {k_ladder}")
 
 		time_prints = "  t        : "
 		std_prints = {k_val:  f"  Chain {k_val:>2.1f}: " for k_val in k_ladder}
@@ -127,7 +124,6 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 	
 	ts_desc_init = torch.arange(N_DIFFUSION_STEPS, -1, -1, device=device)
 	x_ladder = {t.item(): {k_val.item(): x_initial.clone()  for k_val in k_ladder} for t in ts_desc_init}
-
 
 	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
 	
@@ -156,37 +152,31 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 			# 	x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
 
 			x_ladder[t.item()][k_val] = x_t_k.clone()
-
-
-		k_1 = k_ladder[-1]
-		k_2 = k_ladder[-2]
-
-		x_ladder[t.item()][k_1], x_ladder[t.item()][k_2], accept_mask = compute_correction(model, x_ladder[t.item()][k_1], x_ladder[t.item()][k_2], t, step_size, k_1, k_2, sigma, is_ebm)
 		
 		if debug==True: updated = set()
 
-		# start = t % 2  # 0 if n even, 1 if n odd
+		start = t % 2  # 0 if n even, 1 if n odd
 
-		# for i in range(start, len(k_ladder) - 1, 2):
+		for i in range(start, len(k_ladder) - 1, 2):
 
-		# 	k_1 = k_ladder[i+1]
-		# 	k_2 = k_ladder[i] # more tempered
+			k_1 = k_ladder[i+1]
+			k_2 = k_ladder[i] # more tempered
 
-		# 	x_1_temp = x_ladder[t.item()][k_1]
-		# 	x_2_temp = x_ladder[t.item()][k_2]
+			x_1_temp = x_ladder[t.item()][k_1]
+			x_2_temp = x_ladder[t.item()][k_2]
 			
-		# 	x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
+			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
 
-		# 	a_ladder[(k_2, k_1)].append({
-		# 		"t": t,
-		# 		"acceptance": accept_mask
-		# 	})
+			a_ladder[(k_2, k_1)].append({
+				"t": t,
+				"acceptance": accept_mask
+			})
 
-		# 	x_ladder[t.item()][k_1] = x_1_temp
-		# 	x_ladder[t.item()][k_2] = x_2_temp
+			x_ladder[t.item()][k_1] = x_1_temp
+			x_ladder[t.item()][k_2] = x_2_temp
 
-		# 	swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
-		# 	updated.add(k_1)
+			swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
+			updated.add(k_1)
 
 		if t!= ts_desc[-1]:
 			for k_val in k_ladder:
