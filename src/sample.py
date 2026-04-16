@@ -86,14 +86,14 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=10):
 
 
 @torch.no_grad() # x is k_2 x hat is k_1
-def compute_correction(model, x, x_hat, t, step_size, k, sigma, is_ebm):
+def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm)
+	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm)
 
-	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
+	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	if t < 30:
-		a = torch.clamp(torch.exp(f + log_transition_ratio ), max=1.0) # add a_bar back
+		a = torch.clamp(torch.exp(f  * (k-k_hat) ), max=1.0) # add a_bar back
 	else: 
 		a = torch.zeros_like(x, device=device)
 	
@@ -168,7 +168,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 			x_1_temp = x_ladder[t.item()][k_1]
 			x_2_temp = x_ladder[t.item()][k_2]
 			
-			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, sigma, is_ebm)
+			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
 
 			a_ladder[(k_2, k_1)].append({
 				"t": t,
@@ -202,8 +202,6 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 				swap_prints = {k_val:  f"  Swap   ^ : " for k_val in k_ladder[0:]}
 				for k_val in k_ladder:
 					swap_prints.setdefault(k_val, "")
-
-
 
 	return x_ladder, a_ladder
 
