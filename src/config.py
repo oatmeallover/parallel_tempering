@@ -2,7 +2,7 @@ import torch
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-N_DIFFUSION_STEPS = 10
+N_DIFFUSION_STEPS = 100
 
 TRAINING = {
     "n_steps": 500_000,
