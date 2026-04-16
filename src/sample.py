@@ -90,12 +90,12 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm)
 
-	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
+	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
-	if t < 30:
-		a = torch.clamp(torch.exp(f  * (k-k_hat) ), max=1.0) # add a_bar back
-	else: 
-		a = torch.zeros_like(x, device=device)
+	temp = compute_tsr_schedule(k, sigma, t)
+	temp_hat = compute_tsr_schedule(k_hat, sigma, t)
+
+	a = torch.clamp(torch.exp(f * (temp - temp_hat) ), max=1.0) # add a_bar back
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
@@ -113,7 +113,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 	x_initial = torch.randn(dataset_shape, device=device)
 
-	if k_ladder is None: k_ladder = np.linspace(k, 1.0, n_replicas)
+	if k_ladder is None: k_ladder = np.linspace(k, 1/k, n_replicas)
 
 	if debug==True: 
 		
