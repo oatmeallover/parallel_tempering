@@ -90,17 +90,17 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=10):
 @torch.no_grad() # x is k_2 x hat is k_1
 def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm)
+	f = compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm)
 
 	print(f"f avg: {f.mean().item():.4f}")
 	print(f"f std: {f.std().item():.4f}")
 
-	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
+	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	temp = compute_tsr_schedule(k, sigma, t)
 	temp_hat = compute_tsr_schedule(k_hat, sigma, t)
 
-	a = torch.clamp(torch.exp(f * (temp - temp_hat) ), max=1.0) 
+	a = torch.clamp(torch.exp(f + log_transition_ratio ), max=1.0) 
 	
 	print(f"Time {t}: Swap {k} and {k_hat} tsr diff {(temp - temp_hat).mean().item()} mean acceptance {a.mean().item()}")
 	
@@ -162,10 +162,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 			if debug==True: std_prints[k_val] += f"{x_t_k.std().item():5.2f} -> "
 
-			# for n in range(n_langevin_steps):
-			# 	score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-			# 	noise = torch.randn_like(x_t_k)
-			# 	x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
+
 
 			x_ladder[t.item()][k_val] = x_t_k.clone()
 		
@@ -190,6 +187,19 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 				swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
 				updated.add(k_1)
 
+
+		# for k_val in k_ladder:
+
+		# 	x_t_k = x_ladder[t.item()][k_val].clone()
+		# 	score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
+		# 	for n in range(n_langevin_steps):
+		# 		score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
+		# 		noise = torch.randn_like(x_t_k)
+		# 		x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
+
+		# 	x_ladder[t.item()][k_val] = x_t_k.clone()
+
+
 		if t!= ts_desc[-1]:
 			for k_val in k_ladder:
 				x_ladder[(t-1).item()][k_val] = x_ladder[t.item()][k_val].clone()
@@ -213,4 +223,25 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 					swap_prints.setdefault(k_val, "")
 
 	return x_ladder, a_ladder
+
+
+# ---------- main sampling function (sampling) ----------
+@torch.no_grad()
+def ddpm_tsr(model, dataset_shape, k=1.0, sigma=1.0, is_ebm = False, debug=True):
+	"""Sampling algorithm for DDPM, ULA, and MALA"""
+
+	x = torch.randn(dataset_shape, device=device)
+		
+	for t in ts_desc: # goes from 11 to 0
+
+		alpha_t = alphas[t]
+		beta_t = betas[t]
+		sqrt_alpha_t = torch.sqrt(alpha_t)
+		sqrt_beta_t = torch.sqrt(beta_t)
+		noise = torch.randn(dataset_shape, device=device)
+
+		score_hat = compute_score(model, x, t, k, sigma, is_ebm)
+		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+
+	return x
 
