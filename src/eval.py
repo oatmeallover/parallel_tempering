@@ -50,8 +50,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 	dataset_config = DATASETS[dataset_name]
 	dataset_shape = dataset_config["dataset_shape"]
 
-	#k_ladder = np.linspace(k, 1.0/k, n_replicas)
-	k_ladder = np.array([4.0, 2.0, 1.0, 0.5, 0.25])
+	k_ladder = np.linspace(k, 1.0, n_replicas)
 
 	# for our swaps
 
