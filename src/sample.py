@@ -1,8 +1,10 @@
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+import math
+import random
 
-from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule, cosine_beta_schedule
+from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule, swap_schedule
 from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
 
 torch.manual_seed(42)
@@ -90,12 +92,17 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 	f = compute_score_integral(model, x, x_hat, t, 1.0, sigma, is_ebm)
 
+	print(f"f avg: {f.mean().item():.4f}")
+	print(f"f std: {f.std().item():.4f}")
+
 	#log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
 	temp = compute_tsr_schedule(k, sigma, t)
 	temp_hat = compute_tsr_schedule(k_hat, sigma, t)
 
-	a = torch.clamp(torch.exp(f * (temp - temp_hat) ), max=1.0) # add a_bar back
+	a = torch.clamp(torch.exp(f * (temp - temp_hat) ), max=1.0) 
+	
+	print(f"Time {t}: Swap {k} and {k_hat} tsr diff {(temp - temp_hat).mean().item()} mean acceptance {a.mean().item()}")
 	
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
@@ -105,15 +112,21 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 
 	return x_new, x_hat_new, a
 
+@torch.no_grad() # when to incorporate swaps
+def swap_probability(t, decay=0.1):
+	return math.exp(-decay * t)
+
 
 # ---------- main sampling function (sampling) ----------
 @torch.no_grad()
-def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, k_ladder=None, is_ebm = False, debug=True):
+def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, swap_iter = 25, k_ladder=None, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
 	x_initial = torch.randn(dataset_shape, device=device)
 
 	if k_ladder is None: k_ladder = np.linspace(k, 1/k, n_replicas)
+	even_pairs = [(k_ladder[i], k_ladder[i+1]) for i in range(0, len(k_ladder)-1, 2)]
+	odd_pairs  = [(k_ladder[i], k_ladder[i+1]) for i in range(1, len(k_ladder)-1, 2)]
 
 	if debug==True: 
 		
@@ -158,28 +171,24 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 		
 		if debug==True: updated = set()
 
-		start = t % 2  # 0 if n even, 1 if n odd
+		if t != 0 and (t.item() in swap_schedule or t.item() - 10 in swap_schedule):
+			pairs = even_pairs if (t.item() in swap_schedule) else odd_pairs
 
-		for i in range(start, len(k_ladder) - 1, 2):
+			for k_2, k_1 in pairs:  # k_2 is more tempered (hotter)
+				x_1_temp = x_ladder[t.item()][k_1]
+				x_2_temp = x_ladder[t.item()][k_2]
 
-			k_1 = k_ladder[i+1]
-			k_2 = k_ladder[i] # more tempered
+				x_2_temp, x_1_temp, accept_mask = compute_correction(
+					model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm
+				)
 
-			x_1_temp = x_ladder[t.item()][k_1]
-			x_2_temp = x_ladder[t.item()][k_2]
-			
-			x_2_temp, x_1_temp, accept_mask = compute_correction(model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm)
+				a_ladder[(k_2, k_1)].append({"t": t, "acceptance": accept_mask})
 
-			a_ladder[(k_2, k_1)].append({
-				"t": t,
-				"acceptance": accept_mask
-			})
+				x_ladder[t.item()][k_1] = x_1_temp
+				x_ladder[t.item()][k_2] = x_2_temp
 
-			x_ladder[t.item()][k_1] = x_1_temp
-			x_ladder[t.item()][k_2] = x_2_temp
-
-			swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
-			updated.add(k_1)
+				swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
+				updated.add(k_1)
 
 		if t!= ts_desc[-1]:
 			for k_val in k_ladder:
@@ -193,7 +202,7 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 			if t % 25 ==0:
 				print(time_prints)
 				for k_val in k_ladder:
-					if k_val != k_ladder[0]: print(swap_prints[k_val])
+					#if k_val != k_ladder[0]: print(swap_prints[k_val])
 					print(std_prints[k_val])
 				print("\n")
 
