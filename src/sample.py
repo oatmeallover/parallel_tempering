@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math
 import random
 
-from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule, swap_schedule
+from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule, swap_schedule_even, swap_schedule_odd
 from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
 
 torch.manual_seed(42)
@@ -171,8 +171,8 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 		
 		if debug==True: updated = set()
 
-		if t != 0 and (t.item() in swap_schedule or t.item() - 10 in swap_schedule):
-			pairs = even_pairs if (t.item() in swap_schedule) else odd_pairs
+		if t != 0 and (t.item() in swap_schedule_even or t.item() in swap_schedule_odd):
+			pairs = even_pairs if (t.item() in swap_schedule_even) else odd_pairs
 
 			for k_2, k_1 in pairs:  # k_2 is more tempered (hotter)
 				x_1_temp = x_ladder[t.item()][k_1]
