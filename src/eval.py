@@ -7,7 +7,7 @@ from collections import defaultdict
 from .model import MLP       
 from .dataset import compute_mixture_pdf  
 from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
-from .sample import sampling, ddpm_tsr
+from .sample import sampling
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -50,22 +50,17 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 	dataset_config = DATASETS[dataset_name]
 	dataset_shape = dataset_config["dataset_shape"]
 
-	k_ladder = np.linspace(k, 1.0, n_replicas)
-
-	# for our swaps
-
-	x_ladder_all_t, a_ladder = sampling(
+	x_ladder, a_ladder = sampling(
 		model=model,
 		dataset_shape=dataset_shape,
 		k=k,
 		sigma=sigma,
 		step_scale=step_scale,
 		n_langevin_steps=n_langevin_steps,
-		n_replicas=n_replicas,
-		k_ladder=k_ladder
+		n_replicas=n_replicas
 	)
 
-	x_ladder = x_ladder_all_t[0]
+	k_ladder = list(x_ladder.keys())
 
 	for i in range(n_replicas):
 		ax = axes[i, 0]
@@ -87,13 +82,20 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	for i, k_val in enumerate(k_ladder):
 
-		x_ladder_tsr = ddpm_tsr(model, dataset_shape, k=k_val, sigma=1.0, is_ebm = False, debug=True)
+		x_ladder_tsr, a_ladder = sampling(
+			model=model,
+			dataset_shape=dataset_shape,
+			k=k_val,
+			sigma=sigma,
+			step_scale=step_scale,
+			n_langevin_steps=n_langevin_steps,
+			n_replicas=1
+		)
 
 		ax = axes[i, 1]
-		k_val = k_ladder[i]
 		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
 
-		ax.hist(x_ladder_tsr.cpu().numpy(),
+		ax.hist(x_ladder_tsr[k_val].cpu().numpy(),
 		  bins = bins,
 		  density=True,
 		  alpha=0.5, 

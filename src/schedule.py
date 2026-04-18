@@ -49,16 +49,6 @@ def cosine_swap_schedule(timesteps, s=0.008):
 
     return alphas_cumprod
 
-swap_schedule_even = [87,
-81,
-76,
-72,
-68,
-65]
+swap_schedule_odd = []
 
-
-swap_schedule_odd = [84,
-79,
-74,
-70,
-66]
+swap_schedule_even = []

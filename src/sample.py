@@ -113,8 +113,14 @@ def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	return x_new, x_hat_new, a
 
 @torch.no_grad() # when to incorporate swaps
-def swap_probability(t, decay=0.1):
-	return math.exp(-decay * t)
+def compute_median(k_ladder, k_1, k_2):
+    median_val = np.median(k_ladder)
+    dist_1 = abs(k_1 - median_val)
+    dist_2 = abs(k_2 - median_val)
+    if dist_1 <= dist_2:
+        return k_1, k_2
+    else:
+        return k_2, k_1
 
 
 # ---------- main sampling function (sampling) ----------
@@ -122,126 +128,29 @@ def swap_probability(t, decay=0.1):
 def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, swap_iter = 25, k_ladder=None, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
-	x_initial = torch.randn(dataset_shape, device=device)
+	x_list = []
 
-	if k_ladder is None: k_ladder = np.linspace(k, 1/k, n_replicas)
-	even_pairs = [(k_ladder[i], k_ladder[i+1]) for i in range(0, len(k_ladder)-1, 2)]
-	odd_pairs  = [(k_ladder[i], k_ladder[i+1]) for i in range(1, len(k_ladder)-1, 2)]
+	k_ladder = np.linspace(k, 1.0, n_replicas)
 
-	if debug==True: 
-		
-		print(f"Running with {N_DIFFUSION_STEPS} steps for {k_ladder}")
+	for k in k_ladder: 
 
-		time_prints = "  t        : "
-		std_prints = {k_val:  f"  Chain {k_val:>2.1f}: " for k_val in k_ladder}
-		swap_prints = {k_val:  f"  Swap   ^ : " for k_val in k_ladder[0:]}
-		for k_val in k_ladder:
-			swap_prints.setdefault(k_val, "")
-	
-	ts_desc_init = torch.arange(N_DIFFUSION_STEPS, -1, -1, device=device)
-	x_ladder = {t.item(): {k_val.item(): x_initial.clone()  for k_val in k_ladder} for t in ts_desc_init}
+		x = torch.randn(dataset_shape, device=device)
+			
+		for t in ts_desc: # goes from 11 to 0
 
+			alpha_t = alphas[t]
+			beta_t = betas[t]
+			sqrt_alpha_t = torch.sqrt(alpha_t)
+			sqrt_beta_t = torch.sqrt(beta_t)
+			noise = torch.randn(dataset_shape, device=device)
+
+			score_hat = compute_score(model, x, t, k, sigma, is_ebm)
+			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+
+		x_list.append(x)
+
+	x_ladder = {k_ladder[i]: x_list[i].clone()  for i in range(n_replicas)}	
 	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
 	
-	for t in ts_desc: # goes from 11 to 0
-
-		if debug==True: time_prints += f"{t:>5}  | "
-
-		alpha_t = alphas[t]
-		beta_t = betas[t]
-		sqrt_alpha_t = torch.sqrt(alpha_t)
-		sqrt_beta_t = torch.sqrt(beta_t)
-		step_size = beta_t * torch.tensor(step_scale, device=device)
-		noise = torch.randn(dataset_shape, device=device)
-
-		for k_val in k_ladder:
-
-			x_t_k = x_ladder[t.item()][k_val].clone()
-			score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-			x_t_k = (x_t_k + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
-
-			if debug==True: std_prints[k_val] += f"{x_t_k.std().item():5.2f} -> "
-
-
-
-			x_ladder[t.item()][k_val] = x_t_k.clone()
-		
-		if debug==True: updated = set()
-
-		if t != 0 and (t.item() in swap_schedule_even or t.item() in swap_schedule_odd):
-			pairs = even_pairs if (t.item() in swap_schedule_even) else odd_pairs
-
-			for k_2, k_1 in pairs:  # k_2 is more tempered (hotter)
-				x_1_temp = x_ladder[t.item()][k_1]
-				x_2_temp = x_ladder[t.item()][k_2]
-
-				x_2_temp, x_1_temp, accept_mask = compute_correction(
-					model, x_2_temp, x_1_temp, t, step_size, k_2, k_1, sigma, is_ebm
-				)
-
-				a_ladder[(k_2, k_1)].append({"t": t, "acceptance": accept_mask})
-
-				x_ladder[t.item()][k_1] = x_1_temp
-				x_ladder[t.item()][k_2] = x_2_temp
-
-				swap_prints[k_1] += f"    {accept_mask.mean().item():5.2f}"
-				updated.add(k_1)
-
-
-		# for k_val in k_ladder:
-
-		# 	x_t_k = x_ladder[t.item()][k_val].clone()
-		# 	score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-		# 	for n in range(n_langevin_steps):
-		# 		score_hat = compute_score(model, x_t_k, t, k_val, sigma, is_ebm)
-		# 		noise = torch.randn_like(x_t_k)
-		# 		x_t_k = x_t_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
-
-		# 	x_ladder[t.item()][k_val] = x_t_k.clone()
-
-
-		if t!= ts_desc[-1]:
-			for k_val in k_ladder:
-				x_ladder[(t-1).item()][k_val] = x_ladder[t.item()][k_val].clone()
-				
-		if debug == True:
-			for k_val in k_ladder:
-				if k_val not in updated:
-					swap_prints[k_val] += " " * 9
-
-			if t % 25 ==0:
-				print(time_prints)
-				for k_val in k_ladder:
-					#if k_val != k_ladder[0]: print(swap_prints[k_val])
-					print(std_prints[k_val])
-				print("\n")
-
-				time_prints = "  t        : "
-				std_prints = {k_val:  f"  Chain {k_val:>2.1f}: " for k_val in k_ladder}
-				swap_prints = {k_val:  f"  Swap   ^ : " for k_val in k_ladder[0:]}
-				for k_val in k_ladder:
-					swap_prints.setdefault(k_val, "")
-
 	return x_ladder, a_ladder
-
-
-# ---------- main sampling function (sampling) ----------
-@torch.no_grad()
-def ddpm_tsr(model, dataset_shape, k=1.0, sigma=1.0, is_ebm = False, debug=True):
-	"""Sampling algorithm for DDPM, ULA, and MALA"""
-
-	x = torch.randn(dataset_shape, device=device)
-		
-	for t in ts_desc: # goes from 11 to 0
-
-		alpha_t = alphas[t]
-		beta_t = betas[t]
-		sqrt_alpha_t = torch.sqrt(alpha_t)
-		sqrt_beta_t = torch.sqrt(beta_t)
-		noise = torch.randn(dataset_shape, device=device)
-
-		score_hat = compute_score(model, x, t, k, sigma, is_ebm)
-		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
-
-	return x
 
