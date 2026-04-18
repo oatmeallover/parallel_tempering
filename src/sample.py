@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math
 import random
 
-from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule, swap_schedule_even, swap_schedule_odd
+from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
 
 torch.manual_seed(42)
@@ -123,34 +123,79 @@ def compute_median(k_ladder, k_1, k_2):
         return k_2, k_1
 
 
-# ---------- main sampling function (sampling) ----------
+def swap_schedule(t, k_ladder):
+
+	if len(k_ladder) == 1:
+		return None
+
+	even_pairs = [(k_ladder[i], k_ladder[i+1]) for i in range(0, len(k_ladder)-1, 2)]
+	odd_pairs  = [(k_ladder[i], k_ladder[i+1]) for i in range(1, len(k_ladder)-1, 2)]
+
+	swap_schedule_even = np.linspace(20, 80, 5).astype(int)
+	swap_schedule_odd = np.linspace(30, 90, 5).astype(int)
+
+	if t.item() in swap_schedule_even:
+		pairs = even_pairs
+	elif t.item() in swap_schedule_odd:
+		pairs = odd_pairs
+	else: 
+		return None
+	
+	return pairs
+	
+
 @torch.no_grad()
-def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, swap_iter = 25, k_ladder=None, is_ebm = False, debug=True):
+def replica_exchange(t, x_ladder, k_ladder, model, step_scale, sigma, beta_t, is_ebm):
+
+	pairs = swap_schedule(t, k_ladder)
+
+	if pairs is not None:
+
+		step_size = torch.tensor(step_scale) * beta_t
+
+		for k_s, k_target in pairs: 
+			x_s = x_ladder[k_s].clone()
+			x_target = x_ladder[k_target].clone()
+
+			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
+				model, x_target, x_s, t, step_size, k_target, k_s, sigma, is_ebm
+			)
+
+			x_ladder[k_s] = x_s_swapped
+			x_ladder[k_target] = x_target_swapped
+
+			print(f"We swap {k_s} and {k_target} with acceptance {accept_mask.mean().item():.2f}")
+	
+	return x_ladder
+
+
+#---------- main sampling function (sampling) ----------
+@torch.no_grad()
+def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
-	x_list = []
+	x = torch.randn(dataset_shape, device=device)
 
 	k_ladder = np.linspace(k, 1.0, n_replicas)
+	x_ladder = {k_ladder[i]: x.clone() for i in range(n_replicas)}	
+	
+	for t in ts_desc: 
 
-	for k in k_ladder: 
+		alpha_t = alphas[t]
+		beta_t = betas[t]
+		sqrt_alpha_t = torch.sqrt(alpha_t)
+		sqrt_beta_t = torch.sqrt(beta_t)
+		noise = torch.randn(dataset_shape, device=device)
 
-		x = torch.randn(dataset_shape, device=device)
-			
-		for t in ts_desc: # goes from 11 to 0
+		for k_val in k_ladder: 
 
-			alpha_t = alphas[t]
-			beta_t = betas[t]
-			sqrt_alpha_t = torch.sqrt(alpha_t)
-			sqrt_beta_t = torch.sqrt(beta_t)
-			noise = torch.randn(dataset_shape, device=device)
+			score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
+			x_ladder[k_val] = (x_ladder[k_val].clone() + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+		
+		x_ladder = replica_exchange(t, x_ladder, k_ladder, model, step_scale, sigma, beta_t, is_ebm)
 
-			score_hat = compute_score(model, x, t, k, sigma, is_ebm)
-			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
-
-		x_list.append(x)
-
-	x_ladder = {k_ladder[i]: x_list[i].clone()  for i in range(n_replicas)}	
 	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
 	
 	return x_ladder, a_ladder
+
 
