@@ -91,26 +91,21 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=10):
 def compute_correction(model, x, x_hat, t, step_size, k, k_hat, sigma, is_ebm):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 	f = compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm)
-
-	print(f"f avg: {f.mean().item():.4f}")
-	print(f"f std: {f.std().item():.4f}")
+	#f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma, is_ebm)
 
 	log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
 
-	temp = compute_tsr_schedule(k, sigma, t)
-	temp_hat = compute_tsr_schedule(k_hat, sigma, t)
-
-	a = torch.clamp(torch.exp(f + log_transition_ratio ), max=1.0) 
-	
-	print(f"Time {t}: Swap {k} and {k_hat} tsr diff {(temp - temp_hat).mean().item()} mean acceptance {a.mean().item()}")
-	
+	a = torch.clamp(torch.exp(f + log_transition_ratio), max=1.0) 
+		
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
 
-	x_new = accept_mask * x_hat + (1 - accept_mask) * x
-	x_hat_new = accept_mask * x + (1 - accept_mask) * x_hat
+	x = x.clone()
+	x_hat = x_hat.clone()
 
-	return x_new, x_hat_new, a
+	x_new = accept_mask * x_hat + (1 - accept_mask) * x
+
+	return x_new, a
 
 @torch.no_grad() # when to incorporate swaps
 def compute_median(k_ladder, k_1, k_2):
@@ -123,50 +118,83 @@ def compute_median(k_ladder, k_1, k_2):
         return k_2, k_1
 
 
-def swap_schedule(t, k_ladder):
+def swap_schedule(n, k_ladder):
 
 	if len(k_ladder) == 1:
+		return None
+	
+	if n>25:
 		return None
 
 	even_pairs = [(k_ladder[i], k_ladder[i+1]) for i in range(0, len(k_ladder)-1, 2)]
 	odd_pairs  = [(k_ladder[i], k_ladder[i+1]) for i in range(1, len(k_ladder)-1, 2)]
 
-	swap_schedule_even = np.linspace(20, 80, 5).astype(int)
-	swap_schedule_odd = np.linspace(30, 90, 5).astype(int)
+	# swap_schedule_even = np.linspace(12, 82, 16).astype(int)
+	# swap_schedule_odd = np.linspace(20, 90, 16).astype(int)
 
-	if t.item() in swap_schedule_even:
+	# if n.item() in swap_schedule_even:
+	# 	pairs = even_pairs
+		
+	# elif n.item() in swap_schedule_odd:
+	# 	pairs = odd_pairs
+	# else: 
+	# 	return None
+
+	if n % 3 == 1:
 		pairs = even_pairs
-	elif t.item() in swap_schedule_odd:
-		pairs = odd_pairs
 	else: 
 		return None
-	
+		
 	return pairs
-	
+
 
 @torch.no_grad()
-def replica_exchange(t, x_ladder, k_ladder, model, step_scale, sigma, beta_t, is_ebm):
+def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas, is_ebm):
 
-	pairs = swap_schedule(t, k_ladder)
+	step_size = torch.tensor(step_scale, device=device) * beta_t
+
+	for n in range(n_langevin_steps):
+
+		noise = torch.randn(dataset_shape, device=device)
+
+		for k_val in k_ladder:
+			x_k = x_ladder[k_val].clone()
+			score_hat = compute_score(model, x_k, t, k_val, sigma, is_ebm)
+			x_k = x_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
+			x_ladder[k_val] = x_k.clone()
+		
+		x_ladder, a_ladder = replica_exchange(t, n, x_ladder, k_ladder, a_ladder, model, step_scale, sigma, beta_t, is_ebm)
+
+	return x_ladder, a_ladder
+
+
+@torch.no_grad()
+def replica_exchange(t, n, x_ladder, k_ladder, a_ladder, model, step_scale, sigma, beta_t, is_ebm):
+
+	pairs = swap_schedule(n, k_ladder)
 
 	if pairs is not None:
 
 		step_size = torch.tensor(step_scale) * beta_t
 
-		for k_s, k_target in pairs: 
+		for k_target, k_s in pairs: 
+
+			# k_target, k_s = compute_median(k_ladder, k_s, k_target)
+			
 			x_s = x_ladder[k_s].clone()
 			x_target = x_ladder[k_target].clone()
 
-			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
+			x_target_swapped, accept_mask = compute_correction(
 				model, x_target, x_s, t, step_size, k_target, k_s, sigma, is_ebm
 			)
 
-			x_ladder[k_s] = x_s_swapped
 			x_ladder[k_target] = x_target_swapped
 
-			print(f"We swap {k_s} and {k_target} with acceptance {accept_mask.mean().item():.2f}")
+			print(f"At {n} we swap {k_s} and {k_target} with acceptance {accept_mask.mean().item():.2f}")
+
+			a_ladder[(k_target, k_s)][n] = accept_mask
 	
-	return x_ladder
+	return x_ladder, a_ladder
 
 
 #---------- main sampling function (sampling) ----------
@@ -176,8 +204,9 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 	x = torch.randn(dataset_shape, device=device)
 
-	k_ladder = np.linspace(k, 1.0, n_replicas)
+	k_ladder = np.linspace(k, 1/k, n_replicas)
 	x_ladder = {k_ladder[i]: x.clone() for i in range(n_replicas)}	
+	a_ladder = {(k_ladder[i], k_ladder[i+1]): {} for i in range(len(k_ladder) - 1)}
 	
 	for t in ts_desc: 
 
@@ -192,9 +221,8 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 			score_hat = compute_score(model, x_ladder[k_val], t, k_val, sigma, is_ebm)
 			x_ladder[k_val] = (x_ladder[k_val].clone() + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 		
-		x_ladder = replica_exchange(t, x_ladder, k_ladder, model, step_scale, sigma, beta_t, is_ebm)
-
-	a_ladder = {(k_ladder[i], k_ladder[i+1]): [] for i in range(len(k_ladder) - 1)}
+	if n_replicas > 1:
+		x_ladder, a_ladder = ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas, is_ebm)
 	
 	return x_ladder, a_ladder
 

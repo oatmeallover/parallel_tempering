@@ -35,7 +35,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	fig, axes = plt.subplots(n_rows, n_cols, figsize=(fig_width, fig_height), squeeze=False)
 
-	axes[0, 0].set_title("Replica Swaps", fontsize=11, fontweight="bold")
+	axes[0, 0].set_title("With Replica Swaps - ULA ", fontsize=11, fontweight="bold")
 	axes[0, 1].set_title("No Replica Swaps", fontsize=11, fontweight="bold")
 
 	overall_title = f"Comparison of Exchanged Chains and DDPM"
@@ -82,7 +82,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	for i, k_val in enumerate(k_ladder):
 
-		x_ladder_tsr, a_ladder = sampling(
+		x_ladder_tsr, _ = sampling(
 			model=model,
 			dataset_shape=dataset_shape,
 			k=k_val,
@@ -124,23 +124,13 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 	return x_ladder, a_ladder
 
 
-def plot_acceptance_over_time(acceptance_ladder, save_dir="figures", filename="swaps_acceptance_time.png"):
+def plot_acceptance_over_time(a_ladder, n_langevin_steps, save_dir="figures", filename="swaps_acceptance_time.png"):
 
 	fig, ax = plt.subplots(figsize=(10, 5))
 
-	for (k_less, k_more), records in acceptance_ladder.items():
-		# Group acceptance rates by timestep t
-		by_time = defaultdict(list)
-		for r in records:
-			by_time[r["t"]].append(r["acceptance"].cpu().mean().item())
+	for (k_less, k_more), records in a_ladder.items():
 
-		# Average over langevin steps at each t
-		ts = sorted(by_time.keys())
-		ts_cpu = [item.cpu() for item in ts]
-
-		avg_acceptance = [sum(by_time[t]) / len(by_time[t]) for t in ts]
-
-		ax.plot(ts_cpu, avg_acceptance, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
+		ax.plot(range(n_langevin_steps), records, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
 
 	ax.set_xlabel("Timestep t")
 	ax.set_ylabel("Average Acceptance Rate")
@@ -228,14 +218,13 @@ def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=
 	return fig
 
 if __name__ == "__main__":
-
 	dataset_name = "composed"
 	k = 4.0
-	sigma = 0.5
+	sigma = 0.6
 	step_scale = 1
+	n_langevin_steps = 0
 	n_replicas = 4
-	filename = "k_4_replica_exchange_ddpm_comparison"
-	
-	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
-	plot_acceptance_over_time(a_ladder)
-	plot_acceptance_over_position(a_ladder, x_ladder[k])
+
+	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
+	# plot_acceptance_over_time(a_ladder)
+	# _ = plot_acceptance_over_position(a_ladder, x_ladder[0][k])
