@@ -135,19 +135,19 @@ def compute_median(k_ladder, k_1, k_2):
 
 def swap_schedule(t, n, k_ladder):
 
-	if len(k_ladder) == 1 or (t % 10 != 0) or (t < 35):
+	if len(k_ladder) == 1 or (t % 10 != 0) or (t < 20):
 		return None
 	
-	even_pairs = [(k_ladder[0], k_ladder[1]), (k_ladder[2], k_ladder[3])]
-	odd_pairs = [(k_ladder[1], k_ladder[2]), (k_ladder[0], k_ladder[3])]
-	far_pairs = [(k_ladder[0], k_ladder[2]), (k_ladder[1], k_ladder[3])]
+	even_pairs = [(k_ladder[0], k_ladder[1])]
+	odd_pairs = [(k_ladder[1], k_ladder[2])]
+	far_pairs = [(k_ladder[0], k_ladder[2])]
 
 	if t % 30 == 0:
 		pairs = even_pairs
 	elif (t-10) % 30 ==0:
-		pairs = odd_pairs
-	elif (t-20) % 30 ==0:
 		pairs = far_pairs
+	elif (t-20) % 30 ==0:
+		pairs = odd_pairs
 	return pairs
 
 
