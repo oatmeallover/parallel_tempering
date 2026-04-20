@@ -88,7 +88,7 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 			k=k_val,
 			sigma=sigma,
 			step_scale=step_scale,
-			n_langevin_steps=n_langevin_steps,
+			n_langevin_steps=0,
 			n_replicas=1
 		)
 
@@ -123,108 +123,5 @@ def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas
 
 	return x_ladder, a_ladder
 
-
-def plot_acceptance_over_time(a_ladder, n_langevin_steps, save_dir="figures", filename="swaps_acceptance_time.png"):
-
-	fig, ax = plt.subplots(figsize=(10, 5))
-
-	for (k_less, k_more), records in a_ladder.items():
-
-		ax.plot(range(n_langevin_steps), records, label=f"k={k_less:.2f} ↔ k={k_more:.2f}", marker='o', markersize=2)
-
-	ax.set_xlabel("Timestep t")
-	ax.set_ylabel("Average Acceptance Rate")
-	ax.set_title("Parallel Tempering Acceptance Rate Over Time")
-	ax.legend()
-	ax.grid(True, alpha=0.3)
-	plt.tight_layout()
-
-	save_path = os.path.join(save_dir, filename)
-	plt.savefig(save_path, dpi=200)
-
-	plt.show()
-
-	return fig
-
-def plot_acceptance_over_position(acceptance_ladder, x_final, timesteps_to_show=[10, 50, 90], save_dir="figures", filename="swaps_acceptance_position.png"):
-	x_np = x_final.detach().cpu().numpy().flatten()
-	
-	bins = np.linspace(x_np.min(), x_np.max(), 40)
-	bin_centers = 0.5 * (bins[:-1] + bins[1:])
-	bin_width = bins[1] - bins[0]
-
-	y_min = 1.0
-
-	n_pairs = len(acceptance_ladder)
-	n_times = len(timesteps_to_show)
-	
-	fig, axes = plt.subplots(
-		n_pairs, n_times,
-		figsize=(5 * n_times, 3 * n_pairs),
-		sharex=True
-	)
-	if n_pairs == 1:
-		axes = axes[np.newaxis, :]
-	if n_times == 1:
-		axes = axes[:, np.newaxis]
-
-	for row, ((k_less, k_more), records) in enumerate(acceptance_ladder.items()):
-		by_time = defaultdict(list)
-		for r in records:
-			by_time[r["t"]].append(r["acceptance"].cpu())
-
-		for col, t in enumerate(timesteps_to_show):
-			ax = axes[row, col]
-
-			closest_t = min(by_time.keys(), key=lambda t_: abs(t_ - t))
-			stacked = torch.stack(by_time[closest_t], dim=0).float()  # (n_langevin, n_particles)
-			per_particle_acceptance = stacked.mean(dim=0).numpy().flatten()
-
-			bin_indices = np.digitize(x_np, bins) - 1
-			bin_indices = np.clip(bin_indices, 0, len(bin_centers) - 1)
-
-			bin_acceptance = np.full(len(bin_centers), np.nan)
-			
-			for b in range(len(bin_centers)):
-				mask = bin_indices == b
-				if mask.sum() > 0:
-					bin_acceptance[b] = per_particle_acceptance[mask].mean()
-					y_min = min(y_min, per_particle_acceptance[mask].mean())
-
-			valid = ~np.isnan(bin_acceptance)
-			ax.bar(bin_centers[valid], bin_acceptance[valid],
-				   width=bin_width * 0.9, color="crimson", alpha=0.8)
-			
-			mean_acc = np.nanmean(bin_acceptance)
-			ax.axhline(mean_acc, color='black', linestyle='--', linewidth=1,
-					   label=f"mean={mean_acc:.3f}")
-			
-			ax.set_ylabel("Acceptance rate")
-			ax.set_xlabel("x")
-			ax.set_title(f"k={k_less:.2f}↔{k_more:.2f},  t≈{closest_t}")
-			ax.legend(fontsize=8)
-
-	for row in range(n_pairs):
-		for col in range(n_times):
-			axes[row, col].set_ylim(y_min * 0.98, 1)
-
-	fig.suptitle("Acceptance Rate by Position", fontsize=14, y=1.01)
-	plt.tight_layout()
-
-	save_path = os.path.join(save_dir, filename)
-	plt.savefig(save_path, dpi=200)
-
-	plt.show()
-	return fig
-
 if __name__ == "__main__":
-	dataset_name = "composed"
-	k = 4.0
-	sigma = 0.6
-	step_scale = 1
-	n_langevin_steps = 0
-	n_replicas = 4
-
-	x_ladder, a_ladder = ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None)
-	# plot_acceptance_over_time(a_ladder)
-	# _ = plot_acceptance_over_position(a_ladder, x_ladder[0][k])
+	pass
