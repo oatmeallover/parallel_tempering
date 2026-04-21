@@ -133,23 +133,24 @@ def compute_median(k_ladder, k_1, k_2):
 		return k_2, k_1
 
 
-def swap_schedule(t, n, k_ladder):
-
-	if len(k_ladder) == 1 or (t % 10 != 0) or (t < 20):
-		return None
+def swap_schedule(t, n, n_replicas, k_ladder, iter=8):
+	swap_cycle = iter*n_replicas / 2
+	t_start = min((N_DIFFUSION_STEPS % swap_cycle), 18)
 	
-	even_pairs = [(k_ladder[0], k_ladder[1])]
-	odd_pairs = [(k_ladder[1], k_ladder[2])]
-	far_pairs = [(k_ladder[0], k_ladder[2])]
+	if len(k_ladder) == 1 or t < t_start or t % iter != 0:
+		return None
 
-	if t % 30 == 0:
-		pairs = even_pairs
-	elif (t-10) % 30 ==0:
-		pairs = far_pairs
-	elif (t-20) % 30 ==0:
-		pairs = odd_pairs
-	return pairs
+	if t > 90: print(f" Will stop at {t_start}")
 
+	mid = n_replicas // 2
+	cycle = (t // iter) % (n_replicas - 1)
+	
+	left = list(range(mid))           # [0, 1, 2]
+	right = list(range(n_replicas - 1, mid, -1))  # [6, 5, 4]
+	indices = [x for pair in zip(left, right) for x in pair]  # [0, 6, 1, 5, 2, 4]
+	swap_idx = indices[cycle % len(indices)]
+	
+	return [(k_ladder[swap_idx], k_ladder[mid])]
 
 @torch.no_grad()
 def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas, is_ebm):
@@ -172,11 +173,9 @@ def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step
 @torch.no_grad()
 def replica_exchange(model, t, n, dataset_shape, x_ladder, k_ladder, a_ladder, step_scale, n_langevin_steps, n_replicas, sigma, beta_t, is_ebm):
 
-	pairs = swap_schedule(t, n, k_ladder)
+	pairs = swap_schedule(t, n, n_replicas, k_ladder)
 
 	if pairs is not None:
-
-		x_ladder, a_ladder = ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas, is_ebm)
 
 		for k_target, k_s in pairs: 
 
@@ -202,7 +201,7 @@ def replica_exchange(model, t, n, dataset_shape, x_ladder, k_ladder, a_ladder, s
 def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_steps=0, n_replicas=1, is_ebm = False, debug=True):
 	"""Sampling algorithm for DDPM, ULA, and MALA"""
 
-	k_ladder = np.linspace(k, 1.0/k, n_replicas)
+	k_ladder = np.round(np.linspace(k, 1.0/k, n_replicas), 2)
 	x_ladder = {k_val: torch.randn(dataset_shape, device=device) / k_val**0.5 for k_val, in zip(k_ladder)}
 	a_ladder = {(k_ladder[i], k_ladder[i+2]): {} for i in range(len(k_ladder) - 2)}
 	
