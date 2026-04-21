@@ -132,3 +132,5 @@ dataset = mnist temperature=1.0 step=131000 loss=0.0458
 dataset = mnist temperature=1.0 step=132000 loss=0.0422
 dataset = mnist temperature=1.0 step=133000 loss=0.0431
 dataset = mnist temperature=1.0 step=134000 loss=0.0421
+dataset = mnist temperature=1.0 step=135000 loss=0.0450
+dataset = mnist temperature=1.0 step=136000 loss=0.0431
