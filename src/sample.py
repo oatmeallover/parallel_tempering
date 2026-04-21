@@ -133,8 +133,8 @@ def compute_median(k_ladder, k_1, k_2):
 		return k_2, k_1
 
 
-def swap_schedule(t, n, n_replicas, k_ladder, iter=9):
-	t_start = 18 # so we end in sets of 2
+def swap_schedule(t, n, n_replicas, k_ladder, iter=12):
+	t_start = 24 # so we end in sets of 2
 
 	if len(k_ladder) == 1 or t < t_start or t % iter != 0:
 		return None
@@ -145,7 +145,7 @@ def swap_schedule(t, n, n_replicas, k_ladder, iter=9):
 	right = list(range(n_replicas - 1, mid, -1))  # [6, 5, 4]
 	indices = [x for pair in zip(right, left) for x in pair]  # [0, 6, 1, 5, 2, 4]
 
-	swap_idx = indices[int((t+1)/iter)%(n_replicas-1)]
+	swap_idx = indices[int((N_DIFFUSION_STEPS-t)/iter)%(n_replicas-1)]
 	
 	return [(k_ladder[swap_idx], k_ladder[mid])]
 
