@@ -7,6 +7,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from scipy.stats import norm
 
+import sys
+
 from torchvision import datasets as tv_datasets #mnist support
 from torchvision import transforms #mnist support
 
@@ -384,6 +386,7 @@ def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, l
 
 		if step % log_every == 0:
 			print(f"dataset = {dataset_name} temperature={k} step={step} loss={loss.item():.4f}")
+			sys.stdout.flush()
 
 	save_name = dataset_name if save_name is None else save_name
 	save_path = f"{ckpt_dir}/{save_name}_{k:.1f}.pt"
