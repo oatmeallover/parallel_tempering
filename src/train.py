@@ -3,10 +3,11 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 import os
 
-from .model import MLP       
+from .model import MLP, UNet    
 from .dataset import generate_gaussian_mixture
 from .schedule import betas, alphas, alpha_bars, ts_desc
-from .config import DEVICE, TRAINING, DATASETS, N_DIFFUSION_STEPS, CKPT_DIR
+from .config import DEVICE, TRAINING, TRAINING_IMG, DATASETS,DATASETS_IMG, N_DIFFUSION_STEPS, CKPT_DIR
+from .model import build_training_tensor, build_model_for_dataset
 
 device = DEVICE
 n_steps = TRAINING["n_steps"]
@@ -15,17 +16,22 @@ lr = TRAINING["lr"]
 ckpt_dir = CKPT_DIR
 n_diffusion_steps = N_DIFFUSION_STEPS
 
+
 torch.manual_seed(42)     
-
-def train_model(name, dataset_config, existing_checkpoint=None, load_file=None, k=1.0, log_every=5000, is_ebm = False):
+def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, log_every=1000):
 	"""Trains model according to a dataset defined by dataset_config"""
+		
+	x0_all = build_training_tensor(dataset_name)
 
-	x0_all = generate_gaussian_mixture(
-        n_samples=dataset_config["dataset_shape"][0],
-		means=dataset_config["means"],
-		stds=dataset_config["stds"],
-        device='cpu',
-    )
+	if dataset_name in datasets:
+		training_setup = TRAINING
+		
+	elif dataset_name in DATASETS_IMG:
+		training_setup = TRAINING_IMG
+
+	n_steps = training_setup["n_steps"]
+	batch_size = training_setup["batch_size"]
+	lr = training_setup["lr"]
 
 	loader = DataLoader(
 		TensorDataset(x0_all),
@@ -36,7 +42,8 @@ def train_model(name, dataset_config, existing_checkpoint=None, load_file=None, 
 		pin_memory=True,    # helps H2D transfer
 	)
 
-	model = MLP().to(device)
+	model = build_model_for_dataset(dataset_name).to(device)
+
 	if existing_checkpoint is not None:
 		print(f"Loading {existing_checkpoint}")
 		checkpoint = torch.load(existing_checkpoint, map_location=device)
@@ -59,26 +66,15 @@ def train_model(name, dataset_config, existing_checkpoint=None, load_file=None, 
 
 		t = torch.randint(0, n_diffusion_steps, (batch_size, 1), device=device)
 		a_bar = alpha_bars[t]
-		
+
+		if dataset_name in DATASETS_IMG:
+			a_bar = a_bar.view(-1, 1, 1, 1)
+
 		noise = torch.randn_like(x0)
 		xt = torch.sqrt(a_bar) * x0 + torch.sqrt(1.0 - a_bar) * noise
 
 		xt = xt.detach().requires_grad_(True)  # we need grads wrt xt
-		output = model(xt, t)   # energy values from EBM: shape [B, 1] or [B]
-
-		if is_ebm:  
-
-			grad_xt = torch.autograd.grad(
-				outputs=output,
-				inputs=xt,
-				grad_outputs=torch.ones_like(output),
-				create_graph=True,       # keep graph if you need higher-order grads
-				retain_graph=True        # if you will use output again
-			)[0]
-
-			eps_hat = -grad_xt
-		else:
-			eps_hat = output 
+		eps_hat = model(xt, t)   # energy values from EBM: shape [B, 1] or [B]
 
 		loss = ((noise - eps_hat) ** 2).mean()
 
@@ -87,12 +83,12 @@ def train_model(name, dataset_config, existing_checkpoint=None, load_file=None, 
 		opt.step()
 
 		if step % log_every == 0:
-			print(f"temperature={k} step={step} loss={loss.item():.4f}")
+			print(f"dataset = {dataset_name} temperature={k} step={step} loss={loss.item():.4f}")
 
-	save_path = f"{ckpt_dir}/{name}_{k:.1f}_{is_ebm}.pt"
+	save_name = dataset_name if save_name is None else save_name
+	save_path = f"{ckpt_dir}/{save_name}_{k:.1f}.pt"
 	torch.save(model.state_dict(), save_path)
 	print(f"Trained model saved to {save_path}")
-
 	return model
 
 

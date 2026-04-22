@@ -4,10 +4,18 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 N_DIFFUSION_STEPS = 100
 
+CKPT_DIR = "model_checkpoints"
+
 TRAINING = {
     "n_steps": 500_000,
     "batch_size": 512,
     "lr": 2e-4
+}
+
+TRAINING_IMG = {
+	"n_steps": 500_000,
+	"batch_size": 64,
+	"lr": 2e-4
 }
 
 DATASETS = {
@@ -16,4 +24,7 @@ DATASETS = {
     "composed": {"dataset_shape": (100_000,1), "means": [-3.0, 0.0, 3.0], "stds": [0.5, 1.0, 0.5]}
 }
 
-CKPT_DIR = "model_checkpoints"
+DATASETS_IMG = {
+	"mnist": {"sample_shape": (1, 28, 28)}
+}
+

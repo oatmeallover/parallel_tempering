@@ -4,10 +4,10 @@ import numpy as np
 import os
 from collections import defaultdict
 
-from .model import MLP       
+from .model import MLP, UNet, load_model     
 from .dataset import compute_mixture_pdf  
-from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
-from .sample import sampling
+from .config import DEVICE, DATASETS, DATASETS_IMG, CKPT_DIR, N_DIFFUSION_STEPS
+from .sample import ddpm_tsr
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -15,113 +15,66 @@ np.random.seed(42)
 device = DEVICE
 ckpt_dir = CKPT_DIR
 
-def load_model(path):
-	"""Load trained model from checkpoint"""
-	model = MLP().to(device)
-	model.load_state_dict(torch.load(path, map_location=device))
-	model.eval()
-	return model
+def plot_temperature_triptych(
+	dataset_name="composed",
+	sigma=1.0,
+	x_limit=8,
+	n_bins=220,
+	n_samples=4
+):
+	"""Create side-by-side visuals for original, flattened, and sharpened sampling."""
+	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt", dataset_name)
+	n_rows = 1
 
+	if dataset_name in DATASETS:
+		dataset_shape = DATASETS[dataset_name]["dataset_shape"]
+		x_axis = np.linspace(-x_limit, x_limit, n_bins)
+		bins = np.linspace(-x_limit, x_limit, n_bins)
+	elif dataset_name in DATASETS_IMG:
+		sample_shape = DATASETS_IMG[dataset_name]["sample_shape"]  # (1, 28, 28)
+		dataset_shape = (n_samples, *sample_shape)                 # (n_samples, 1, 28, 28)
+		n_rows = n_samples
 
-def ladder_ddpm(dataset_name, k, sigma, step_scale, n_langevin_steps, n_replicas, x_limit=6, save_dir="figures", figsize_per_panel=(5,4), filename=None):
-	os.makedirs(save_dir, exist_ok=True)
-	n_rows = n_replicas
-	n_cols = 2
+	ks = [1.0, 0.5, 2.0]
+	titles = ["Original (k = 1.0)", "Flattened (k = 0.5)", "Sharpened (k = 2.0)"]
 
-	y_max = 0.0
+	fig, axes = plt.subplots(n_rows, len(ks), figsize=(8, 3 * n_rows), sharey=True)
 
-	fig_width = figsize_per_panel[0] * n_cols
-	fig_height = figsize_per_panel[0] * n_rows
+	# Normalize axes to always be 2D: (n_rows, 3)
+	if n_rows == 1:
+		axes = axes[np.newaxis, :]  # (1, 3)
 
-	fig, axes = plt.subplots(n_rows, n_cols, figsize=(fig_width, fig_height), squeeze=False)
+	for col, (k, title) in enumerate(zip(ks, titles)):
+		samples = ddpm_tsr(model, dataset_shape, k=k, sigma=sigma)
 
-	axes[0, 0].set_title("With Replica Swaps - ULA ", fontsize=11, fontweight="bold")
-	axes[0, 1].set_title("No Replica Swaps", fontsize=11, fontweight="bold")
+		if n_rows ==1:
+			ax = axes[0, col]
+			samples_np = samples.detach().cpu().numpy().reshape(-1)
+			pdf = compute_mixture_pdf(dataset_name, x_axis, k=k)
+			ax.hist(samples_np, bins=bins, density=True, alpha=0.45, label="Samples")
+			ax.plot(x_axis, pdf, linewidth=2.0, label="Analytic target")
+			ax.set_xlabel("x")
+			ax.grid(alpha=0.2)
+			ax.set_title(title)
+		else:
+			samples = samples * 0.3081 + 0.1307
+			
+			print(samples.mean().item())
+			print("std",samples.std().item())
+			samples = torch.clamp(samples, 0.0, 1.0)
 
-	overall_title = f"Comparison of Exchanged Chains and DDPM"
-	fig.suptitle(overall_title, fontsize=14, fontweight='bold')
-	
-	x_axis = np.linspace(-x_limit, x_limit, 500)
-	bins = np.linspace(-x_limit, x_limit, 200)
+			for row in range(n_samples):
+				ax = axes[row, col]
+				ax.imshow(samples[row, 0].detach().cpu().numpy(), cmap="gray", vmin=0.0, vmax=1.0)
+				ax.axis("off")
+				if row == 0:
+					ax.set_title(title)
 
-	y_max = 0.0
+	if n_rows == 1:
+		axes[0, 0].set_ylabel("density")
+		axes[0, -1].legend(loc="upper right")
 
-	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt") # dataset name would always be first if it is a param
-	dataset_config = DATASETS[dataset_name]
-	dataset_shape = dataset_config["dataset_shape"]
+	fig.suptitle(f"TSR temperature comparison on '{dataset_name}' template", y=1.03)
+	plt.tight_layout()
 
-	x_ladder, a_ladder = sampling(
-		model=model,
-		dataset_shape=dataset_shape,
-		k=k,
-		sigma=sigma,
-		step_scale=step_scale,
-		n_langevin_steps=n_langevin_steps,
-		n_replicas=n_replicas
-	)
-
-	k_ladder = list(x_ladder.keys())
-
-	for i in range(n_replicas):
-		ax = axes[i, 0]
-		k_val = k_ladder[i]
-		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
-
-		ax.hist(x_ladder[k_val].cpu().numpy(),
-		  bins = bins,
-		  density=True,
-		  alpha=0.5, 
-		  label=f"k = {k_val}")
-	
-		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
-		ax.set_xlim(-x_limit, x_limit)
-
-		ax.legend(fontsize=8)
-		y_max = max(y_max, ax.get_ylim()[1])
-		axes[i, 0].set_ylabel(f"k = {k_val}", fontsize=11)
-
-	for i, k_val in enumerate(k_ladder):
-
-		x_ladder_tsr, _ = sampling(
-			model=model,
-			dataset_shape=dataset_shape,
-			k=k_val,
-			sigma=sigma,
-			step_scale=step_scale,
-			n_langevin_steps=0,
-			n_replicas=1
-		)
-
-		ax = axes[i, 1]
-		pdf = compute_mixture_pdf(dataset_config, x_axis, k_val)
-
-		ax.hist(x_ladder_tsr[k_val].cpu().numpy(),
-		  bins = bins,
-		  density=True,
-		  alpha=0.5, 
-		  label=f"k = {k_val}")
-	
-		ax.plot(x_axis, pdf, label=f"True k={k_val} PDF")
-		ax.set_xlim(-x_limit, x_limit)
-
-		ax.legend(fontsize=8)
-		y_max = max(y_max, ax.get_ylim()[1])
-
-
-	for row in axes:
-		for ax in row:
-			ax.set_ylim(0,y_max)
-
-	if filename is None:
-		filename = f"swaps_{n_replicas}_{k}.png"
-
-	save_path = os.path.join(save_dir, filename)
-	
-	plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-	plt.savefig(save_path, dpi=200)
-	plt.show()
-
-	return x_ladder, a_ladder
-
-if __name__ == "__main__":
-	pass
+	return fig, axes

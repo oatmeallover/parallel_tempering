@@ -38,13 +38,3 @@ def compute_tsr_schedule(k, sigma, t):
 
 	return tsr
 
-
-@torch.no_grad()
-def cosine_swap_schedule(timesteps, s=0.008):
-    """Swap probability schedule following cosine noise schedule"""
-    steps = timesteps + 1
-    t = torch.linspace(0, timesteps, steps, dtype=torch.float32) / timesteps
-    alphas_cumprod = torch.cos((t + s) / (1 + s) * math.pi * 0.5) ** 2
-    alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
-
-    return alphas_cumprod

@@ -1,14 +1,25 @@
 import torch 
 import numpy as np
 from scipy.stats import norm
+from .config import DATASETS_IMG, DATASETS
+
+from torchvision import datasets as tv_datasets
+from torchvision import transforms
 
 torch.manual_seed(42)
 np.random.seed(42)
 
 @torch.no_grad()
-def generate_gaussian_mixture(n_samples, means, stds, device='cpu'):
+def generate_gaussian_mixture(dataset_name, device='cpu'):
 	"""Generates mixture of gaussians according to inputted means and standard deviations"""
-	means = torch.as_tensor(means, dtype=torch.float32)
+
+	dataset_config = DATASETS_IMG[dataset_name]
+	dataset_shape = dataset_config["dataset_shape"]
+	n_samples = dataset_shape[0]
+
+	means = torch.as_tensor(dataset_config['means'], dtype=torch.float32)
+	stds = dataset_config['stds']
+	
 	n_gaussians = len(means)
 	
 	if isinstance(stds, (int, float)):
@@ -32,8 +43,38 @@ def generate_gaussian_mixture(n_samples, means, stds, device='cpu'):
 
 
 @torch.no_grad()
-def compute_mixture_pdf(dataset_config, x_axis, k=1.0):
-	"""Computes analtytical pdf of training dataset from dataset config file, used for plotting"""
+def load_mnist_tensor(train=True, normalize_to_minus1_1=True):
+	tfms = [transforms.ToTensor()]
+	if normalize_to_minus1_1:
+		tfms.append(transforms.Lambda(lambda x: (x - 0.1307) / 0.3081))
+
+	ds = tv_datasets.MNIST(
+		root="./data",
+		train=train,
+		download=True,
+		transform=transforms.Compose(tfms),
+	)
+	x = torch.stack([img for img, _ in ds], dim=0)
+	return x
+
+
+@torch.no_grad()
+def build_training_tensor(dataset_name, n_samples=None, train=True):
+	if dataset_name in DATASETS:
+		return generate_gaussian_mixture(dataset_name, n_samples=n_samples, device='cpu')
+	elif dataset_name in DATASETS_IMG:
+		x = load_mnist_tensor(train=train)
+		if n_samples is not None:
+			x = x[:n_samples]
+		return x
+	raise ValueError(f"Unsupported dataset name")
+
+
+@torch.no_grad()
+def compute_mixture_pdf(dataset_name, x_axis, k=1.0):
+	"""Computes analytical pdf of training dataset from dataset config file, used for plotting"""
+
+	dataset_config = DATASETS[dataset_name]
 	means = np.array(dataset_config['means'])
 	stds = dataset_config['stds']
 		
