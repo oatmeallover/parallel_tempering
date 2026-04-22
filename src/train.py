@@ -4,10 +4,10 @@ from torch.utils.data import TensorDataset, DataLoader
 import os
 
 from .model import MLP, UNet    
-from .dataset import generate_gaussian_mixture
+from .dataset import generate_gaussian_mixture, build_training_tensor
 from .schedule import betas, alphas, alpha_bars, ts_desc
 from .config import DEVICE, TRAINING, TRAINING_IMG, DATASETS,DATASETS_IMG, N_DIFFUSION_STEPS, CKPT_DIR
-from .model import build_training_tensor, build_model_for_dataset
+from .model import build_model_for_dataset
 
 device = DEVICE
 n_steps = TRAINING["n_steps"]
@@ -23,7 +23,7 @@ def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, l
 		
 	x0_all = build_training_tensor(dataset_name)
 
-	if dataset_name in datasets:
+	if dataset_name in DATASETS:
 		training_setup = TRAINING
 		
 	elif dataset_name in DATASETS_IMG:
@@ -94,16 +94,4 @@ def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, l
 
 if __name__ == "__main__":	
 
-	dataset_names = ["composed"]
-	k = 1.0
-	is_ebm = True
-
-	for name in dataset_names:
-		
-		dataset_config = DATASETS[name]
-		existing_checkpoint = f"{ckpt_dir}/{name}_{k:.1f}_{is_ebm}.pt"
-		
-		if os.path.exists(existing_checkpoint):
-			model = train_model(name, dataset_config, existing_checkpoint, is_ebm = is_ebm)
-		else:
-			model = train_model(name, dataset_config, is_ebm = is_ebm)
+	train_model(dataset_name="mnist")

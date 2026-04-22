@@ -43,7 +43,7 @@ def generate_gaussian_mixture(dataset_name, device='cpu'):
 
 
 @torch.no_grad()
-def load_mnist_tensor(train=True, normalize_to_minus1_1=True):
+def load_mnist_tensor(digit = 4, train=True, normalize_to_minus1_1=True):
 	tfms = [transforms.ToTensor()]
 	if normalize_to_minus1_1:
 		tfms.append(transforms.Lambda(lambda x: (x - 0.1307) / 0.3081))
@@ -54,7 +54,7 @@ def load_mnist_tensor(train=True, normalize_to_minus1_1=True):
 		download=True,
 		transform=transforms.Compose(tfms),
 	)
-	x = torch.stack([img for img, _ in ds], dim=0)
+	x = torch.stack([img for img, label in ds if label == digit], dim=0)
 	return x
 
 

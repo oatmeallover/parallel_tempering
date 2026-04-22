@@ -121,7 +121,7 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma):
 
 def swap_schedule(t, k_ladder, iter=20):
 
-	if len(k_ladder) == 1 or t < 20:
+	if len(k_ladder) == 1 or t < 50:
 		return None
 
 	indices = list(range(len(k_ladder) - 1))  # pairs: (0,1), (1,2), (2,3), ...
@@ -171,6 +171,8 @@ def replica_exchange(model, t, x_ladder, k_ladder, sigma):
 			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
 				model, x_target, x_s, t, k_target, k_s, sigma
 			)
+
+			print(f"Time {t} swap {accept_mask.mean().item()}")
 
 			x_ladder[k_s] = x_s_swapped
 			x_ladder[k_target] = x_target_swapped
