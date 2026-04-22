@@ -177,3 +177,24 @@ def ddpm_tsr(model, dataset_shape, k=1.0, sigma=1.0):
 		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 
 	return x
+
+
+def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0):
+
+	x_ladder = {k_val: torch.randn(dataset_shape, device=device) for k_val in ks}
+		
+	for t in ts_desc: 
+
+		alpha_t = alphas[t]
+		beta_t = betas[t]
+		sqrt_alpha_t = torch.sqrt(alpha_t)
+		sqrt_beta_t = torch.sqrt(beta_t)
+
+		for k_val in ks:
+			x = x_ladder[k_val].clone()
+			noise = torch.randn(dataset_shape, device=device)
+			score_hat = compute_score(model, x, t, k_val, sigma)
+			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
+			x_ladder[k_val] = x.clone()
+
+	return x_ladder
