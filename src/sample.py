@@ -134,7 +134,7 @@ def compute_median(k_ladder, k_1, k_2):
 
 
 def swap_schedule(t, n, n_replicas, k_ladder, iter=12):
-	t_start = 36 # so we end in sets of 2
+	t_start = 12 # so we end in sets of 2
 
 	if len(k_ladder) == 1 or t < t_start or t % iter != 0:
 		return None
@@ -142,11 +142,17 @@ def swap_schedule(t, n, n_replicas, k_ladder, iter=12):
 	mid = n_replicas // 2
 
 	left = list(range(mid-1, -1, -1))            # [0, 1, 2]
-	right = list(range(mid+1, n_replicas))  
+	right = list(range(mid+1, n_replicas))  # 4 5 6
 
 	indices = [x for pair in zip(right, left) for x in pair]  # [0, 6, 1, 5, 2, 4]
 
-	swap_idx = indices[int((N_DIFFUSION_STEPS-t)/iter)%(n_replicas-1)]
+	index = int(((N_DIFFUSION_STEPS-t)/iter) % (len(indices) + 2))
+
+	if index == 6:
+		return [(k_ladder[1], k_ladder[2])]
+	if index == 7:
+		return [(k_ladder[5], k_ladder[4])]
+	swap_idx = indices[index]
 	
 	return [(k_ladder[swap_idx], k_ladder[mid])]
 
@@ -189,7 +195,10 @@ def replica_exchange(model, t, n, dataset_shape, x_ladder, k_ladder, a_ladder, s
 			x_ladder[k_s] = x_s_swapped
 			x_ladder[k_target] = x_target_swapped
 
-			# a_ladder[(k_target, k_s)][n] = accept_mask
+			key = tuple(sorted((k_target, k_s)))
+			if key not in a_ladder:
+				a_ladder[key] = {}
+			a_ladder[key][t] = accept_mask
 	
 	return x_ladder, a_ladder
 
@@ -201,8 +210,10 @@ def sampling(model, dataset_shape, k=1.0, sigma=1.0, step_scale=1, n_langevin_st
 
 	k_ladder = np.round(np.linspace(k, 1.0/k, n_replicas), 2)
 	x_ladder = {k_val: torch.randn(dataset_shape, device=device) / k_val**0.5 for k_val, in zip(k_ladder)}
-	a_ladder = {(k_ladder[i], k_ladder[i+2]): {} for i in range(len(k_ladder) - 2)}
-	
+	mid = n_replicas // 2
+	left = list(range(mid-1, -1, -1))            # [0, 1, 2]
+	right = list(range(mid+1, n_replicas))
+	a_ladder = {tuple(sorted((k_ladder[left[i]], k_ladder[right[i]]))): {} for i in range(len(left))}	
 	for t in ts_desc: 
 
 		alpha_t = alphas[t]
