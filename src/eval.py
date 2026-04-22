@@ -7,7 +7,7 @@ from collections import defaultdict
 from .model import MLP, UNet, load_model     
 from .dataset import compute_mixture_pdf  
 from .config import DEVICE, DATASETS, DATASETS_IMG, CKPT_DIR, N_DIFFUSION_STEPS
-from .sample import ddpm_tsr,ddpm_tsr_swapped
+from .sample import ddpm_tsr_swapped
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -41,70 +41,40 @@ def plot_temperature_triptych(
 	ks = np.linspace(1.0, k, n_replicas)
 	titles = ["Original (k = 1.0)", "Flattened (k = 0.5)", "Sharpened (k = 2.0)"]
 
-	fig, axes = plt.subplots(n_rows, len(ks), figsize=(6, 2 * n_rows), sharey=True)
+	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
 
 	# Normalize axes to always be 2D: (n_rows, 3)
 	if n_rows == 1:
 		axes = axes[np.newaxis, :]  # (1, 3)
 
-	if not replica_swaps:
+	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps)
 
-		for col, (k, title) in enumerate(zip(ks, titles)):
+	for col, (k, title) in enumerate(zip(ks, titles)):
 
-			samples = ddpm_tsr(model, dataset_shape, k=k, sigma=sigma)
+		samples = samples_ladder[k]
 
-			if n_rows ==1:
-				ax = axes[0, col]
-				samples_np = samples.detach().cpu().numpy().reshape(-1)
-				pdf = compute_mixture_pdf(dataset_name, x_axis, k=k)
-				ax.hist(samples_np, bins=bins, density=True, alpha=0.45, label="Samples")
-				ax.plot(x_axis, pdf, linewidth=2.0, label="Analytic target")
-				ax.set_xlabel("x")
-				ax.grid(alpha=0.2)
-				ax.set_title(title)
-			else:
-				samples = samples * 0.3081 + 0.1307
-				
-				print(samples.mean().item())
-				print("std",samples.std().item())
-				samples = torch.clamp(samples, 0.0, 1.0)
+		if n_rows ==1:
+			ax = axes[0, col]
+			samples_np = samples.detach().cpu().numpy().reshape(-1)
+			pdf = compute_mixture_pdf(dataset_name, x_axis, k=k)
+			ax.hist(samples_np, bins=bins, density=True, alpha=0.45, label="Samples")
+			ax.plot(x_axis, pdf, linewidth=2.0, label="Analytic target")
+			ax.set_xlabel("x")
+			ax.grid(alpha=0.2)
+			ax.set_title(title)
+		else:
+			samples = samples * 0.3081 + 0.1307
+			
+			print(samples.mean().item())
+			print("std",samples.std().item())
+			samples = torch.clamp(samples, 0.0, 1.0)
 
-				for row in range(n_samples):
-					ax = axes[row, col]
-					ax.imshow(samples[row, 0].detach().cpu().numpy(), cmap="gray", vmin=0.0, vmax=1.0)
-					ax.axis("off")
-					if row == 0:
-						ax.set_title(title)
-
-	else:
-		samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma)
-
-		for col, (k, title) in enumerate(zip(ks, titles)):
-
-			samples = samples_ladder[k]
-
-			if n_rows ==1:
-				ax = axes[0, col]
-				samples_np = samples.detach().cpu().numpy().reshape(-1)
-				pdf = compute_mixture_pdf(dataset_name, x_axis, k=k)
-				ax.hist(samples_np, bins=bins, density=True, alpha=0.45, label="Samples")
-				ax.plot(x_axis, pdf, linewidth=2.0, label="Analytic target")
-				ax.set_xlabel("x")
-				ax.grid(alpha=0.2)
-				ax.set_title(title)
-			else:
-				samples = samples * 0.3081 + 0.1307
-				
-				print(samples.mean().item())
-				print("std",samples.std().item())
-				samples = torch.clamp(samples, 0.0, 1.0)
-
-				for row in range(n_samples):
-					ax = axes[row, col]
-					ax.imshow(samples[row, 0].detach().cpu().numpy(), cmap="gray", vmin=0.0, vmax=1.0)
-					ax.axis("off")
-					if row == 0:
-						ax.set_title(title)
+			for row in range(n_samples):
+				ax = axes[row, col]
+				ax.imshow(samples[row, 0].detach().cpu().numpy(), cmap="gray", vmin=0.0, vmax=1.0)
+				ax.axis("off")
+				if row == 0:
+					ax.set_title(title)
 
 	if n_rows == 1:
 		axes[0, 0].set_ylabel("density")

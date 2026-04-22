@@ -28,22 +28,39 @@ def compute_score(model, x, t, k, sigma):
 
 @torch.no_grad()
 def r_curve_func(x, x_hat, s):
-	"""Computes curve where r(0) = x and r(1) = x hat"""
-	return x + s * (x_hat - x)
+	"""Computes curve where r(0) = x and r(1) = x_hat.
+	
+	Args:
+		x, x_hat: (bs, D)
+		s:        (n_segments,)
+	Returns:
+		r:        (n_segments, bs, D)
+	"""
+	# s: (n_segments, 1, 1) to broadcast over (bs, D)
+	s = s.view(-1, 1, 1)
+	return x + s * (x_hat - x)  # (n_segments, bs, D)
 
 
 @torch.no_grad()
 def r_deriv_func(x, x_hat, s):
-	"""Computes analytical derivative of r curve"""
-	ones = torch.ones_like(s)
-	return ones * (x_hat - x)
+	"""Computes analytical derivative of r curve.
+	
+	Args:
+		x, x_hat: (bs, D)
+		s:        (n_segments,)
+	Returns:
+		r_deriv:  (n_segments, bs, D)
+	"""
+	# Derivative is constant w.r.t. s, tile across segment dim
+	diff = (x_hat - x).unsqueeze(0)          # (1, bs, D)
+	return diff.expand(s.shape[0], -1, -1)   # (n_segments, bs, D)
 
 
 @torch.no_grad()
-def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm):
+def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma):
 	"""Computes log [ k(x | x_hat) / k(x_hat | x) ]"""
-	score_x = compute_score(model, x, t, k, sigma, is_ebm) 
-	score_x_hat = compute_score(model, x_hat, t, k, sigma, is_ebm) 
+	score_x = compute_score(model, x, t, k, sigma) 
+	score_x_hat = compute_score(model, x_hat, t, k, sigma) 
 
 	forward_diff = x_hat - x - step_size * score_x 
 	forward_sq = - 0.5 * forward_diff**2/ (2.0 * step_size)
@@ -55,30 +72,42 @@ def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm
 
 
 @torch.no_grad()
-def compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm, n_segments=10): # k closer to target
-	"""Computes energy of a noise-based model thrfugh integration"""
+def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=10):
+	"""Computes energy of a noise-based model through integration."""
+	original_shape = x.shape
+	bs = original_shape[0]
 
-	s = torch.linspace(0.0, 1.0, n_segments, device=device)
+	x_flat     = x.reshape(bs, -1)
+	x_hat_flat = x_hat.reshape(bs, -1)
 
-	r = r_curve_func(x, x_hat, s)
-	r_deriv = r_deriv_func(x, x_hat, s)
+	s = torch.linspace(0.0, 1.0, n_segments, device=x.device)
 
-	r_flat = r.reshape(-1,1)
+	r       = r_curve_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
+	r_deriv = r_deriv_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
 
-	score = compute_score(model, r_flat, t, k, sigma, is_ebm).reshape(r.shape[0], -1)
+	# r shape torch.Size([10, 4, 784])
+	# r deriv shape torch.Size([10, 4, 784])
 
-	integrand = score * r_deriv 
-	f = torch.trapz(integrand, s, dim=1).unsqueeze(-1)
+	n_seg, _, D = r.shape
 
-	return f 
+	r_in = r.reshape(n_seg * bs, *original_shape[1:])
 
+	score = compute_score(model, r_in, t, k, sigma).reshape(n_seg, bs, D)
+
+	integrand = score * r_deriv
+
+	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
+
+	f = f_flat.reshape(original_shape)
+
+	return f
 
 @torch.no_grad() # x is k_2 x hat is k_1
-def compute_correction(model, x, x_hat, t, k, k_hat, sigma, is_ebm):
+def compute_correction(model, x, x_hat, t, k, k_hat, sigma):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, k, sigma, is_ebm)
-	f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma, is_ebm)
-	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma, is_ebm)
+	f = compute_score_integral(model, x, x_hat, t, k, sigma)
+	f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma)
+	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma)
 
 	a = torch.clamp(torch.exp(f - f_hat), max=1.0) 
 		
@@ -90,32 +119,24 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, is_ebm):
 
 	return x_new, x_hat_new, a
 
+def swap_schedule(t, k_ladder, iter=20):
 
-def swap_schedule(t, n, n_replicas, k_ladder, iter=12):
-	t_start = 12 # so we end in sets of 2
-
-	if len(k_ladder) == 1 or t < t_start or t % iter != 0:
+	if len(k_ladder) == 1 or t < 20:
 		return None
 
-	mid = n_replicas // 2
+	indices = list(range(len(k_ladder) - 1))  # pairs: (0,1), (1,2), (2,3), ...
 
-	left = list(range(mid-1, -1, -1))            # [0, 1, 2]
-	right = list(range(mid+1, n_replicas))  # 4 5 6
+	if t % iter == 0:
+		even_pairs = [(i, i+1) for i in indices if i % 2 == 0]
+		return even_pairs
+	elif (t - 10) % iter == 0:
+		odd_pairs = [(i, i+1) for i in indices if i % 2 == 1]
+		return odd_pairs
 
-	indices = [x for pair in zip(right, left) for x in pair]  # [0, 6, 1, 5, 2, 4]
-
-	index = int(((N_DIFFUSION_STEPS-t)/iter) % (len(indices) + 2))
-
-	if index == 6:
-		return [(k_ladder[1], k_ladder[2])]
-	if index == 7:
-		return [(k_ladder[5], k_ladder[4])]
-	swap_idx = indices[index]
-	
-	return [(k_ladder[swap_idx], k_ladder[mid])]
+	return None
 
 @torch.no_grad()
-def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas, is_ebm):
+def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas):
 
 	for n in range(n_langevin_steps):
 
@@ -125,7 +146,7 @@ def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step
 			step_size = step_scale * beta_t
 
 			x_k = x_ladder[k_val].clone()
-			score_hat = compute_score(model, x_k, t, k_val, sigma, is_ebm)
+			score_hat = compute_score(model, x_k, t, k_val, sigma)
 			x_k = x_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
 			x_ladder[k_val] = x_k.clone()
 		
@@ -133,53 +154,31 @@ def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step
 
 
 @torch.no_grad()
-def replica_exchange(model, t, n, dataset_shape, x_ladder, k_ladder, a_ladder, step_scale, n_langevin_steps, n_replicas, sigma, beta_t, is_ebm):
+def replica_exchange(model, t, x_ladder, k_ladder, sigma):
 
-	pairs = swap_schedule(t, n, n_replicas, k_ladder)
+	pairs = swap_schedule(t, k_ladder)
 
 	if pairs is not None:
 
-		for k_target, k_s in pairs: 
-			
+		for k_targ_ind, k_s_ind in pairs: 
+
+			k_target = k_ladder[k_targ_ind]
+			k_s = k_ladder[k_s_ind]
+
 			x_s = x_ladder[k_s].clone()
 			x_target = x_ladder[k_target].clone()
 
 			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
-				model, x_target, x_s, t, k_target, k_s, sigma, is_ebm
+				model, x_target, x_s, t, k_target, k_s, sigma
 			)
 
 			x_ladder[k_s] = x_s_swapped
 			x_ladder[k_target] = x_target_swapped
 
-			key = tuple(sorted((k_target, k_s)))
-			if key not in a_ladder:
-				a_ladder[key] = {}
-			a_ladder[key][t] = accept_mask
-	
-	return x_ladder, a_ladder
+	return x_ladder
 
 
-@torch.no_grad()
-def ddpm_tsr(model, dataset_shape, k=1.0, sigma=1.0):
-	"""Sampling algorithm for DDPM, ULA, and MALA"""
-
-	x = torch.randn(dataset_shape, device=device)
-		
-	for t in ts_desc: 
-
-		alpha_t = alphas[t]
-		beta_t = betas[t]
-		sqrt_alpha_t = torch.sqrt(alpha_t)
-		sqrt_beta_t = torch.sqrt(beta_t)
-		noise = torch.randn(dataset_shape, device=device)
-
-		score_hat = compute_score(model, x, t, k, sigma)
-		x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
-
-	return x
-
-
-def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0):
+def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False):
 
 	x_ladder = {k_val: torch.randn(dataset_shape, device=device) for k_val in ks}
 		
@@ -196,5 +195,8 @@ def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0):
 			score_hat = compute_score(model, x, t, k_val, sigma)
 			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 			x_ladder[k_val] = x.clone()
+
+		if replica_swaps:
+			x_ladder = replica_exchange(model, t, x_ladder, ks, sigma)
 
 	return x_ladder
