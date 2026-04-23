@@ -42,14 +42,13 @@ def plot_temperature_triptych(
 	ks = np.array([0.25, 1.0, 4.0])
 	titles = [f"k={k:.2f}" for k in ks]
 
-	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
+	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps, analytical=analytical)
 
+	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
 	# Normalize axes to always be 2D: (n_rows, 3)
 	if n_rows == 1:
 		axes = axes[np.newaxis, :]  # (1, 3)
-
-	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps, analytical=analytical)
-
+		
 	for col, (k, title) in enumerate(zip(ks, titles)):
 
 		samples = samples_ladder[k]

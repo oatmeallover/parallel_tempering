@@ -129,26 +129,29 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 
 	f = compute_score_integral(model, x, x_hat, t, k, sigma)
-	a_non_analytical = torch.clamp(torch.exp(f), max = 1.0) * 0.9 # p (x hat under k) / p(x under k)	
+	a_non_analytical = torch.clamp(torch.exp(f* 1.5), max = 1.0)  # p (x hat under k) / p(x under k)	
+
+	p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
+	a_analaytical = torch.clamp(p_ratio ,max=1)
+	
 	if analytical:
-		p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
-		a = torch.clamp(p_ratio ,max=1)
-
-		accept_analytical = (torch.rand_like(a) < a).float().mean()
-		accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
-		print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
-
-		plt.show()
-
-		x_np = x.flatten().cpu().numpy()
-		for arr, label in [(a, 'analytical'), (a_non_analytical, 'non_analytical')]:
-			means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
-			plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
-		plt.title(f"Time {t.item()} k = {k} and {k_hat}")
-		plt.legend()
-		plt.show()
+		a = a_analaytical
 	else:
 		a = a_non_analytical
+
+	
+	accept_analytical = (torch.rand_like(a_analaytical) < a_analaytical).float().mean()
+	accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
+	print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
+
+	x_np = x.flatten().cpu().numpy()
+	for arr, label in [(a_analaytical, 'analytical'), (a_non_analytical, 'non_analytical')]:
+		means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
+		plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
+	plt.title(f"Time {t.item()} k = {k} and {k_hat}")
+	plt.legend()
+	plt.show()
+
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
 
@@ -157,17 +160,15 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 	return x_new, x_hat_new, accept_mask
 
-def swap_schedule(t, k_ladder, iter=10):
+def swap_schedule(t, k_ladder):
 
-	if len(k_ladder) == 1 or t < 20 :
+	if len(k_ladder) == 1 :
 		return None
 	
-	if t % (iter*2) == 0 :
-		even_pairs = [(0,1)]
-		return even_pairs
-	elif (t - iter) % (iter*2) == 0:
-		odd_pairs = [(1,2)]
-		return odd_pairs
+	if t in [90, 70, 50, 30]:
+		return [(1,2)]
+	elif t in [80, 60, 40, 20]:
+		return [(0,1)]
 
 	return None
 
