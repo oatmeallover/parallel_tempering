@@ -127,16 +127,17 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=8):
 def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 	"""Computes acceptance rate for MALA and returns corrected x"""
 
+
+	f = compute_score_integral(model, x, x_hat, t, k, sigma)
+	a_non_analytical = torch.clamp(torch.exp(f), max = 1.0) * 0.9 # p (x hat under k) / p(x under k)	
 	if analytical:
 		p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
 		a = torch.clamp(p_ratio ,max=1)
 
-		f = compute_score_integral(model, x, x_hat, t, k, sigma)
-		a_non_analytical = torch.clamp(torch.exp(f),max=1) # p (x hat under k) / p(x under k)'
-
 		accept_analytical = (torch.rand_like(a) < a).float().mean()
 		accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
 		print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
+
 		plt.show()
 
 		x_np = x.flatten().cpu().numpy()
@@ -147,8 +148,7 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 		plt.legend()
 		plt.show()
 	else:
-		f = compute_score_integral(model, x, x_hat, t, k, sigma)
-		a = torch.exp(f) # p (x hat under k) / p(x under k)
+		a = a_non_analytical
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
 
@@ -159,10 +159,10 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 def swap_schedule(t, k_ladder, iter=10):
 
-	if len(k_ladder) == 1 or t < 25 or t > 80 :
+	if len(k_ladder) == 1 or t < 20 :
 		return None
 	
-	if t % iter == 0 and t < 50:
+	if t % (iter*2) == 0 :
 		even_pairs = [(0,1)]
 		return even_pairs
 	elif (t - iter) % (iter*2) == 0:
