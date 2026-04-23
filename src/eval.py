@@ -40,8 +40,8 @@ def plot_temperature_triptych(
 		n_rows = n_samples
 
 	ks = np.linspace(1.0, k, n_replicas)
-	titles = [f"k={ks[0]}",f"k={ks[1]}",f"k={ks[2]}"]
-
+	titles = [f"k={k:.2f}" for k in ks]
+	
 	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
 
 	# Normalize axes to always be 2D: (n_rows, 3)

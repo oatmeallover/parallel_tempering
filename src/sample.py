@@ -47,37 +47,35 @@ def compute_score(model, x, t, k, sigma):
 	temp_t = compute_tsr_schedule(k, sigma, t)
 	score_hat= - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
 	return score_hat
-	
 
 @torch.no_grad()
 def r_curve_func(x, x_hat, s):
-	"""Computes curve where r(0) = x and r(1) = x_hat.
-	
-	Args:
-		x, x_hat: (bs, D)
-		s:        (n_segments,)
-	Returns:
-		r:        (n_segments, bs, D)
-	"""
-	# s: (n_segments, 1, 1) to broadcast over (bs, D)
-	s = s.view(-1, 1, 1)
-	return x + s * (x_hat - x)  # (n_segments, bs, D)
+    """Computes curve where r(0) = x and r(1) = x_hat.
+    
+    Args:
+        x, x_hat: (bs, D)
+        s:        (n_segments,)
+    Returns:
+        r:        (n_segments, bs, D)
+    """
+    # s: (n_segments, 1, 1) to broadcast over (bs, D)
+    s = s.view(-1, 1, 1)
+    return x + s * (x_hat - x)  # (n_segments, bs, D)
 
 
 @torch.no_grad()
-def r_deriv_func(x, x_hat, s):
-	"""Computes analytical derivative of r curve.
-	
-	Args:
-		x, x_hat: (bs, D)
-		s:        (n_segments,)
-	Returns:
-		r_deriv:  (n_segments, bs, D)
-	"""
-	# Derivative is constant w.r.t. s, tile across segment dim
-	diff = (x_hat - x).unsqueeze(0)          # (1, bs, D)
-	return diff.expand(s.shape[0], -1, -1)   # (n_segments, bs, D)
-
+def r_deriv_func(x, x_hat, s): 
+    """Computes analytical derivative of r curve.
+    
+    Args:
+        x, x_hat: (bs, D)
+        s:        (n_segments,)
+    Returns:
+        r_deriv:  (n_segments, bs, D)
+    """
+    # Derivative is constant w.r.t. s, tile across segment dim
+    diff = (x_hat - x).unsqueeze(0)          # (1, bs, D)
+    return diff.expand(s.shape[0], -1, -1)   # (n_segments, bs, D)
 
 @torch.no_grad()
 def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma):
@@ -128,23 +126,26 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=8):
 @torch.no_grad() 
 def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	#f = compute_score_integral(model, x, x_hat, t, k, sigma)
-	#f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma)
-	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma)
 
 	if analytical:
 		p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
-		a = p_ratio 
+		a = torch.clamp(p_ratio ,1)
 
 		f = compute_score_integral(model, x, x_hat, t, k, sigma)
-		a_non_analytical = torch.exp(f) # p (x hat under k) / p(x under k)'
+		a_non_analytical = torch.clamp(torch.exp(f),1) # p (x hat under k) / p(x under k)'
 
 		accept_analytical = (torch.rand_like(a) < a).float().mean()
 		accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
 		print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
+		plt.show()
 
-		c = torch.log(a).mean() / f.mean()
-		print(f"c {c}")
+		x_np = x.flatten().cpu().numpy()
+		for arr, label in [(a, 'analytical'), (a_non_analytical, 'non_analytical')]:
+			means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
+			plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
+		plt.title(f"Time {t.item()} k = {k} and {k_hat}")
+		plt.legend()
+		plt.show()
 	else:
 		f = compute_score_integral(model, x, x_hat, t, k, sigma)
 		a = torch.exp(f) # p (x hat under k) / p(x under k)
@@ -160,34 +161,16 @@ def swap_schedule(t, k_ladder, iter=20):
 
 	if len(k_ladder) == 1 or t < 20 :
 		return None
-
-	indices = list(range(len(k_ladder) - 1))  # pairs: (0,1), (1,2), (2,3), ...
-
-	if t % iter == 0:
-		even_pairs = [(i, i+1) for i in indices if i % 2 == 0]
-		return even_pairs
-	elif (t - 10) % iter == 0:
-		odd_pairs = [(i, i+1) for i in indices if i % 2 == 1]
+	
+	if (t - 10) % iter == 0:
+		odd_pairs = [(1,2)]
 		return odd_pairs
+	
+	if t % iter == 0:
+		even_pairs = [(0,1)]
+		return even_pairs
 
 	return None
-
-@torch.no_grad()
-def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step_scale, n_langevin_steps, beta_t, n_replicas):
-
-	for n in range(n_langevin_steps):
-
-		for k_val in k_ladder:
-
-			noise = torch.randn(dataset_shape, device=device)
-			step_size = step_scale * beta_t
-
-			x_k = x_ladder[k_val].clone()
-			score_hat = compute_score(model, x_k, t, k_val, sigma)
-			x_k = x_k + step_size * score_hat + torch.sqrt(2.0 * step_size) * noise
-			x_ladder[k_val] = x_k.clone()
-		
-	return x_ladder, a_ladder
 
 
 @torch.no_grad()
