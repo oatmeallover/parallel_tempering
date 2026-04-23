@@ -23,7 +23,8 @@ def plot_temperature_triptych(
 	n_samples=4,
 	k=2.0,
 	n_replicas=3,
-	replica_swaps=False
+	replica_swaps=False,
+	analytical=False
 ):
 	"""Create side-by-side visuals for original, flattened, and sharpened sampling."""
 	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt", dataset_name)
@@ -47,7 +48,7 @@ def plot_temperature_triptych(
 	if n_rows == 1:
 		axes = axes[np.newaxis, :]  # (1, 3)
 
-	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps)
+	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps, analytical=analytical)
 
 	for col, (k, title) in enumerate(zip(ks, titles)):
 

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import random
+import scipy
 
 from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
@@ -12,6 +13,28 @@ np.random.seed(42)
 
 device = DEVICE
 ckpt_dir = CKPT_DIR
+
+@torch.no_grad() 
+def unnormalized(z):
+	sqrt2 = torch.tensor(2.0).sqrt()
+	return (torch.exp(-z**2 / 2)
+			+ sqrt2 * torch.exp(-(z + 3)**2)
+			+ sqrt2 * torch.exp(-(z - 3)**2))
+
+
+@torch.no_grad()
+def analytical_energy(x, x_hat, k):
+    """
+    Computes the probability ratio p(x_hat) / p(x) for the mixture:
+        1/3 * N(0, 1) + 1/3 * N(-3, 0.5) + 1/3 * N(3, 0.5)
+
+    The 1/3 mixture weights and 1/sqrt(2pi) normalization cancel,
+    leaving:
+        denominator   = exp(-x**2 / 2) + sqrt(2) * exp(-(x+3)**2) + sqrt(2) * exp(-(x-3)**2)
+        numerator = exp(-x_hat**2 / 2) + sqrt(2) * exp(-(x_hat+3)**2) + sqrt(2) * exp(-(x_hat-3)**2)
+    """
+
+    return (unnormalized(x_hat) / unnormalized(x))**k
 
 @torch.no_grad()
 def compute_score(model, x, t, k, sigma):
@@ -72,7 +95,7 @@ def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma):
 
 
 @torch.no_grad()
-def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=10):
+def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=8):
 	"""Computes energy of a noise-based model through integration."""
 	original_shape = x.shape
 	bs = original_shape[0]
@@ -102,26 +125,40 @@ def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=10):
 
 	return f
 
-@torch.no_grad() # x is k_2 x hat is k_1
-def compute_correction(model, x, x_hat, t, k, k_hat, sigma):
+@torch.no_grad() 
+def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 	"""Computes acceptance rate for MALA and returns corrected x"""
-	f = compute_score_integral(model, x, x_hat, t, k, sigma)
-	f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma)
+	#f = compute_score_integral(model, x, x_hat, t, k, sigma)
+	#f_hat = compute_score_integral(model, x, x_hat, t, k_hat, sigma)
 	# log_transition_ratio = compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma)
 
-	a = torch.clamp(torch.exp(f - f_hat), max=1.0) 
-		
+	if analytical:
+		p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
+		a = p_ratio 
+
+		f = compute_score_integral(model, x, x_hat, t, k, sigma)
+		a_non_analytical = torch.exp(f) # p (x hat under k) / p(x under k)'
+
+		accept_analytical = (torch.rand_like(a) < a).float().mean()
+		accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
+		print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
+
+		c = torch.log(a).mean() / f.mean()
+		print(f"c {c}")
+	else:
+		f = compute_score_integral(model, x, x_hat, t, k, sigma)
+		a = torch.exp(f) # p (x hat under k) / p(x under k)
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
 
 	x_new = accept_mask * x_hat + (1 - accept_mask) * x
 	x_hat_new = accept_mask * x + (1 - accept_mask) * x_hat
 
-	return x_new, x_hat_new, a
+	return x_new, x_hat_new, accept_mask
 
 def swap_schedule(t, k_ladder, iter=20):
 
-	if len(k_ladder) == 1 or t < 50:
+	if len(k_ladder) == 1 or t < 20 :
 		return None
 
 	indices = list(range(len(k_ladder) - 1))  # pairs: (0,1), (1,2), (2,3), ...
@@ -154,7 +191,7 @@ def ula_steps(model, t, dataset_shape, x_ladder, k_ladder, a_ladder, sigma, step
 
 
 @torch.no_grad()
-def replica_exchange(model, t, x_ladder, k_ladder, sigma):
+def replica_exchange(model, t, x_ladder, k_ladder, sigma, analytical):
 
 	pairs = swap_schedule(t, k_ladder)
 
@@ -169,10 +206,10 @@ def replica_exchange(model, t, x_ladder, k_ladder, sigma):
 			x_target = x_ladder[k_target].clone()
 
 			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
-				model, x_target, x_s, t, k_target, k_s, sigma
+				model, x_target, x_s, t, k_target, k_s, sigma, analytical
 			)
 
-			print(f"Time {t} swap {accept_mask.mean().item()}")
+			print(f"Time {t} xs {x_s.mean().item():.2f} xt {x_target.mean().item():.2f} swap {accept_mask.sum().item() / 100_000 :.2f} ")
 
 			x_ladder[k_s] = x_s_swapped
 			x_ladder[k_target] = x_target_swapped
@@ -180,7 +217,7 @@ def replica_exchange(model, t, x_ladder, k_ladder, sigma):
 	return x_ladder
 
 
-def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False):
+def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False, analytical=False):
 
 	x_ladder = {k_val: torch.randn(dataset_shape, device=device) for k_val in ks}
 		
@@ -199,6 +236,6 @@ def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False):
 			x_ladder[k_val] = x.clone()
 
 		if replica_swaps:
-			x_ladder = replica_exchange(model, t, x_ladder, ks, sigma)
+			x_ladder = replica_exchange(model, t, x_ladder, ks, sigma, analytical)
 
 	return x_ladder
