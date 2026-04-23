@@ -129,10 +129,10 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 	if analytical:
 		p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
-		a = torch.clamp(p_ratio ,1)
+		a = torch.clamp(p_ratio ,max=1)
 
 		f = compute_score_integral(model, x, x_hat, t, k, sigma)
-		a_non_analytical = torch.clamp(torch.exp(f),1) # p (x hat under k) / p(x under k)'
+		a_non_analytical = torch.clamp(torch.exp(f),max=1) # p (x hat under k) / p(x under k)'
 
 		accept_analytical = (torch.rand_like(a) < a).float().mean()
 		accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
