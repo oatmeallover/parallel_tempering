@@ -39,9 +39,9 @@ def plot_temperature_triptych(
 		dataset_shape = (n_samples, *sample_shape)                 # (n_samples, 1, 28, 28)
 		n_rows = n_samples
 
-	ks = np.linspace(1.0, k, n_replicas)
+	ks = np.array([0.25, 1.0, 4.0])
 	titles = [f"k={k:.2f}" for k in ks]
-	
+
 	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
 
 	# Normalize axes to always be 2D: (n_rows, 3)

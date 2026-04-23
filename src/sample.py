@@ -157,18 +157,17 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 	return x_new, x_hat_new, accept_mask
 
-def swap_schedule(t, k_ladder, iter=20):
+def swap_schedule(t, k_ladder, iter=10):
 
-	if len(k_ladder) == 1 or t < 20 :
+	if len(k_ladder) == 1 or t < 25 or t > 80 :
 		return None
 	
-	if (t - 10) % iter == 0:
-		odd_pairs = [(1,2)]
-		return odd_pairs
-	
-	if t % iter == 0:
+	if t % iter == 0 and t < 50:
 		even_pairs = [(0,1)]
 		return even_pairs
+	elif (t - iter) % (iter*2) == 0:
+		odd_pairs = [(1,2)]
+		return odd_pairs
 
 	return None
 
