@@ -129,7 +129,7 @@ def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
 
 
 	f = compute_score_integral(model, x, x_hat, t, k, sigma)
-	a_non_analytical = torch.clamp(torch.exp(f* 1.5), max = 1.0)  # p (x hat under k) / p(x under k)	
+	a_non_analytical = torch.clamp(torch.exp(f), max = 1.0)  # p (x hat under k) / p(x under k)	
 
 	p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
 	a_analaytical = torch.clamp(p_ratio ,max=1)
@@ -165,9 +165,9 @@ def swap_schedule(t, k_ladder):
 	if len(k_ladder) == 1 :
 		return None
 	
-	if t in [90, 70, 50, 30]:
+	if t in [90, 70, 55, 45]:
 		return [(1,2)]
-	elif t in [80, 60, 40, 20]:
+	elif t in [80, 60, 50, 40]:
 		return [(0,1)]
 
 	return None
