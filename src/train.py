@@ -18,7 +18,7 @@ n_diffusion_steps = N_DIFFUSION_STEPS
 
 
 torch.manual_seed(42)     
-def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, log_every=1000):
+def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, log_every=1000, is_ebm=False):
 	"""Trains model according to a dataset defined by dataset_config"""
 		
 	x0_all = build_training_tensor(dataset_name)
@@ -72,11 +72,21 @@ def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, l
 
 		noise = torch.randn_like(x0)
 		xt = torch.sqrt(a_bar) * x0 + torch.sqrt(1.0 - a_bar) * noise
+		xt = xt.detach().requires_grad_(True)
 
-		xt = xt.detach().requires_grad_(True)  # we need grads wrt xt
-		eps_hat = model(xt, t)   # energy values from EBM: shape [B, 1] or [B]
+		if is_ebm:
+			energy = model(xt, t)          # shape [B, 1] or [B]
+			# score = -grad_xt E(xt)
+			score = -torch.autograd.grad(
+				energy.sum(), xt, create_graph=True
+			)[0]                           # shape [B, ...]
+			# score should match -noise / sqrt(1 - a_bar)  (denoising score matching)
+			target_score = -noise / torch.sqrt(1.0 - a_bar)
+			loss = ((score - target_score) ** 2).mean()
 
-		loss = ((noise - eps_hat) ** 2).mean()
+		else:
+			eps_hat = model(xt, t)
+			loss = ((noise - eps_hat) ** 2).mean()
 
 		opt.zero_grad()
 		loss.backward()
@@ -94,4 +104,4 @@ def train_model(dataset_name, existing_checkpoint=None, save_name=None, k=1.0, l
 
 if __name__ == "__main__":	
 
-	train_model(dataset_name="mnist")
+	train_model(dataset_name="composed", is_ebm=True)

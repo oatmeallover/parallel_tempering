@@ -1,12 +1,12 @@
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
-import math
-import random
 import scipy
 
 from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
-from .config import DEVICE, DATASETS, CKPT_DIR, N_DIFFUSION_STEPS
+from .config import DEVICE, CKPT_DIR
+from .score_integral import compute_score_integral
+from .model import compute_score
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -23,186 +23,89 @@ def unnormalized(z):
 
 
 @torch.no_grad()
-def analytical_energy(x, x_hat, k):
-    """
-    Computes the probability ratio p(x_hat) / p(x) for the mixture:
-        1/3 * N(0, 1) + 1/3 * N(-3, 0.5) + 1/3 * N(3, 0.5)
+def analytical_energy(target, source, swap_algorithm):
+	x_t, k_t = target
+	x_s, k_s = source
 
-    The 1/3 mixture weights and 1/sqrt(2pi) normalization cancel,
-    leaving:
-        denominator   = exp(-x**2 / 2) + sqrt(2) * exp(-(x+3)**2) + sqrt(2) * exp(-(x-3)**2)
-        numerator = exp(-x_hat**2 / 2) + sqrt(2) * exp(-(x_hat+3)**2) + sqrt(2) * exp(-(x_hat-3)**2)
-    """
+	if swap_algorithm["swap_towards_k"]:
+		if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) /\np_{k_t:.2f} (x_{k_t:.2f})")
+		return (unnormalized(x_s) / unnormalized(x_t))**k_t
+	else:
+		if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) /\np_{k_s:.2f} (x_{k_s:.2f})")
+		return (unnormalized(x_t) / unnormalized(x_s))**k_s
 
-    return (unnormalized(x_hat) / unnormalized(x))**k
-
-@torch.no_grad()
-def compute_score(model, x, t, k, sigma):
-	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
-	
-	x_shape = x.shape
-	ones = torch.ones((x_shape[0], 1), device=device)
-	eps_hat = model(x, t * ones)   
-	a_bar = alpha_bars[t]
-	temp_t = compute_tsr_schedule(k, sigma, t)
-	score_hat= - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
-	return score_hat
-
-@torch.no_grad()
-def r_curve_func(x, x_hat, s):
-    """Computes curve where r(0) = x and r(1) = x_hat.
-    
-    Args:
-        x, x_hat: (bs, D)
-        s:        (n_segments,)
-    Returns:
-        r:        (n_segments, bs, D)
-    """
-    # s: (n_segments, 1, 1) to broadcast over (bs, D)
-    s = s.view(-1, 1, 1)
-    return x + s * (x_hat - x)  # (n_segments, bs, D)
-
-
-@torch.no_grad()
-def r_deriv_func(x, x_hat, s): 
-    """Computes analytical derivative of r curve.
-    
-    Args:
-        x, x_hat: (bs, D)
-        s:        (n_segments,)
-    Returns:
-        r_deriv:  (n_segments, bs, D)
-    """
-    # Derivative is constant w.r.t. s, tile across segment dim
-    diff = (x_hat - x).unsqueeze(0)          # (1, bs, D)
-    return diff.expand(s.shape[0], -1, -1)   # (n_segments, bs, D)
-
-@torch.no_grad()
-def compute_log_transition_ratio(model, x, x_hat, t, step_size, k, sigma):
-	"""Computes log [ k(x | x_hat) / k(x_hat | x) ]"""
-	score_x = compute_score(model, x, t, k, sigma) 
-	score_x_hat = compute_score(model, x_hat, t, k, sigma) 
-
-	forward_diff = x_hat - x - step_size * score_x 
-	forward_sq = - 0.5 * forward_diff**2/ (2.0 * step_size)
-	
-	backward_diff = x - x_hat - step_size * score_x_hat 
-	backward_sq = - 0.5 * backward_diff**2/ (2.0 * step_size)
-	
-	return backward_sq - forward_sq
-
-
-@torch.no_grad()
-def compute_score_integral(model, x, x_hat, t, k, sigma, n_segments=8):
-	"""Computes energy of a noise-based model through integration."""
-	original_shape = x.shape
-	bs = original_shape[0]
-
-	x_flat     = x.reshape(bs, -1)
-	x_hat_flat = x_hat.reshape(bs, -1)
-
-	s = torch.linspace(0.0, 1.0, n_segments, device=x.device)
-
-	r       = r_curve_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
-	r_deriv = r_deriv_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
-
-	# r shape torch.Size([10, 4, 784])
-	# r deriv shape torch.Size([10, 4, 784])
-
-	n_seg, _, D = r.shape
-
-	r_in = r.reshape(n_seg * bs, *original_shape[1:])
-
-	score = compute_score(model, r_in, t, k, sigma).reshape(n_seg, bs, D)
-
-	integrand = score * r_deriv
-
-	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
-
-	f = f_flat.reshape(original_shape)
-
-	return f
 
 @torch.no_grad() 
-def compute_correction(model, x, x_hat, t, k, k_hat, sigma, analytical):
-	"""Computes acceptance rate for MALA and returns corrected x"""
-
-
-	f = compute_score_integral(model, x, x_hat, t, k, sigma)
-	a_non_analytical = torch.clamp(torch.exp(f), max = 1.0)  # p (x hat under k) / p(x under k)	
-
-	p_ratio = analytical_energy(x, x_hat, k) # p (x hat under k) / p(x under k)
-	a_analaytical = torch.clamp(p_ratio ,max=1)
+def compute_correction(model, target, source, t, swap_algorithm):
 	
-	if analytical:
-		a = a_analaytical
-	else:
-		a = a_non_analytical
+	f = compute_score_integral(model, target, source, t, swap_algorithm) # E (x) - E(x hat)  = p(xhat) / p(x)
+	a = torch.clamp(torch.exp(f), max = 1.0)  # p (x hat under k) / p(x under k)	
 
-	
-	accept_analytical = (torch.rand_like(a_analaytical) < a_analaytical).float().mean()
-	accept_non_analytical = (torch.rand_like(a_non_analytical) < a_non_analytical).float().mean()
-	print(f"Accept analytical: {accept_analytical:.3f} non-analytical: {accept_non_analytical:.3f}")
+	if swap_algorithm["analytical"]:
+		p_ratio = analytical_energy(target, source, swap_algorithm) # p (x hat under k) / p(x under k)
+		a_analytical = torch.clamp(p_ratio ,max=1)
 
-	x_np = x.flatten().cpu().numpy()
-	for arr, label in [(a_analaytical, 'analytical'), (a_non_analytical, 'non_analytical')]:
-		means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
-		plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
-	plt.title(f"Time {t.item()} k = {k} and {k_hat}")
-	plt.legend()
-	plt.show()
+		x_t, k_t = target
+		x_s, k_s = source
+		x_np = x_t.flatten().cpu().numpy()
+		for arr, label in [(a_analytical, 'analytical'), (a, 'non_analytical')]:
+			means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
+			plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
+		plt.scatter([-3,0,3], [1,1,1], label="Distribution modes")
+		plt.title(f"Time {t.item()} k target = {k_t} and source {k_s}")
+		plt.legend()
+		plt.show()
+
+	x_t, k_t = target
 
 	u = torch.rand_like(a)
-	accept_mask = (u < a).float()
-
-	x_new = accept_mask * x_hat + (1 - accept_mask) * x
-	x_hat_new = accept_mask * x + (1 - accept_mask) * x_hat
-
-	return x_new, x_hat_new, accept_mask
-
-def swap_schedule(t, k_ladder):
-
-	if len(k_ladder) == 1 :
-		return None
-	
-	if t in [90, 70, 55, 45]:
-		return [(1,2)]
-	elif t in [80, 60, 50, 40]:
-		return [(0,1)]
-
-	return None
+	accept_mask = (u < a)
+	return accept_mask.reshape((-1,) + (1,) * (x_t.dim() - 1))
 
 
 @torch.no_grad()
-def replica_exchange(model, t, x_ladder, k_ladder, sigma, analytical):
+def swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm):
 
-	pairs = swap_schedule(t, k_ladder)
+	if len(k_ladder) != 3: raise ValueError("Length of k ladder more than 3")
+	
+	if t in swap_algorithm["even"]:
+		pair = (1, 2)
+	elif t in swap_algorithm["odd"]:
+		pair = (0, 1)
+	else:
+		return []
 
-	if pairs is not None:
+	diffs = [abs(k - k_ladder[i]) for i in pair]
+	near, far = (0, 1) if diffs[0] < diffs[1] else (1, 0)
+	t_idx, s_idx = (pair[near], pair[far]) 
 
-		for k_targ_ind, k_s_ind in pairs: 
+	k_t, k_s = k_ladder[t_idx], k_ladder[s_idx]
+	return [((x_ladder[k_t].clone(), k_t), (x_ladder[k_s].clone(), k_s))]
 
-			k_target = k_ladder[k_targ_ind]
-			k_s = k_ladder[k_s_ind]
+@torch.no_grad()
+def replica_exchange(model, t, k, k_ladder, x_ladder, swap_algorithm):
 
-			x_s = x_ladder[k_s].clone()
-			x_target = x_ladder[k_target].clone()
+	pairs = swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm)
 
-			x_target_swapped, x_s_swapped, accept_mask = compute_correction(
-				model, x_target, x_s, t, k_target, k_s, sigma, analytical
-			)
+	for target, source in pairs:
 
-			print(f"Time {t} xs {x_s.mean().item():.2f} xt {x_target.mean().item():.2f} swap {accept_mask.sum().item() / 100_000 :.2f} ")
+		(x_t, k_t) = target
+		(x_s, k_s) = source
 
-			x_ladder[k_s] = x_s_swapped
-			x_ladder[k_target] = x_target_swapped
+		accept_mask = compute_correction(model, target, source, t, swap_algorithm)
 
+		if swap_algorithm["debug"]: print(f"Time {t} swap btwn source {k_s.item():.2f} and target {k_t.item():.2f} accept {accept_mask.sum().item() / 100_000 :.2f} ")
+		
+		x_ladder[k_t] = torch.where(accept_mask.bool(), x_s, x_t)
+		x_ladder[k_s] = torch.where(accept_mask.bool(), x_t, x_s)
+	
 	return x_ladder
 
 
-def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False, analytical=False):
+@torch.no_grad()
+def ddpm_tsr_swapped(model, dataset_shape, k, k_ladder=1.0, replica_swaps=False, swap_algorithm=None,):
 
-	x_ladder = {k_val: torch.randn(dataset_shape, device=device) for k_val in ks}
+	x_ladder = {k_val: torch.randn(dataset_shape, device=device) for k_val in k_ladder}
 		
 	for t in ts_desc: 
 
@@ -211,14 +114,14 @@ def ddpm_tsr_swapped(model, dataset_shape, ks, sigma=1.0, replica_swaps=False, a
 		sqrt_alpha_t = torch.sqrt(alpha_t)
 		sqrt_beta_t = torch.sqrt(beta_t)
 
-		for k_val in ks:
+		for k_val in k_ladder:
 			x = x_ladder[k_val].clone()
 			noise = torch.randn(dataset_shape, device=device)
-			score_hat = compute_score(model, x, t, k_val, sigma)
+			score_hat = compute_score(model, x, t, k_val)
 			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 			x_ladder[k_val] = x.clone()
 
 		if replica_swaps:
-			x_ladder = replica_exchange(model, t, x_ladder, ks, sigma, analytical)
+			x_ladder = replica_exchange(model, t, k, k_ladder, x_ladder, swap_algorithm)
 
 	return x_ladder

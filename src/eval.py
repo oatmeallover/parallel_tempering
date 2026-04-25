@@ -1,10 +1,8 @@
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-from collections import defaultdict
 
-from .model import MLP, UNet, load_model     
+from .model import load_model     
 from .dataset import compute_mixture_pdf  
 from .config import DEVICE, DATASETS, DATASETS_IMG, CKPT_DIR, N_DIFFUSION_STEPS
 from .sample import ddpm_tsr_swapped
@@ -17,14 +15,19 @@ ckpt_dir = CKPT_DIR
 
 def plot_temperature_triptych(
 	dataset_name="composed",
-	sigma=1.0,
-	x_limit=8,
-	n_bins=220,
-	n_samples=4,
 	k=2.0,
+	n_samples=4,
 	n_replicas=3,
 	replica_swaps=False,
-	analytical=False
+	swap_algorithm= {
+		"analytical" : False,
+		"swap_towards_k" : False,
+		"even": {90, 70, 50, 30},
+		"odd": {80, 60, 40, 20},
+		"debug" : False
+	},
+	x_limit=8,
+	n_bins=220,
 ):
 	"""Create side-by-side visuals for original, flattened, and sharpened sampling."""
 	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt", dataset_name)
@@ -39,17 +42,17 @@ def plot_temperature_triptych(
 		dataset_shape = (n_samples, *sample_shape)                 # (n_samples, 1, 28, 28)
 		n_rows = n_samples
 
-	ks = np.geomspace(k / 8, k, n_replicas)
-	titles = [f"k={k:.2f}" for k in ks]
+	k_ladder = np.linspace(1.0, k, n_replicas)
+	titles = [f"k={k:.2f}" for k in k_ladder]
 
-	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, ks, sigma=sigma, replica_swaps=replica_swaps, analytical=analytical)
+	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, k, k_ladder, replica_swaps=replica_swaps, swap_algorithm=swap_algorithm)
 
-	fig, axes = plt.subplots(n_rows, len(ks), figsize=(len(ks)*5, 4*n_rows), sharey=True)
+	fig, axes = plt.subplots(n_rows, len(k_ladder), figsize=(len(k_ladder)*5, 4*n_rows), sharey=True)
 	# Normalize axes to always be 2D: (n_rows, 3)
 	if n_rows == 1:
 		axes = axes[np.newaxis, :]  # (1, 3)
 		
-	for col, (k, title) in enumerate(zip(ks, titles)):
+	for col, (k, title) in enumerate(zip(k_ladder, titles)):
 
 		samples = samples_ladder[k]
 

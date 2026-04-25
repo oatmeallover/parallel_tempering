@@ -28,3 +28,7 @@ DATASETS_IMG = {
 	"mnist": {"sample_shape": (1, 28, 28)}
 }
 
+TSR = {
+	"sigma":  1.0
+}
+

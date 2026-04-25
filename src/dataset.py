@@ -13,7 +13,7 @@ np.random.seed(42)
 def generate_gaussian_mixture(dataset_name, device='cpu'):
 	"""Generates mixture of gaussians according to inputted means and standard deviations"""
 
-	dataset_config = DATASETS_IMG[dataset_name]
+	dataset_config = DATASETS[dataset_name]
 	dataset_shape = dataset_config["dataset_shape"]
 	n_samples = dataset_shape[0]
 
@@ -61,7 +61,7 @@ def load_mnist_tensor(digit = 4, train=True, normalize_to_minus1_1=True):
 @torch.no_grad()
 def build_training_tensor(dataset_name, n_samples=None, train=True):
 	if dataset_name in DATASETS:
-		return generate_gaussian_mixture(dataset_name, n_samples=n_samples, device='cpu')
+		return generate_gaussian_mixture(dataset_name)
 	elif dataset_name in DATASETS_IMG:
 		x = load_mnist_tensor(train=train)
 		if n_samples is not None:

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import math
+from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
 from .config import DATASETS, DATASETS_IMG, DEVICE
 
@@ -111,6 +112,7 @@ class UNet(nn.Module):
         h  = self.dec2(torch.cat([self.up2(h), h1], dim=1), t_emb)
         return self.conv_out(F.silu(self.norm_out(h)))
 	
+@torch.no_grad()
 def load_model(path, dataset_name):
 	"""Load trained model from checkpoint for a specific dataset."""
 	model = build_model_for_dataset(dataset_name)
@@ -123,9 +125,24 @@ def load_model(path, dataset_name):
 	model.eval()
 	return model
 
+@torch.no_grad()
 def build_model_for_dataset(dataset_name):
 	if dataset_name in DATASETS:
 		return MLP().to(device)
 	elif dataset_name in DATASETS_IMG:
 		cfg = DATASETS_IMG[dataset_name]
 		return UNet(in_channels=cfg["sample_shape"][0]).to(device)
+	
+
+@torch.no_grad()
+def compute_score(model, x, t, k):
+	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
+	
+	x_shape = x.shape
+	ones = torch.ones((x_shape[0], 1), device=device)
+	a_bar = alpha_bars[t]
+
+	eps_hat = model(x, t * ones)   
+	temp_t = compute_tsr_schedule(k, t)
+
+	return - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)
