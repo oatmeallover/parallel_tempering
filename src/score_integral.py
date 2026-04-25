@@ -66,10 +66,10 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 
 	if swap_algorithm["swap_towards_k"]: 
 		if second_energy:
-			temp_s = compute_tsr_schedule(k_t, t)
-			return - f * temp_s
-		temp_t = compute_tsr_schedule(k_s, t)
-		return f * temp_t
+			temp_t = compute_tsr_schedule(k_t, t)
+			return - f * temp_t
+		temp_s = compute_tsr_schedule(k_s, t)
+		return f * temp_s
 	else: 
 		if second_energy:
 			temp_t = compute_tsr_schedule(k_t, t)
@@ -79,11 +79,13 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 	
 
 @torch.no_grad() 
-def unnormalized(z):
-	sqrt2 = torch.tensor(2.0).sqrt()
-	return (torch.exp(-z**2 / 2)
-			+ sqrt2 * torch.exp(-(z + 3)**2)
-			+ sqrt2 * torch.exp(-(z - 3)**2))
+def mixture_pdf(x):
+    means = torch.tensor([-3.0, 0.0, 3.0], device=x.device)
+    stds  = torch.tensor([ 0.5, 1.0, 0.5], device=x.device)
+    weight = 1/3
+
+    components = torch.exp(-0.5 * ((x - means) / stds)**2) / (stds * (2 * torch.pi)**0.5)
+    return weight * components.sum(dim=-1)
 
 
 @torch.no_grad()
@@ -94,14 +96,14 @@ def analytical_energy(target, source, swap_algorithm, second_energy=False):
 	if swap_algorithm["swap_towards_k"]:
 		if second_energy:
 			if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) \n---------------\np_{k_s:.2f} (x_{k_s:.2f})")
-			return (unnormalized(x_t) / unnormalized(x_s))**k_s
+			return (mixture_pdf(x_t) / mixture_pdf(x_s))**k_t
 		
 		if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) \n---------------\np_{k_t:.2f} (x_{k_t:.2f})")
-		return (unnormalized(x_s) / unnormalized(x_t))**k_t
+		return (mixture_pdf(x_s) / mixture_pdf(x_t))**k_s
 	else:
 		if second_energy:
 			if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) \n---------------\np_{k_t:.2f} (x_{k_t:.2f})")
-			return (unnormalized(x_s) / unnormalized(x_t))**k_t
+			return (mixture_pdf(x_s) / mixture_pdf(x_t))**k_s
 		
 		if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) \n---------------\np_{k_s:.2f} (x_{k_s:.2f})")
-		return (unnormalized(x_t) / unnormalized(x_s))**k_s
+		return (mixture_pdf(x_t) / mixture_pdf(x_s))**k_t

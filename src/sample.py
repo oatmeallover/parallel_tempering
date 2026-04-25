@@ -22,7 +22,7 @@ def compute_correction(model, target, source, t, swap_algorithm):
 	x_s, k_s = source
 
 	f = compute_score_integral(model, target, source, t, swap_algorithm) 
-	a = torch.exp(f )
+	a = torch.exp(f)
 	
 	if swap_algorithm["parallel"]:
 		f_2 = compute_score_integral(model, target, source, t, swap_algorithm, second_energy=True)
@@ -71,9 +71,7 @@ def swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm):
 	else:
 		return []
 
-	t_idx, s_idx = (pair[0], pair[1]) if abs(k_ladder[pair[0]] - 1) > abs(k_ladder[pair[1]] - 1) else (pair[1], pair[0])
-
-	k_t, k_s = k_ladder[t_idx], k_ladder[s_idx]
+	k_t, k_s = k_ladder[pair[1]], k_ladder[pair[0]]
 	return [((x_ladder[k_t].clone(), k_t), (x_ladder[k_s].clone(), k_s))]
 
 
