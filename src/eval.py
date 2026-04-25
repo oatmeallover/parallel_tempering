@@ -87,10 +87,12 @@ def plot_temperature_triptych(
 
 	if replica_swaps: 
 
-		if not swap_algorithm['parallel']:
-			parts.append(f"Swap towards k={swap_algorithm['swap_towards_k']}")
-		else: 
-			parts.append(f"Parallel Swapping")
+		if swap_algorithm['p_ratio'] == 's':
+			parts.append(f"Swap with source ratio")
+		elif swap_algorithm['p_ratio'] == 't':
+			parts.append(f"Swap with target ratio")
+		elif swap_algorithm['p_ratio'] == 'p':
+			parts.append(f"Parallel Swap")
 
 		if swap_algorithm['analytical']:
 			parts.append("Analytical")
