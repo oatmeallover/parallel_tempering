@@ -5,7 +5,7 @@ import scipy
 
 from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 from .config import DEVICE, CKPT_DIR
-from .score_integral import compute_score_integral
+from .score_integral import compute_score_integral, analytical_energy
 from .model import compute_score
 
 torch.manual_seed(42)
@@ -14,39 +14,33 @@ np.random.seed(42)
 device = DEVICE
 ckpt_dir = CKPT_DIR
 
-@torch.no_grad() 
-def unnormalized(z):
-	sqrt2 = torch.tensor(2.0).sqrt()
-	return (torch.exp(-z**2 / 2)
-			+ sqrt2 * torch.exp(-(z + 3)**2)
-			+ sqrt2 * torch.exp(-(z - 3)**2))
-
-
-@torch.no_grad()
-def analytical_energy(target, source, swap_algorithm):
-	x_t, k_t = target
-	x_s, k_s = source
-
-	if swap_algorithm["swap_towards_k"]:
-		if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) /\np_{k_t:.2f} (x_{k_t:.2f})")
-		return (unnormalized(x_s) / unnormalized(x_t))**k_t
-	else:
-		if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) /\np_{k_s:.2f} (x_{k_s:.2f})")
-		return (unnormalized(x_t) / unnormalized(x_s))**k_s
-
 
 @torch.no_grad() 
 def compute_correction(model, target, source, t, swap_algorithm):
 	
-	f = compute_score_integral(model, target, source, t, swap_algorithm) # E (x) - E(x hat)  = p(xhat) / p(x)
-	a = torch.clamp(torch.exp(f), max = 1.0)  # p (x hat under k) / p(x under k)	
+	x_t, k_t = target
+	x_s, k_s = source
 
-	if swap_algorithm["analytical"]:
-		p_ratio = analytical_energy(target, source, swap_algorithm) # p (x hat under k) / p(x under k)
-		a_analytical = torch.clamp(p_ratio ,max=1)
+	f = compute_score_integral(model, target, source, t, swap_algorithm) 
+	a = torch.exp(f )
+	
+	if swap_algorithm["parallel"]:
+		f_2 = compute_score_integral(model, target, source, t, swap_algorithm, second_energy=True)
+		a = torch.exp(f + f_2)
 
-		x_t, k_t = target
-		x_s, k_s = source
+	a = torch.clamp(a, max = 1.0)
+
+	
+	if swap_algorithm["debug"]:
+
+		p_ratio = analytical_energy(target, source, swap_algorithm) 
+
+		if swap_algorithm["parallel"]:
+			p_ratio_2 = analytical_energy(target, source, swap_algorithm, second_energy=True)
+			p_ratio = p_ratio.clone() * p_ratio_2
+
+		a_analytical = torch.clamp(p_ratio, max = 1.0)
+
 		x_np = x_t.flatten().cpu().numpy()
 		for arr, label in [(a_analytical, 'analytical'), (a, 'non_analytical')]:
 			means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
@@ -56,10 +50,12 @@ def compute_correction(model, target, source, t, swap_algorithm):
 		plt.legend()
 		plt.show()
 
-	x_t, k_t = target
+		if swap_algorithm["analytical"]: 
+			print('we use analytical acceptance')
+			a = a_analytical
 
 	u = torch.rand_like(a)
-	accept_mask = (u < a)
+	accept_mask = (u < a).float()
 	return accept_mask.reshape((-1,) + (1,) * (x_t.dim() - 1))
 
 
@@ -75,12 +71,11 @@ def swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm):
 	else:
 		return []
 
-	diffs = [abs(k - k_ladder[i]) for i in pair]
-	near, far = (0, 1) if diffs[0] < diffs[1] else (1, 0)
-	t_idx, s_idx = (pair[near], pair[far]) 
+	t_idx, s_idx = (pair[0], pair[1]) if abs(k_ladder[pair[0]] - 1) > abs(k_ladder[pair[1]] - 1) else (pair[1], pair[0])
 
 	k_t, k_s = k_ladder[t_idx], k_ladder[s_idx]
 	return [((x_ladder[k_t].clone(), k_t), (x_ladder[k_s].clone(), k_s))]
+
 
 @torch.no_grad()
 def replica_exchange(model, t, k, k_ladder, x_ladder, swap_algorithm):
@@ -95,9 +90,9 @@ def replica_exchange(model, t, k, k_ladder, x_ladder, swap_algorithm):
 		accept_mask = compute_correction(model, target, source, t, swap_algorithm)
 
 		if swap_algorithm["debug"]: print(f"Time {t} swap btwn source {k_s.item():.2f} and target {k_t.item():.2f} accept {accept_mask.sum().item() / 100_000 :.2f} ")
-		
-		x_ladder[k_t] = torch.where(accept_mask.bool(), x_s, x_t)
-		x_ladder[k_s] = torch.where(accept_mask.bool(), x_t, x_s)
+
+		x_ladder[k_t] = accept_mask * x_s + (1 - accept_mask) * x_t
+		x_ladder[k_s] = accept_mask * x_t + (1 - accept_mask) * x_s
 	
 	return x_ladder
 

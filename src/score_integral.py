@@ -1,5 +1,6 @@
 import torch
 from .model import compute_score
+from .schedule import compute_tsr_schedule
 
 @torch.no_grad()
 def r_curve_func(x, x_hat, s):
@@ -29,15 +30,13 @@ def compute_log_transition_ratio(model, x, x_hat, t, step_size, k):
 
 
 @torch.no_grad()
-def compute_score_integral(model, target, source, t, swap_algorithm, n_segments=8):
-	"""Computes E (x) - E(x hat) = p(x hat) / p(x)"""
+def compute_score_integral(model, target, source, t, swap_algorithm, second_energy=False, n_segments=8):
 
-	if swap_algorithm["swap_towards_k"]: # p (source) / p (target)
-		x, k = target
-		x_hat, k_hat= source
-	else: # p (target) / p (source)
-		x, k = source
-		x_hat, k_hat= target
+	x_t, k_t = target
+	x_s, k_s = source
+
+	x = x_s
+	x_hat = x_t 
 
 	original_shape = x.shape
 	bs = original_shape[0]
@@ -50,12 +49,59 @@ def compute_score_integral(model, target, source, t, swap_algorithm, n_segments=
 	r       = r_curve_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
 	r_deriv = r_deriv_func(x_flat, x_hat_flat, s)       # (n_segments, bs, D)
 
+	# r shape torch.Size([10, 4, 784])
+	# r deriv shape torch.Size([10, 4, 784])
+
 	n_seg, _, D = r.shape
+
 	r_in = r.reshape(n_seg * bs, *original_shape[1:])
 
-	score = compute_score(model, r_in, t, k).reshape(n_seg, bs, D)
-	integrand = score * r_deriv
-	f_flat = torch.trapezoid(integrand, s, dim=0)            # (bs, D)
-	f = f_flat.reshape(original_shape)
+	score = compute_score(model, r_in, t, 1.0).reshape(n_seg, bs, D)
 
-	return f
+	integrand = score * r_deriv
+
+	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
+
+	f = f_flat.reshape(original_shape) # p(x_t) / p(x_s)
+
+	if swap_algorithm["swap_towards_k"]: 
+		if second_energy:
+			temp_s = compute_tsr_schedule(k_t, t)
+			return - f * temp_s
+		temp_t = compute_tsr_schedule(k_s, t)
+		return f * temp_t
+	else: 
+		if second_energy:
+			temp_t = compute_tsr_schedule(k_t, t)
+			return f * temp_t
+		temp_s = compute_tsr_schedule(k_s, t)
+		return - f * temp_s
+	
+
+@torch.no_grad() 
+def unnormalized(z):
+	sqrt2 = torch.tensor(2.0).sqrt()
+	return (torch.exp(-z**2 / 2)
+			+ sqrt2 * torch.exp(-(z + 3)**2)
+			+ sqrt2 * torch.exp(-(z - 3)**2))
+
+
+@torch.no_grad()
+def analytical_energy(target, source, swap_algorithm, second_energy=False):
+	x_t, k_t = target
+	x_s, k_s = source
+
+	if swap_algorithm["swap_towards_k"]:
+		if second_energy:
+			if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) \n---------------\np_{k_s:.2f} (x_{k_s:.2f})")
+			return (unnormalized(x_t) / unnormalized(x_s))**k_s
+		
+		if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) \n---------------\np_{k_t:.2f} (x_{k_t:.2f})")
+		return (unnormalized(x_s) / unnormalized(x_t))**k_t
+	else:
+		if second_energy:
+			if swap_algorithm["debug"]: print(f"p_{k_t:.2f} (x_{k_s:.2f}) \n---------------\np_{k_t:.2f} (x_{k_t:.2f})")
+			return (unnormalized(x_s) / unnormalized(x_t))**k_t
+		
+		if swap_algorithm["debug"]: print(f"p_{k_s:.2f} (x_{k_t:.2f}) \n---------------\np_{k_s:.2f} (x_{k_s:.2f})")
+		return (unnormalized(x_t) / unnormalized(x_s))**k_s

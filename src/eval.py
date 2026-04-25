@@ -83,7 +83,22 @@ def plot_temperature_triptych(
 		axes[0, 0].set_ylabel("density")
 		axes[0, -1].legend(loc="upper right")
 
-	fig.suptitle(f"TSR temperature comparison on '{dataset_name}' template", y=1.03)
+	parts = []
+
+	if replica_swaps: 
+
+		if not swap_algorithm['parallel']:
+			parts.append(f"Swap towards k={swap_algorithm['swap_towards_k']}")
+		else: 
+			parts.append(f"Parallel Swapping")
+
+		if swap_algorithm['analytical']:
+			parts.append("Analytical")
+	
+	else:
+		parts.append("DDPM TSR")
+
+	fig.suptitle(" | ".join(parts), y=1.03)
 	plt.tight_layout()
 
 	return fig, axes
