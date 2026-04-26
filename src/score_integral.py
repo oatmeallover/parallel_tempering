@@ -68,10 +68,10 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 
 	if swap_algorithm["p_ratio"] == "s":
 		temp_s = compute_tsr_schedule(k_s, t)
-		return - f * temp_s
+		return f * temp_s
 	elif swap_algorithm["p_ratio"] == "t":
 		temp_t = compute_tsr_schedule(k_t, t)
-		return f * temp_t
+		return - f * temp_t
 	elif swap_algorithm["p_ratio"] == "p":
 		temp_t = compute_tsr_schedule(k_t, t)
 		temp_s = compute_tsr_schedule(k_s, t)
@@ -115,21 +115,13 @@ def compute_correction(model, target, source, t, swap_algorithm):
 
 	if swap_algorithm["debug"]:
 
-		p_ratio = analytical_energy(target, source, swap_algorithm) 
-		a_analytical = torch.clamp(p_ratio, max = 1.0)
-
-		x_np = x_t.flatten().cpu().numpy()
-		for arr, label in [(a_analytical, 'analytical'), (a, 'non_analytical')]:
-			means, edges, _ = scipy.stats.binned_statistic(x_np, arr.flatten().cpu().numpy(), bins=100)
-			plt.scatter((edges[:-1]+edges[1:])/2, means, label=label)
+		x_np = x_s.flatten().cpu().numpy()
+		means, edges, _ = scipy.stats.binned_statistic(x_np, a.flatten().cpu().numpy(), bins=100)
+		plt.scatter((edges[:-1]+edges[1:])/2, means, label='Acceptances')
 		plt.scatter([-3,0,3], [1,1,1], label="Distribution modes")
 		plt.title(f"Time {t.item()} k target = {k_t} and source {k_s}")
 		plt.legend()
 		plt.show()
-
-		if swap_algorithm["analytical"]: 
-			print('we use analytical acceptance')
-			a = a_analytical
 
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
