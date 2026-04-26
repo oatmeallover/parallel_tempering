@@ -125,4 +125,4 @@ def compute_correction(model, target, source, t, swap_algorithm):
 
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
-	return accept_mask.reshape((-1,) + (1,) * (x_t.dim() - 1))
+	return accept_mask

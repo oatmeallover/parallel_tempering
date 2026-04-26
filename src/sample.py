@@ -13,25 +13,28 @@ device = DEVICE
 ckpt_dir = CKPT_DIR
 
 @torch.no_grad()
-def swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm):
+def swap_schedule(t, k_ladder, x_ladder, swap_algorithm):
+    n = len(k_ladder)
 
-	if len(k_ladder) != 3: raise ValueError("Length of k ladder more than 3")
-	
-	if t in swap_algorithm["even"]:
-		pair = (1, 2)
-	elif t in swap_algorithm["odd"]:
-		pair = (0, 1)
-	else:
-		return []
+    if t in swap_algorithm["even"]:
+        start = 0
+    elif t in swap_algorithm["odd"]:
+        start = 1
+    else:
+        return []
 
-	k_t, k_s = k_ladder[pair[1]], k_ladder[pair[0]]
-	return [((x_ladder[k_t].clone(), k_t), (x_ladder[k_s].clone(), k_s))]
+    pairs = [(i, i + 1) for i in range(start, n - 1, 2)]
+    return [
+        ((x_ladder[k_ladder[j]].clone(), k_ladder[j]),
+         (x_ladder[k_ladder[i]].clone(), k_ladder[i]))
+        for i, j in pairs
+    ]
 
 
 @torch.no_grad()
 def replica_exchange(model, t, k, k_ladder, x_ladder, swap_algorithm):
 
-	pairs = swap_schedule(t, k, k_ladder, x_ladder, swap_algorithm)
+	pairs = swap_schedule(t, k_ladder, x_ladder, swap_algorithm)
 
 	for target, source in pairs:
 

@@ -94,7 +94,6 @@ def plot_temperature_triptych(
 		elif swap_algorithm['p_ratio'] == 'p':
 			parts.append(f"Parallel Swap")
 
-	
 	else:
 		parts.append("DDPM TSR")
 
