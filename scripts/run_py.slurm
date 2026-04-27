@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gpus-per-node=1
-#SBATCH --time=0-00:03:00
+#SBATCH --time=0-00:05:00
 #SBATCH --mem=2G
 #SBATCH --output=output_files/output_parallel_trial.out
 #SBATCH --error=output_files/output_parallel_trial.err

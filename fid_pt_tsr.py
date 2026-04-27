@@ -13,7 +13,7 @@ MODEL_CACHE = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/model_
 SEED = 42
 
 # ── K sweep ──────────────────────────────────────────────────────────────────
-K_VALUES = [1.05, 1.0, 0.99, 0.98, 0.95, 0.93, 0.9]
+K_VALUES = [0.95, 0.93, 0.9]
 
 # ── Shared pipeline config ───────────────────────────────────────────────────
 TSR_SIGMA = 3.0
@@ -28,7 +28,7 @@ SWAP_ALGORITHM = {
 
 # ── Load prompts once ─────────────────────────────────────────────────────────
 df = pd.read_csv(PROMPTS_FILE)
-prompts = df["TEXT"].tolist()[:5000]
+prompts = df["TEXT"].tolist()[:100]
 print(f"Loaded {len(prompts)} prompts")
 
 # ── Load model once ───────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ for tsr_k in K_VALUES:
                 prompt,
                 negative_prompt="",
                 num_inference_steps=30,
-                guidance_scale=5.0,
+                guidance_scale=7.5,
                 tsr_k=tsr_k,
                 tsr_sigma=TSR_SIGMA,
                 replica_exchange=REPLICA_EXCHANGE,
