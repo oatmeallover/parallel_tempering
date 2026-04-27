@@ -1,501 +1,188 @@
-dataset = composed temperature=1.0 step=1000 loss=50.0947
-dataset = composed temperature=1.0 step=2000 loss=26.5236
-dataset = composed temperature=1.0 step=3000 loss=36.2921
-dataset = composed temperature=1.0 step=4000 loss=53.4509
-dataset = composed temperature=1.0 step=5000 loss=33.2627
-dataset = composed temperature=1.0 step=6000 loss=24.5695
-dataset = composed temperature=1.0 step=7000 loss=16.9152
-dataset = composed temperature=1.0 step=8000 loss=51.0183
-dataset = composed temperature=1.0 step=9000 loss=14.2735
-dataset = composed temperature=1.0 step=10000 loss=40.7420
-dataset = composed temperature=1.0 step=11000 loss=24.8355
-dataset = composed temperature=1.0 step=12000 loss=36.3310
-dataset = composed temperature=1.0 step=13000 loss=32.5744
-dataset = composed temperature=1.0 step=14000 loss=77.3449
-dataset = composed temperature=1.0 step=15000 loss=33.0668
-dataset = composed temperature=1.0 step=16000 loss=23.7161
-dataset = composed temperature=1.0 step=17000 loss=36.7029
-dataset = composed temperature=1.0 step=18000 loss=51.6450
-dataset = composed temperature=1.0 step=19000 loss=29.6455
-dataset = composed temperature=1.0 step=20000 loss=23.5151
-dataset = composed temperature=1.0 step=21000 loss=20.2407
-dataset = composed temperature=1.0 step=22000 loss=12.2710
-dataset = composed temperature=1.0 step=23000 loss=38.0135
-dataset = composed temperature=1.0 step=24000 loss=52.2817
-dataset = composed temperature=1.0 step=25000 loss=56.3379
-dataset = composed temperature=1.0 step=26000 loss=34.9195
-dataset = composed temperature=1.0 step=27000 loss=31.6870
-dataset = composed temperature=1.0 step=28000 loss=32.1833
-dataset = composed temperature=1.0 step=29000 loss=39.9761
-dataset = composed temperature=1.0 step=30000 loss=27.4875
-dataset = composed temperature=1.0 step=31000 loss=30.2831
-dataset = composed temperature=1.0 step=32000 loss=18.7955
-dataset = composed temperature=1.0 step=33000 loss=39.8898
-dataset = composed temperature=1.0 step=34000 loss=59.3237
-dataset = composed temperature=1.0 step=35000 loss=27.6055
-dataset = composed temperature=1.0 step=36000 loss=22.0597
-dataset = composed temperature=1.0 step=37000 loss=18.3521
-dataset = composed temperature=1.0 step=38000 loss=70.0338
-dataset = composed temperature=1.0 step=39000 loss=27.1605
-dataset = composed temperature=1.0 step=40000 loss=32.9702
-dataset = composed temperature=1.0 step=41000 loss=45.4632
-dataset = composed temperature=1.0 step=42000 loss=31.0462
-dataset = composed temperature=1.0 step=43000 loss=33.8611
-dataset = composed temperature=1.0 step=44000 loss=22.5195
-dataset = composed temperature=1.0 step=45000 loss=21.4292
-dataset = composed temperature=1.0 step=46000 loss=34.2516
-dataset = composed temperature=1.0 step=47000 loss=28.1349
-dataset = composed temperature=1.0 step=48000 loss=17.9521
-dataset = composed temperature=1.0 step=49000 loss=19.4806
-dataset = composed temperature=1.0 step=50000 loss=38.5587
-dataset = composed temperature=1.0 step=51000 loss=34.0245
-dataset = composed temperature=1.0 step=52000 loss=27.9792
-dataset = composed temperature=1.0 step=53000 loss=29.5719
-dataset = composed temperature=1.0 step=54000 loss=21.4034
-dataset = composed temperature=1.0 step=55000 loss=28.9594
-dataset = composed temperature=1.0 step=56000 loss=32.3484
-dataset = composed temperature=1.0 step=57000 loss=41.6610
-dataset = composed temperature=1.0 step=58000 loss=23.9768
-dataset = composed temperature=1.0 step=59000 loss=56.4327
-dataset = composed temperature=1.0 step=60000 loss=25.9580
-dataset = composed temperature=1.0 step=61000 loss=23.8731
-dataset = composed temperature=1.0 step=62000 loss=33.6292
-dataset = composed temperature=1.0 step=63000 loss=29.5345
-dataset = composed temperature=1.0 step=64000 loss=35.3782
-dataset = composed temperature=1.0 step=65000 loss=30.2934
-dataset = composed temperature=1.0 step=66000 loss=27.2170
-dataset = composed temperature=1.0 step=67000 loss=26.8802
-dataset = composed temperature=1.0 step=68000 loss=44.6021
-dataset = composed temperature=1.0 step=69000 loss=41.1399
-dataset = composed temperature=1.0 step=70000 loss=29.8104
-dataset = composed temperature=1.0 step=71000 loss=60.2124
-dataset = composed temperature=1.0 step=72000 loss=27.6094
-dataset = composed temperature=1.0 step=73000 loss=70.9476
-dataset = composed temperature=1.0 step=74000 loss=16.6125
-dataset = composed temperature=1.0 step=75000 loss=37.7583
-dataset = composed temperature=1.0 step=76000 loss=42.2621
-dataset = composed temperature=1.0 step=77000 loss=52.8948
-dataset = composed temperature=1.0 step=78000 loss=38.0175
-dataset = composed temperature=1.0 step=79000 loss=32.3115
-dataset = composed temperature=1.0 step=80000 loss=26.3805
-dataset = composed temperature=1.0 step=81000 loss=22.5656
-dataset = composed temperature=1.0 step=82000 loss=32.2939
-dataset = composed temperature=1.0 step=83000 loss=32.3824
-dataset = composed temperature=1.0 step=84000 loss=21.5903
-dataset = composed temperature=1.0 step=85000 loss=16.5126
-dataset = composed temperature=1.0 step=86000 loss=28.9046
-dataset = composed temperature=1.0 step=87000 loss=29.5466
-dataset = composed temperature=1.0 step=88000 loss=29.9987
-dataset = composed temperature=1.0 step=89000 loss=25.8327
-dataset = composed temperature=1.0 step=90000 loss=30.2125
-dataset = composed temperature=1.0 step=91000 loss=26.0659
-dataset = composed temperature=1.0 step=92000 loss=25.1313
-dataset = composed temperature=1.0 step=93000 loss=21.0692
-dataset = composed temperature=1.0 step=94000 loss=14.5961
-dataset = composed temperature=1.0 step=95000 loss=15.7134
-dataset = composed temperature=1.0 step=96000 loss=49.1987
-dataset = composed temperature=1.0 step=97000 loss=60.9446
-dataset = composed temperature=1.0 step=98000 loss=24.1115
-dataset = composed temperature=1.0 step=99000 loss=24.7861
-dataset = composed temperature=1.0 step=100000 loss=32.0197
-dataset = composed temperature=1.0 step=101000 loss=44.6193
-dataset = composed temperature=1.0 step=102000 loss=31.6093
-dataset = composed temperature=1.0 step=103000 loss=29.1907
-dataset = composed temperature=1.0 step=104000 loss=34.0364
-dataset = composed temperature=1.0 step=105000 loss=33.3638
-dataset = composed temperature=1.0 step=106000 loss=33.3702
-dataset = composed temperature=1.0 step=107000 loss=56.0459
-dataset = composed temperature=1.0 step=108000 loss=37.4546
-dataset = composed temperature=1.0 step=109000 loss=35.7066
-dataset = composed temperature=1.0 step=110000 loss=16.8493
-dataset = composed temperature=1.0 step=111000 loss=23.6765
-dataset = composed temperature=1.0 step=112000 loss=33.7271
-dataset = composed temperature=1.0 step=113000 loss=28.7631
-dataset = composed temperature=1.0 step=114000 loss=35.1160
-dataset = composed temperature=1.0 step=115000 loss=45.9435
-dataset = composed temperature=1.0 step=116000 loss=32.0416
-dataset = composed temperature=1.0 step=117000 loss=35.5594
-dataset = composed temperature=1.0 step=118000 loss=54.3865
-dataset = composed temperature=1.0 step=119000 loss=18.5440
-dataset = composed temperature=1.0 step=120000 loss=29.5779
-dataset = composed temperature=1.0 step=121000 loss=26.4351
-dataset = composed temperature=1.0 step=122000 loss=24.8388
-dataset = composed temperature=1.0 step=123000 loss=15.5048
-dataset = composed temperature=1.0 step=124000 loss=14.6131
-dataset = composed temperature=1.0 step=125000 loss=33.4368
-dataset = composed temperature=1.0 step=126000 loss=37.2846
-dataset = composed temperature=1.0 step=127000 loss=15.6018
-dataset = composed temperature=1.0 step=128000 loss=49.8375
-dataset = composed temperature=1.0 step=129000 loss=37.6811
-dataset = composed temperature=1.0 step=130000 loss=13.2244
-dataset = composed temperature=1.0 step=131000 loss=26.9549
-dataset = composed temperature=1.0 step=132000 loss=29.6374
-dataset = composed temperature=1.0 step=133000 loss=47.0558
-dataset = composed temperature=1.0 step=134000 loss=28.9984
-dataset = composed temperature=1.0 step=135000 loss=46.0260
-dataset = composed temperature=1.0 step=136000 loss=50.4911
-dataset = composed temperature=1.0 step=137000 loss=19.1273
-dataset = composed temperature=1.0 step=138000 loss=65.1441
-dataset = composed temperature=1.0 step=139000 loss=20.4453
-dataset = composed temperature=1.0 step=140000 loss=56.4409
-dataset = composed temperature=1.0 step=141000 loss=28.3379
-dataset = composed temperature=1.0 step=142000 loss=50.9787
-dataset = composed temperature=1.0 step=143000 loss=69.3173
-dataset = composed temperature=1.0 step=144000 loss=52.7673
-dataset = composed temperature=1.0 step=145000 loss=41.1283
-dataset = composed temperature=1.0 step=146000 loss=49.8659
-dataset = composed temperature=1.0 step=147000 loss=31.4762
-dataset = composed temperature=1.0 step=148000 loss=36.6210
-dataset = composed temperature=1.0 step=149000 loss=35.2123
-dataset = composed temperature=1.0 step=150000 loss=25.8518
-dataset = composed temperature=1.0 step=151000 loss=25.0988
-dataset = composed temperature=1.0 step=152000 loss=48.0159
-dataset = composed temperature=1.0 step=153000 loss=16.2950
-dataset = composed temperature=1.0 step=154000 loss=32.6565
-dataset = composed temperature=1.0 step=155000 loss=28.5127
-dataset = composed temperature=1.0 step=156000 loss=27.3830
-dataset = composed temperature=1.0 step=157000 loss=39.8901
-dataset = composed temperature=1.0 step=158000 loss=42.6002
-dataset = composed temperature=1.0 step=159000 loss=32.9324
-dataset = composed temperature=1.0 step=160000 loss=31.5997
-dataset = composed temperature=1.0 step=161000 loss=32.8944
-dataset = composed temperature=1.0 step=162000 loss=29.0466
-dataset = composed temperature=1.0 step=163000 loss=39.9212
-dataset = composed temperature=1.0 step=164000 loss=57.3193
-dataset = composed temperature=1.0 step=165000 loss=36.5469
-dataset = composed temperature=1.0 step=166000 loss=34.1159
-dataset = composed temperature=1.0 step=167000 loss=48.1712
-dataset = composed temperature=1.0 step=168000 loss=32.5534
-dataset = composed temperature=1.0 step=169000 loss=35.4652
-dataset = composed temperature=1.0 step=170000 loss=35.9100
-dataset = composed temperature=1.0 step=171000 loss=27.9986
-dataset = composed temperature=1.0 step=172000 loss=20.2681
-dataset = composed temperature=1.0 step=173000 loss=9.0466
-dataset = composed temperature=1.0 step=174000 loss=37.0688
-dataset = composed temperature=1.0 step=175000 loss=17.5860
-dataset = composed temperature=1.0 step=176000 loss=37.8637
-dataset = composed temperature=1.0 step=177000 loss=46.1196
-dataset = composed temperature=1.0 step=178000 loss=27.1897
-dataset = composed temperature=1.0 step=179000 loss=30.4019
-dataset = composed temperature=1.0 step=180000 loss=27.1461
-dataset = composed temperature=1.0 step=181000 loss=25.4708
-dataset = composed temperature=1.0 step=182000 loss=28.0020
-dataset = composed temperature=1.0 step=183000 loss=37.5782
-dataset = composed temperature=1.0 step=184000 loss=21.9838
-dataset = composed temperature=1.0 step=185000 loss=47.1126
-dataset = composed temperature=1.0 step=186000 loss=80.0091
-dataset = composed temperature=1.0 step=187000 loss=32.9545
-dataset = composed temperature=1.0 step=188000 loss=35.2927
-dataset = composed temperature=1.0 step=189000 loss=43.7912
-dataset = composed temperature=1.0 step=190000 loss=18.4606
-dataset = composed temperature=1.0 step=191000 loss=41.5226
-dataset = composed temperature=1.0 step=192000 loss=22.7224
-dataset = composed temperature=1.0 step=193000 loss=23.3929
-dataset = composed temperature=1.0 step=194000 loss=20.3856
-dataset = composed temperature=1.0 step=195000 loss=35.8334
-dataset = composed temperature=1.0 step=196000 loss=19.8634
-dataset = composed temperature=1.0 step=197000 loss=25.1955
-dataset = composed temperature=1.0 step=198000 loss=50.8922
-dataset = composed temperature=1.0 step=199000 loss=28.1436
-dataset = composed temperature=1.0 step=200000 loss=23.2813
-dataset = composed temperature=1.0 step=201000 loss=37.0869
-dataset = composed temperature=1.0 step=202000 loss=27.5968
-dataset = composed temperature=1.0 step=203000 loss=24.5646
-dataset = composed temperature=1.0 step=204000 loss=82.3346
-dataset = composed temperature=1.0 step=205000 loss=38.5081
-dataset = composed temperature=1.0 step=206000 loss=24.9152
-dataset = composed temperature=1.0 step=207000 loss=21.2268
-dataset = composed temperature=1.0 step=208000 loss=23.1641
-dataset = composed temperature=1.0 step=209000 loss=20.4832
-dataset = composed temperature=1.0 step=210000 loss=30.3498
-dataset = composed temperature=1.0 step=211000 loss=16.3178
-dataset = composed temperature=1.0 step=212000 loss=36.9317
-dataset = composed temperature=1.0 step=213000 loss=68.2008
-dataset = composed temperature=1.0 step=214000 loss=37.8225
-dataset = composed temperature=1.0 step=215000 loss=13.4433
-dataset = composed temperature=1.0 step=216000 loss=23.5507
-dataset = composed temperature=1.0 step=217000 loss=20.3683
-dataset = composed temperature=1.0 step=218000 loss=39.4282
-dataset = composed temperature=1.0 step=219000 loss=15.0131
-dataset = composed temperature=1.0 step=220000 loss=13.9918
-dataset = composed temperature=1.0 step=221000 loss=34.7039
-dataset = composed temperature=1.0 step=222000 loss=26.2654
-dataset = composed temperature=1.0 step=223000 loss=29.3541
-dataset = composed temperature=1.0 step=224000 loss=35.3394
-dataset = composed temperature=1.0 step=225000 loss=28.2240
-dataset = composed temperature=1.0 step=226000 loss=22.7984
-dataset = composed temperature=1.0 step=227000 loss=13.7328
-dataset = composed temperature=1.0 step=228000 loss=25.2016
-dataset = composed temperature=1.0 step=229000 loss=43.5097
-dataset = composed temperature=1.0 step=230000 loss=23.9743
-dataset = composed temperature=1.0 step=231000 loss=27.9129
-dataset = composed temperature=1.0 step=232000 loss=15.9227
-dataset = composed temperature=1.0 step=233000 loss=28.6835
-dataset = composed temperature=1.0 step=234000 loss=34.9912
-dataset = composed temperature=1.0 step=235000 loss=29.2692
-dataset = composed temperature=1.0 step=236000 loss=21.4709
-dataset = composed temperature=1.0 step=237000 loss=60.2100
-dataset = composed temperature=1.0 step=238000 loss=26.5790
-dataset = composed temperature=1.0 step=239000 loss=44.0192
-dataset = composed temperature=1.0 step=240000 loss=24.9139
-dataset = composed temperature=1.0 step=241000 loss=31.6724
-dataset = composed temperature=1.0 step=242000 loss=38.1097
-dataset = composed temperature=1.0 step=243000 loss=25.2878
-dataset = composed temperature=1.0 step=244000 loss=52.2609
-dataset = composed temperature=1.0 step=245000 loss=19.5536
-dataset = composed temperature=1.0 step=246000 loss=49.9130
-dataset = composed temperature=1.0 step=247000 loss=41.5452
-dataset = composed temperature=1.0 step=248000 loss=33.3063
-dataset = composed temperature=1.0 step=249000 loss=28.5106
-dataset = composed temperature=1.0 step=250000 loss=35.7322
-dataset = composed temperature=1.0 step=251000 loss=20.8704
-dataset = composed temperature=1.0 step=252000 loss=72.1756
-dataset = composed temperature=1.0 step=253000 loss=30.3567
-dataset = composed temperature=1.0 step=254000 loss=35.3475
-dataset = composed temperature=1.0 step=255000 loss=27.6050
-dataset = composed temperature=1.0 step=256000 loss=21.1894
-dataset = composed temperature=1.0 step=257000 loss=36.0924
-dataset = composed temperature=1.0 step=258000 loss=24.9498
-dataset = composed temperature=1.0 step=259000 loss=15.9035
-dataset = composed temperature=1.0 step=260000 loss=31.7140
-dataset = composed temperature=1.0 step=261000 loss=20.7154
-dataset = composed temperature=1.0 step=262000 loss=28.4696
-dataset = composed temperature=1.0 step=263000 loss=23.5662
-dataset = composed temperature=1.0 step=264000 loss=24.4081
-dataset = composed temperature=1.0 step=265000 loss=54.8131
-dataset = composed temperature=1.0 step=266000 loss=33.9889
-dataset = composed temperature=1.0 step=267000 loss=41.8736
-dataset = composed temperature=1.0 step=268000 loss=31.0300
-dataset = composed temperature=1.0 step=269000 loss=31.2352
-dataset = composed temperature=1.0 step=270000 loss=31.7551
-dataset = composed temperature=1.0 step=271000 loss=27.9831
-dataset = composed temperature=1.0 step=272000 loss=23.3546
-dataset = composed temperature=1.0 step=273000 loss=35.0845
-dataset = composed temperature=1.0 step=274000 loss=21.0045
-dataset = composed temperature=1.0 step=275000 loss=34.3895
-dataset = composed temperature=1.0 step=276000 loss=63.5061
-dataset = composed temperature=1.0 step=277000 loss=50.2030
-dataset = composed temperature=1.0 step=278000 loss=34.6879
-dataset = composed temperature=1.0 step=279000 loss=72.5121
-dataset = composed temperature=1.0 step=280000 loss=40.2920
-dataset = composed temperature=1.0 step=281000 loss=30.9637
-dataset = composed temperature=1.0 step=282000 loss=26.5967
-dataset = composed temperature=1.0 step=283000 loss=42.3985
-dataset = composed temperature=1.0 step=284000 loss=37.7705
-dataset = composed temperature=1.0 step=285000 loss=40.1746
-dataset = composed temperature=1.0 step=286000 loss=31.4089
-dataset = composed temperature=1.0 step=287000 loss=30.9300
-dataset = composed temperature=1.0 step=288000 loss=51.8262
-dataset = composed temperature=1.0 step=289000 loss=79.5123
-dataset = composed temperature=1.0 step=290000 loss=29.2668
-dataset = composed temperature=1.0 step=291000 loss=29.9475
-dataset = composed temperature=1.0 step=292000 loss=35.8683
-dataset = composed temperature=1.0 step=293000 loss=39.8679
-dataset = composed temperature=1.0 step=294000 loss=44.0982
-dataset = composed temperature=1.0 step=295000 loss=27.3893
-dataset = composed temperature=1.0 step=296000 loss=31.8436
-dataset = composed temperature=1.0 step=297000 loss=31.6680
-dataset = composed temperature=1.0 step=298000 loss=43.7282
-dataset = composed temperature=1.0 step=299000 loss=36.2366
-dataset = composed temperature=1.0 step=300000 loss=27.7205
-dataset = composed temperature=1.0 step=301000 loss=29.1333
-dataset = composed temperature=1.0 step=302000 loss=37.0808
-dataset = composed temperature=1.0 step=303000 loss=31.2762
-dataset = composed temperature=1.0 step=304000 loss=43.9117
-dataset = composed temperature=1.0 step=305000 loss=19.6105
-dataset = composed temperature=1.0 step=306000 loss=23.4370
-dataset = composed temperature=1.0 step=307000 loss=29.8446
-dataset = composed temperature=1.0 step=308000 loss=27.0467
-dataset = composed temperature=1.0 step=309000 loss=39.8546
-dataset = composed temperature=1.0 step=310000 loss=43.4231
-dataset = composed temperature=1.0 step=311000 loss=28.1303
-dataset = composed temperature=1.0 step=312000 loss=60.2306
-dataset = composed temperature=1.0 step=313000 loss=24.9221
-dataset = composed temperature=1.0 step=314000 loss=31.9963
-dataset = composed temperature=1.0 step=315000 loss=27.5600
-dataset = composed temperature=1.0 step=316000 loss=53.5374
-dataset = composed temperature=1.0 step=317000 loss=39.3707
-dataset = composed temperature=1.0 step=318000 loss=16.0334
-dataset = composed temperature=1.0 step=319000 loss=26.5592
-dataset = composed temperature=1.0 step=320000 loss=40.1747
-dataset = composed temperature=1.0 step=321000 loss=31.1180
-dataset = composed temperature=1.0 step=322000 loss=21.4858
-dataset = composed temperature=1.0 step=323000 loss=27.4804
-dataset = composed temperature=1.0 step=324000 loss=20.1440
-dataset = composed temperature=1.0 step=325000 loss=30.6551
-dataset = composed temperature=1.0 step=326000 loss=29.6069
-dataset = composed temperature=1.0 step=327000 loss=24.6893
-dataset = composed temperature=1.0 step=328000 loss=33.8184
-dataset = composed temperature=1.0 step=329000 loss=37.1245
-dataset = composed temperature=1.0 step=330000 loss=18.3176
-dataset = composed temperature=1.0 step=331000 loss=40.9251
-dataset = composed temperature=1.0 step=332000 loss=59.7597
-dataset = composed temperature=1.0 step=333000 loss=43.1837
-dataset = composed temperature=1.0 step=334000 loss=31.8344
-dataset = composed temperature=1.0 step=335000 loss=59.0430
-dataset = composed temperature=1.0 step=336000 loss=28.2932
-dataset = composed temperature=1.0 step=337000 loss=41.1777
-dataset = composed temperature=1.0 step=338000 loss=45.0959
-dataset = composed temperature=1.0 step=339000 loss=48.1377
-dataset = composed temperature=1.0 step=340000 loss=33.7605
-dataset = composed temperature=1.0 step=341000 loss=34.8114
-dataset = composed temperature=1.0 step=342000 loss=29.1083
-dataset = composed temperature=1.0 step=343000 loss=19.9048
-dataset = composed temperature=1.0 step=344000 loss=28.0017
-dataset = composed temperature=1.0 step=345000 loss=29.6251
-dataset = composed temperature=1.0 step=346000 loss=29.0114
-dataset = composed temperature=1.0 step=347000 loss=25.5773
-dataset = composed temperature=1.0 step=348000 loss=17.9194
-dataset = composed temperature=1.0 step=349000 loss=35.9578
-dataset = composed temperature=1.0 step=350000 loss=19.8832
-dataset = composed temperature=1.0 step=351000 loss=28.6543
-dataset = composed temperature=1.0 step=352000 loss=35.6706
-dataset = composed temperature=1.0 step=353000 loss=34.8380
-dataset = composed temperature=1.0 step=354000 loss=29.7925
-dataset = composed temperature=1.0 step=355000 loss=37.8797
-dataset = composed temperature=1.0 step=356000 loss=29.4694
-dataset = composed temperature=1.0 step=357000 loss=49.0000
-dataset = composed temperature=1.0 step=358000 loss=37.5670
-dataset = composed temperature=1.0 step=359000 loss=48.2312
-dataset = composed temperature=1.0 step=360000 loss=28.6612
-dataset = composed temperature=1.0 step=361000 loss=51.3917
-dataset = composed temperature=1.0 step=362000 loss=31.0791
-dataset = composed temperature=1.0 step=363000 loss=28.1171
-dataset = composed temperature=1.0 step=364000 loss=25.7477
-dataset = composed temperature=1.0 step=365000 loss=46.0303
-dataset = composed temperature=1.0 step=366000 loss=21.9188
-dataset = composed temperature=1.0 step=367000 loss=17.1539
-dataset = composed temperature=1.0 step=368000 loss=27.7780
-dataset = composed temperature=1.0 step=369000 loss=16.3890
-dataset = composed temperature=1.0 step=370000 loss=32.4136
-dataset = composed temperature=1.0 step=371000 loss=28.6117
-dataset = composed temperature=1.0 step=372000 loss=38.3109
-dataset = composed temperature=1.0 step=373000 loss=48.1137
-dataset = composed temperature=1.0 step=374000 loss=40.4443
-dataset = composed temperature=1.0 step=375000 loss=36.9250
-dataset = composed temperature=1.0 step=376000 loss=46.4365
-dataset = composed temperature=1.0 step=377000 loss=19.5382
-dataset = composed temperature=1.0 step=378000 loss=59.9301
-dataset = composed temperature=1.0 step=379000 loss=33.5523
-dataset = composed temperature=1.0 step=380000 loss=71.6985
-dataset = composed temperature=1.0 step=381000 loss=21.3673
-dataset = composed temperature=1.0 step=382000 loss=23.3270
-dataset = composed temperature=1.0 step=383000 loss=22.0367
-dataset = composed temperature=1.0 step=384000 loss=52.1537
-dataset = composed temperature=1.0 step=385000 loss=27.4497
-dataset = composed temperature=1.0 step=386000 loss=23.1287
-dataset = composed temperature=1.0 step=387000 loss=44.3709
-dataset = composed temperature=1.0 step=388000 loss=83.1982
-dataset = composed temperature=1.0 step=389000 loss=40.5406
-dataset = composed temperature=1.0 step=390000 loss=23.6096
-dataset = composed temperature=1.0 step=391000 loss=15.3538
-dataset = composed temperature=1.0 step=392000 loss=26.9459
-dataset = composed temperature=1.0 step=393000 loss=76.7019
-dataset = composed temperature=1.0 step=394000 loss=29.2790
-dataset = composed temperature=1.0 step=395000 loss=25.2594
-dataset = composed temperature=1.0 step=396000 loss=9.6141
-dataset = composed temperature=1.0 step=397000 loss=28.0728
-dataset = composed temperature=1.0 step=398000 loss=18.0410
-dataset = composed temperature=1.0 step=399000 loss=24.6927
-dataset = composed temperature=1.0 step=400000 loss=32.6788
-dataset = composed temperature=1.0 step=401000 loss=41.5421
-dataset = composed temperature=1.0 step=402000 loss=55.5332
-dataset = composed temperature=1.0 step=403000 loss=23.2052
-dataset = composed temperature=1.0 step=404000 loss=36.5948
-dataset = composed temperature=1.0 step=405000 loss=44.7972
-dataset = composed temperature=1.0 step=406000 loss=22.0663
-dataset = composed temperature=1.0 step=407000 loss=28.1823
-dataset = composed temperature=1.0 step=408000 loss=26.8162
-dataset = composed temperature=1.0 step=409000 loss=28.1717
-dataset = composed temperature=1.0 step=410000 loss=24.8734
-dataset = composed temperature=1.0 step=411000 loss=39.7949
-dataset = composed temperature=1.0 step=412000 loss=33.0127
-dataset = composed temperature=1.0 step=413000 loss=33.3008
-dataset = composed temperature=1.0 step=414000 loss=19.7392
-dataset = composed temperature=1.0 step=415000 loss=29.6366
-dataset = composed temperature=1.0 step=416000 loss=22.5671
-dataset = composed temperature=1.0 step=417000 loss=28.1477
-dataset = composed temperature=1.0 step=418000 loss=25.2011
-dataset = composed temperature=1.0 step=419000 loss=39.5176
-dataset = composed temperature=1.0 step=420000 loss=25.5527
-dataset = composed temperature=1.0 step=421000 loss=31.6091
-dataset = composed temperature=1.0 step=422000 loss=45.2385
-dataset = composed temperature=1.0 step=423000 loss=40.8835
-dataset = composed temperature=1.0 step=424000 loss=25.4834
-dataset = composed temperature=1.0 step=425000 loss=61.7566
-dataset = composed temperature=1.0 step=426000 loss=25.1240
-dataset = composed temperature=1.0 step=427000 loss=23.0279
-dataset = composed temperature=1.0 step=428000 loss=36.9890
-dataset = composed temperature=1.0 step=429000 loss=27.2489
-dataset = composed temperature=1.0 step=430000 loss=39.8532
-dataset = composed temperature=1.0 step=431000 loss=55.9174
-dataset = composed temperature=1.0 step=432000 loss=24.3155
-dataset = composed temperature=1.0 step=433000 loss=53.6775
-dataset = composed temperature=1.0 step=434000 loss=48.6785
-dataset = composed temperature=1.0 step=435000 loss=24.4382
-dataset = composed temperature=1.0 step=436000 loss=32.9785
-dataset = composed temperature=1.0 step=437000 loss=30.7752
-dataset = composed temperature=1.0 step=438000 loss=48.7661
-dataset = composed temperature=1.0 step=439000 loss=27.7936
-dataset = composed temperature=1.0 step=440000 loss=32.3708
-dataset = composed temperature=1.0 step=441000 loss=39.0214
-dataset = composed temperature=1.0 step=442000 loss=24.5465
-dataset = composed temperature=1.0 step=443000 loss=42.2524
-dataset = composed temperature=1.0 step=444000 loss=30.2105
-dataset = composed temperature=1.0 step=445000 loss=35.6782
-dataset = composed temperature=1.0 step=446000 loss=62.1189
-dataset = composed temperature=1.0 step=447000 loss=17.0326
-dataset = composed temperature=1.0 step=448000 loss=17.4319
-dataset = composed temperature=1.0 step=449000 loss=40.2789
-dataset = composed temperature=1.0 step=450000 loss=40.7420
-dataset = composed temperature=1.0 step=451000 loss=21.3718
-dataset = composed temperature=1.0 step=452000 loss=26.3783
-dataset = composed temperature=1.0 step=453000 loss=24.3802
-dataset = composed temperature=1.0 step=454000 loss=43.5229
-dataset = composed temperature=1.0 step=455000 loss=20.8916
-dataset = composed temperature=1.0 step=456000 loss=20.4006
-dataset = composed temperature=1.0 step=457000 loss=18.8821
-dataset = composed temperature=1.0 step=458000 loss=20.7219
-dataset = composed temperature=1.0 step=459000 loss=22.4688
-dataset = composed temperature=1.0 step=460000 loss=46.1230
-dataset = composed temperature=1.0 step=461000 loss=10.4469
-dataset = composed temperature=1.0 step=462000 loss=16.7136
-dataset = composed temperature=1.0 step=463000 loss=62.2025
-dataset = composed temperature=1.0 step=464000 loss=40.2708
-dataset = composed temperature=1.0 step=465000 loss=41.4590
-dataset = composed temperature=1.0 step=466000 loss=29.1301
-dataset = composed temperature=1.0 step=467000 loss=31.8807
-dataset = composed temperature=1.0 step=468000 loss=31.0947
-dataset = composed temperature=1.0 step=469000 loss=30.0378
-dataset = composed temperature=1.0 step=470000 loss=21.0618
-dataset = composed temperature=1.0 step=471000 loss=27.6915
-dataset = composed temperature=1.0 step=472000 loss=31.8888
-dataset = composed temperature=1.0 step=473000 loss=58.8415
-dataset = composed temperature=1.0 step=474000 loss=66.1295
-dataset = composed temperature=1.0 step=475000 loss=42.1241
-dataset = composed temperature=1.0 step=476000 loss=79.5266
-dataset = composed temperature=1.0 step=477000 loss=17.2270
-dataset = composed temperature=1.0 step=478000 loss=24.4440
-dataset = composed temperature=1.0 step=479000 loss=39.7985
-dataset = composed temperature=1.0 step=480000 loss=25.6414
-dataset = composed temperature=1.0 step=481000 loss=40.8702
-dataset = composed temperature=1.0 step=482000 loss=39.2821
-dataset = composed temperature=1.0 step=483000 loss=23.7486
-dataset = composed temperature=1.0 step=484000 loss=43.7638
-dataset = composed temperature=1.0 step=485000 loss=35.6551
-dataset = composed temperature=1.0 step=486000 loss=30.0809
-dataset = composed temperature=1.0 step=487000 loss=38.4151
-dataset = composed temperature=1.0 step=488000 loss=33.9149
-dataset = composed temperature=1.0 step=489000 loss=33.6576
-dataset = composed temperature=1.0 step=490000 loss=27.4889
-dataset = composed temperature=1.0 step=491000 loss=18.6419
-dataset = composed temperature=1.0 step=492000 loss=17.8764
-dataset = composed temperature=1.0 step=493000 loss=28.9028
-dataset = composed temperature=1.0 step=494000 loss=15.8247
-dataset = composed temperature=1.0 step=495000 loss=56.7429
-dataset = composed temperature=1.0 step=496000 loss=40.5216
-dataset = composed temperature=1.0 step=497000 loss=12.0562
-dataset = composed temperature=1.0 step=498000 loss=20.9747
-dataset = composed temperature=1.0 step=499000 loss=14.0751
-dataset = composed temperature=1.0 step=500000 loss=17.6978
-Trained model saved to model_checkpoints/composed_1.0.pt
+We will be running with replica swaps with 3 replicas
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 1000.0
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 987.380615234375
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 974.1077270507812
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 960.1293334960938
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 945.3875122070312
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 929.8179321289062
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 913.3489990234375
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 895.9003295898438
+we are planning a replica excahnge
+Time 895.9003295898438 swap btwn source 0.88 and target 0.75 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 877.3818969726562
+we are planning a replica excahnge
+Time 877.3818969726562 swap btwn source 1.00 and target 0.88 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 857.6923217773438
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 836.7166748046875
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 814.3247680664062
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 790.3682861328125
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 764.6771240234375
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 737.0558471679688
+we are planning a replica excahnge
+Time 737.0558471679688 swap btwn source 0.88 and target 0.75 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 707.2785034179688
+we are planning a replica excahnge
+Time 707.2785034179688 swap btwn source 1.00 and target 0.88 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 675.0823364257812
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 640.1602172851562
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 602.1505737304688
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 560.625
+we are planning a replica excahnge
+Time 560.625 swap btwn source 0.88 and target 0.75 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 515.0720825195312
+we are planning a replica excahnge
+Time 515.0720825195312 swap btwn source 1.00 and target 0.88 accept 1.0000
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 464.87603759765625
+we are planning a replica excahnge
+Time 464.87603759765625 swap btwn source 0.88 and target 0.75 accept 0.9999
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 409.288818359375
+we are planning a replica excahnge
+Time 409.288818359375 swap btwn source 1.00 and target 0.88 accept 0.9998
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 347.39263916015625
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 278.0487976074219
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 199.8269805908203
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 110.90573120117188
+ We swap by 0.75
+ We swap by 0.875
+ We swap by 1.0
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 8.928571701049805
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/japanese_pt_tsr_0.75_val_0.75.png
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/japanese_pt_tsr_0.75_val_0.875.png
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/japanese_pt_tsr_0.75_val_1.0.png
