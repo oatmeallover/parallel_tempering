@@ -1,0 +1,634 @@
+We will be running with replica swaps with 3 replicas
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1., device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1., device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 1000.0
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0000, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0002, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 988.2713623046875
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0001, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0009, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 975.9791870117188
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0002, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0022, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 963.08203125
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0004, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0041, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 949.5339965820312
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0007, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0070, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 935.2844848632812
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0010, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0106, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 920.2777099609375
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0015, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0155, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 904.4515380859375
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0021, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0215, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 887.737060546875
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0027, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0287, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 870.0572509765625
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0027, device='cuda:0')
+temp tensor(1.0287, device='cuda:0')
+we are planning a replica excahnge
+Time 870.0572509765625 swap btwn source 0.83 and target 1.02 accept 0.9998
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0035, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0371, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 851.3259887695312
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0035, device='cuda:0')
+temp tensor(1.0371, device='cuda:0')
+we are planning a replica excahnge
+Time 851.3259887695312 swap btwn source 1.02 and target 1.20 accept 1.0000
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0044, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0471, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 831.4467163085938
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0054, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0582, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 810.3104248046875
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0065, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0707, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 787.7941284179688
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0076, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0837, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 763.7579956054688
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0076, device='cuda:0')
+temp tensor(1.0837, device='cuda:0')
+we are planning a replica excahnge
+Time 763.7579956054688 swap btwn source 0.83 and target 1.02 accept 1.0000
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0087, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.0971, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 738.0427856445312
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0087, device='cuda:0')
+temp tensor(1.0971, device='cuda:0')
+we are planning a replica excahnge
+Time 738.0427856445312 swap btwn source 1.02 and target 1.20 accept 0.9965
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0099, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1110, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 710.4662475585938
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0110, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1247, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 680.8186645507812
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0120, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1375, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 648.857666015625
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0129, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1496, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 614.3013916015625
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0129, device='cuda:0')
+temp tensor(1.1496, device='cuda:0')
+we are planning a replica excahnge
+Time 614.3013916015625 swap btwn source 0.83 and target 1.02 accept 0.9880
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0137, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1605, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 576.8204345703125
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0137, device='cuda:0')
+temp tensor(1.1605, device='cuda:0')
+we are planning a replica excahnge
+Time 576.8204345703125 swap btwn source 1.02 and target 1.20 accept 0.9997
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0144, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1699, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 536.027099609375
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0144, device='cuda:0')
+temp tensor(1.1699, device='cuda:0')
+we are planning a replica excahnge
+Time 536.027099609375 swap btwn source 0.83 and target 1.02 accept 0.9962
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0150, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1780, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 491.4619140625
+temp tensor(0.8335, device='cuda:0')
+temp tensor(1.0150, device='cuda:0')
+temp tensor(1.1780, device='cuda:0')
+we are planning a replica excahnge
+Time 491.4619140625 swap btwn source 1.02 and target 1.20 accept 0.9952
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0155, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1847, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 442.576416015625
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0159, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1900, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 388.7104187011719
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0162, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1940, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 329.0618896484375
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0164, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1969, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 262.64691162109375
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0165, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1988, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 188.24484252929688
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0166, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.1998, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 104.32276916503906
+temp tensor(0.8335, device='cuda:0')
+ We swap by 0.83349609375
+temp tensor(1.0166, device='cuda:0')
+ We swap by 1.0166015625
+temp tensor(1.2002, device='cuda:0')
+ We swap by 1.2001953125
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 8.928571701049805
+Image 0: min=0, max=255, mean=187.32
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_1.2_val_0.8333333333333334.png
+Image 1: min=0, max=255, mean=189.65
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_1.2_val_1.0166666666666666.png
+Image 2: min=0, max=255, mean=182.39
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_1.2_val_1.2.png
+We will be running with replica swaps with 3 replicas
+temp tensor(1., device='cuda:0')
+ We swap by 1.25
+temp tensor(1., device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 1000.0
+temp tensor(1.0003, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0000, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 988.2713623046875
+temp tensor(1.0011, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0001, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 975.9791870117188
+temp tensor(1.0026, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0003, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 963.08203125
+temp tensor(1.0049, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0006, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 949.5339965820312
+temp tensor(1.0084, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0010, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 935.2844848632812
+temp tensor(1.0128, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0016, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 920.2777099609375
+temp tensor(1.0187, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0023, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 904.4515380859375
+temp tensor(1.0258, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0031, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 887.737060546875
+temp tensor(1.0346, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0042, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 870.0572509765625
+temp tensor(1.0346, device='cuda:0')
+temp tensor(1.0042, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 870.0572509765625 swap btwn source 1.25 and target 1.03 accept 1.0000
+temp tensor(1.0449, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0053, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 851.3259887695312
+temp tensor(1.0449, device='cuda:0')
+temp tensor(1.0053, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 851.3259887695312 swap btwn source 1.03 and target 0.80 accept 0.9996
+temp tensor(1.0570, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0067, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 831.4467163085938
+temp tensor(1.0706, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0082, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 810.3104248046875
+temp tensor(1.0859, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0099, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 787.7941284179688
+temp tensor(1.1020, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0116, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 763.7579956054688
+temp tensor(1.1020, device='cuda:0')
+temp tensor(1.0116, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 763.7579956054688 swap btwn source 1.25 and target 1.03 accept 0.9995
+temp tensor(1.1188, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0133, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 738.0427856445312
+temp tensor(1.1188, device='cuda:0')
+temp tensor(1.0133, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 738.0427856445312 swap btwn source 1.03 and target 0.80 accept 1.0000
+temp tensor(1.1362, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0151, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 710.4662475585938
+temp tensor(1.1533, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0167, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 680.8186645507812
+temp tensor(1.1695, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0183, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 648.857666015625
+temp tensor(1.1849, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0197, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 614.3013916015625
+temp tensor(1.1849, device='cuda:0')
+temp tensor(1.0197, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 614.3013916015625 swap btwn source 1.25 and target 1.03 accept 0.9879
+temp tensor(1.1988, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0210, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 576.8204345703125
+temp tensor(1.1988, device='cuda:0')
+temp tensor(1.0210, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 576.8204345703125 swap btwn source 1.03 and target 0.80 accept 0.9823
+temp tensor(1.2109, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0220, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 536.027099609375
+temp tensor(1.2109, device='cuda:0')
+temp tensor(1.0220, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 536.027099609375 swap btwn source 1.25 and target 1.03 accept 0.9985
+temp tensor(1.2213, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0229, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 491.4619140625
+temp tensor(1.2213, device='cuda:0')
+temp tensor(1.0229, device='cuda:0')
+temp tensor(0.7998, device='cuda:0')
+we are planning a replica excahnge
+Time 491.4619140625 swap btwn source 1.03 and target 0.80 accept 0.9926
+temp tensor(1.2299, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0237, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 442.576416015625
+temp tensor(1.2367, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0243, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 388.7104187011719
+temp tensor(1.2419, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0247, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 329.0618896484375
+temp tensor(1.2457, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0250, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 262.64691162109375
+temp tensor(1.2481, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0252, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 188.24484252929688
+temp tensor(1.2495, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0254, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 104.32276916503906
+temp tensor(1.2500, device='cuda:0')
+ We swap by 1.25
+temp tensor(1.0254, device='cuda:0')
+ We swap by 1.025390625
+temp tensor(0.7998, device='cuda:0')
+ We swap by 0.7998046875
+torch.Size([3, 1, 16, 128, 128])
+torch.Size([3, 16, 128, 128])
+t is 8.928571701049805
+Image 0: min=0, max=255, mean=191.85
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_0.8_val_1.25.png
+Image 1: min=0, max=255, mean=179.54
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_0.8_val_1.025.png
+Image 2: min=0, max=255, mean=186.82
+Saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/basket_pt_tsr_0.8_val_0.8.png

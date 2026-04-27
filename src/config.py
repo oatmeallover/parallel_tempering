@@ -29,6 +29,6 @@ DATASETS_IMG = {
 }
 
 TSR = {
-	"sigma":  0.8
+	"sigma":  3.0
 }
 

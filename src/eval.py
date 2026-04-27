@@ -6,6 +6,7 @@ from .model import load_model
 from .dataset import compute_mixture_pdf  
 from .config import DEVICE, DATASETS, DATASETS_IMG, CKPT_DIR, N_DIFFUSION_STEPS
 from .sample import ddpm_tsr_swapped
+from .score_integral import _k_ladder
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -42,7 +43,7 @@ def plot_temperature_triptych(
 		dataset_shape = (n_samples, *sample_shape)                 # (n_samples, 1, 28, 28)
 		n_rows = n_samples
 
-	k_ladder = np.linspace(1.0, k, n_replicas)
+	k_ladder = _k_ladder(k, n_replicas)
 	titles = [f"k={k:.2f}" for k in k_ladder]
 
 	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, k, k_ladder, replica_swaps=replica_swaps, swap_algorithm=swap_algorithm)

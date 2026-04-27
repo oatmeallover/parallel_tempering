@@ -3,6 +3,17 @@ from .model import compute_score
 from .schedule import compute_tsr_schedule
 import matplotlib.pyplot as plt
 import scipy
+import numpy as np
+
+
+@torch.no_grad()
+def _k_ladder(tsr_k, n_replicas):
+    k = float(tsr_k)
+    half = int(n_replicas // 2)
+    bottom = np.linspace(1.0/k, 1.0, half + 1)  # [1/k, ..., 1.0]
+    top = np.linspace(1.0, k, half + 1)          # [1.0, ..., k]
+    return np.concat([bottom, top[1:]])  # drop duplicate 1.0 from top
+
 
 @torch.no_grad()
 def r_curve_func(x, x_hat, s):
