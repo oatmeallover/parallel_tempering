@@ -1129,13 +1129,15 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 						k_ladder = _k_ladder(tsr_k, n_replicas, latents.device, latents.dtype)
 						for k_index, tsr_k_item in enumerate(k_ladder):
 							tsr = compute_tsr_constant(tsr_k_item, sigma_i, tsr_sigma)
-							print(f" We tsr by {tsr_k_item:.2f}")
-							sys.stdout.flush()
+							if swap_algorithm["debug"]:	
+								print(f" We tsr by {tsr_k_item:.2f}")
+								sys.stdout.flush()
 							noise_pred[batch_size * k_index : batch_size * (k_index+1)] *= tsr
 					else:
 						tsr = compute_tsr_constant(tsr_k, sigma_i, tsr_sigma)
-						print(f" We tsr by {tsr_k:.2f}")
-						sys.stdout.flush()
+						if swap_algorithm["debug"]:	 
+							print(f" We tsr by {tsr_k:.2f}") 
+							sys.stdout.flush()
 						noise_pred *= tsr
 
 				# compute the previous noisy sample x_t -> x_t-1

@@ -6,29 +6,29 @@ from pathlib import Path
 import json
 from tqdm import tqdm
 
-# ── Config ──────────────────────────────────────────────────────────────────
-BASE_OUTPUT_DIR = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/figures/laion_5k_generated")
-PROMPTS_FILE = "laion_5k_prompts.csv"
-MODEL_CACHE = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/model_checkpoints"
-SEED = 42
+from config import INDEX_UNTIL, K_VALUES, REAL_DIR, TSR_DIR, PT_TSR_DIR, PROMPTS_FILE, MODEL_CACHE, SEED, TSR_SIGMA, SWAP_ALGORITHM, N_INF_STEPS, GUIDANCE_SCALE
 
-# ── K sweep ──────────────────────────────────────────────────────────────────
-K_VALUES = [1.05, 0.98, 0.95, 0.93, 0.9]
+import argparse
 
-# ── Shared pipeline config ───────────────────────────────────────────────────
-TSR_SIGMA = 3.0
-REPLICA_EXCHANGE = False
-SWAP_ALGORITHM = {
-	"n_replicas": 3,
-	"p_ratio": "p",
-	"even_indices": [0, 7, 12, 16, 19, 21],   # t ≈ 870, 763, 648, 536
-	"odd_indices":  [1, 8, 13, 17, 20, 22],
-	"debug": False,
-}
+parser = argparse.ArgumentParser()
+parser.add_argument("--replica_exchange", action="store_true", default=False)
+parser.add_argument("--k_values", type=float, nargs="+", default=None)
+parser.add_argument("--index_until", type=int, default=None)
+
+args = parser.parse_args()
+
+REPLICA_EXCHANGE = args.replica_exchange
+K_VALUES = args.k_values if args.k_values is not None else K_VALUES
+INDEX_UNTIL = args.index_until if args.index_until is not None else INDEX_UNTIL
+
+if REPLICA_EXCHANGE:
+	BASE_OUTPUT_DIR = PT_TSR_DIR
+else:
+	BASE_OUTPUT_DIR = TSR_DIR
 
 # ── Load prompts once ─────────────────────────────────────────────────────────
 df = pd.read_csv(PROMPTS_FILE, dtype={"original_idx": str})
-prompts = df["text"].tolist()[:1500]
+prompts = df["text"].tolist()[:INDEX_UNTIL]
 print(f"Loaded {len(prompts)} prompts")
 
 # ── Load model once ───────────────────────────────────────────────────────────
@@ -47,9 +47,9 @@ for tsr_k in K_VALUES:
 	checkpoint_file = output_dir / "completed.json"
 	output_dir.mkdir(parents=True, exist_ok=True)
 
-	# Resume support per k value
-	if checkpoint_file.exists():
-		completed = set(json.loads(checkpoint_file.read_text()))
+	existing = list(output_dir.glob("*.png"))
+	completed = set(range(len(existing)))
+	if existing:
 		print(f"\n[k={tsr_k}] Resuming — {len(completed)}/{len(prompts)} done")
 	else:
 		completed = set()
@@ -65,8 +65,8 @@ for tsr_k in K_VALUES:
 			images = pipe(
 				prompt,
 				negative_prompt="",
-				num_inference_steps=30,
-				guidance_scale=7.5,
+				num_inference_steps=N_INF_STEPS,
+				guidance_scale=GUIDANCE_SCALE,
 				tsr_k=tsr_k,
 				tsr_sigma=TSR_SIGMA,
 				replica_exchange=REPLICA_EXCHANGE,
