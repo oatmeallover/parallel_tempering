@@ -13,7 +13,7 @@ MODEL_CACHE = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/model_
 SEED = 42
 
 # ── K sweep ──────────────────────────────────────────────────────────────────
-K_VALUES = [0.98]
+K_VALUES = [0.93, 0.9]
 
 # ── Shared pipeline config ───────────────────────────────────────────────────
 TSR_SIGMA = 3.0

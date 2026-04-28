@@ -7,6 +7,7 @@ from .dataset import compute_mixture_pdf
 from .config import DEVICE, DATASETS, DATASETS_IMG, CKPT_DIR, N_DIFFUSION_STEPS
 from .sample import ddpm_tsr_swapped
 from .score_integral import _k_ladder
+from .best_of_n import best_of_n
 
 torch.manual_seed(42)
 np.random.seed(42)
@@ -29,25 +30,45 @@ def plot_temperature_triptych(
 	},
 	x_limit=8,
 	n_bins=220,
+	best_of_n_runs=1,  # set > 1 to enable best-of-N
 ):
 	"""Create side-by-side visuals for original, flattened, and sharpened sampling."""
 	model = load_model(f"{ckpt_dir}/{dataset_name}_1.0.pt", dataset_name)
 	n_rows = 1
 
 	if dataset_name in DATASETS:
-		dataset_shape = DATASETS[dataset_name]["dataset_shape"]
+		dataset_config = DATASETS[dataset_name]
+		dataset_shape = dataset_config["dataset_shape"]
 		x_axis = np.linspace(-x_limit, x_limit, n_bins)
 		bins = np.linspace(-x_limit, x_limit, n_bins)
 	elif dataset_name in DATASETS_IMG:
-		sample_shape = DATASETS_IMG[dataset_name]["sample_shape"]  # (1, 28, 28)
-		dataset_shape = (n_samples, *sample_shape)                 # (n_samples, 1, 28, 28)
+		sample_shape = DATASETS_IMG[dataset_name]["sample_shape"]
+		dataset_shape = (n_samples, *sample_shape)
+		dataset_config = {"dataset_shape": dataset_shape}
 		n_rows = n_samples
 
 	k_ladder = _k_ladder(k, n_replicas)
 	titles = [f"k={k:.2f}" for k in k_ladder]
 
-	samples_ladder = ddpm_tsr_swapped(model, dataset_shape, k, k_ladder, replica_swaps=replica_swaps, swap_algorithm=swap_algorithm)
-
+	# ── Sample: best-of-N or single run ──────────────────────────────────────
+	if best_of_n_runs > 1 and dataset_name in DATASETS:
+		print(f"Running best-of-{best_of_n_runs}...")
+		samples_ladder, best_score, all_scores = best_of_n(
+			model=model,
+			dataset_config=dataset_config,
+			k=k,
+			k_ladder=k_ladder,
+			n_samples=best_of_n_runs,
+			swap_algorithm=swap_algorithm,
+			replica_swaps=replica_swaps,
+		)
+		print(f"Best score: {best_score:.4f} | All scores: {[f'{s:.4f}' for s in all_scores]}")
+	else:
+		samples_ladder = ddpm_tsr_swapped(
+			model, dataset_shape, k, k_ladder,
+			replica_swaps=replica_swaps,
+			swap_algorithm=swap_algorithm,
+		)
 	fig, axes = plt.subplots(n_rows, len(k_ladder), figsize=(len(k_ladder)*5, 4*n_rows), sharey=True)
 	# Normalize axes to always be 2D: (n_rows, 3)
 	if n_rows == 1:
@@ -97,6 +118,9 @@ def plot_temperature_triptych(
 
 	else:
 		parts.append("DDPM TSR")
+
+	if best_of_n_runs > 1:
+		parts.append(f"Best of {best_of_n_runs}")
 
 	fig.suptitle(" | ".join(parts), y=1.03)
 	plt.tight_layout()
