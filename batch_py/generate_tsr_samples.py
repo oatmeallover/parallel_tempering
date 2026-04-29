@@ -63,12 +63,6 @@ for tsr_lam in LAM_ALL:
 	checkpoint_file = output_dir / "completed.json"
 	output_dir.mkdir(parents=True, exist_ok=True)
 
-	if REPLICA_EXCHANGE:
-		k_str_flipped = f"lam{2.0-tsr_lam:.3f}".replace(".", "p")   # e.g. "k0p950" — safe for filenames
-		output_dir_flipped = BASE_OUTPUT_DIR / k_str_flipped
-		checkpoint_file_flipped = output_dir_flipped / "completed.json"
-		output_dir_flipped.mkdir(parents=True, exist_ok=True)
-
 	existing = list(output_dir.glob("*.png"))
 	completed = set(range(len(existing)))
 	if existing:
@@ -96,12 +90,8 @@ for tsr_lam in LAM_ALL:
 		).images
 
 		out_path = output_dir / f"{df.iloc[idx]['original_idx']}.png"
-		images[1].save(out_path, icc_profile=None)
+		images[0].save(out_path, icc_profile=None)
 
-		if REPLICA_EXCHANGE:
-			out_path = output_dir_flipped / f"{df.iloc[idx]['original_idx']}.png"
-			images[2].save(out_path, icc_profile=None)
-		
 		del images
 		torch.cuda.empty_cache()
 

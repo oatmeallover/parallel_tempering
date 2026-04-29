@@ -18,4 +18,5 @@ module load python # we are in scripts
 source activate /n/netscratch/kempner_undergrads/Everyone/zwu/environments/diffusers_env
 
 cd ..
-srun python generate_samples.py
+cd ..
+srun python generate_prompts.py
