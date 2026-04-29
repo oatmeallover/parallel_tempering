@@ -1,13 +1,11 @@
 from pathlib import Path
 
 
-INDEX_UNTIL = 610
-
-LAM_VALUES    = [0.93, 0.98, 0.95, 1.05, 0.9, 1.00]
+LAM_VALUES    = [1.01, 1.05, 1.1]
 
 REAL_DIR    = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_real"
-TSR_DIR     = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/tsr_test")
-PT_TSR_DIR  = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/pt_test")
+TSR_DIR     = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/tsr_samples")
+PT_TSR_DIR  = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/pt_samples")
 PROMPTS_FILE = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/data_files/laion_5k_prompts.csv")
 
 MODEL_CACHE = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/model_checkpoints"
@@ -17,9 +15,9 @@ TSR_SIGMA = 3.0
 SWAP_ALGORITHM = {
 	"n_replicas": 3,
 	"p_ratio": "p",
-	"even_indices": [0, 7, 12, 16, 19, 21],   # t ≈ 870, 763, 648, 536
-	"odd_indices":  [1, 8, 13, 17, 20, 22],
-	"debug": False,
+	"even_indices": [0,  4,  8],   # t ≈ 870, 763, 648, 536
+	"odd_indices":  [2,  6,  10],
+	"debug": True,
 }
 
 N_INF_STEPS = 30

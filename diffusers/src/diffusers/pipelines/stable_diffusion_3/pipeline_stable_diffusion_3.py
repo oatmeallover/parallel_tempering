@@ -966,7 +966,6 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 
 		if replica_exchange: # NEW CODE
 			n_replicas = swap_algorithm["n_replicas"]
-			if swap_algorithm["debug"]: print(f"We will be running with replica swaps with {n_replicas} replicas")
 			sys.stdout.flush()
 		else:
 			n_replicas = 1
@@ -1010,7 +1009,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 		# 4. Prepare latent variables
 		num_channels_latents = self.transformer.config.in_channels
 		latents = self.prepare_latents(
-			batch_size * num_images_per_prompt,
+			batch_size * num_images_per_prompt * n_replicas,
 			num_channels_latents,
 			height,
 			width,
@@ -1019,16 +1018,17 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 			generator,
 			latents,
 		)
+		lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
 
 		# if replica_exchange:
 		# 	lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
 		# 	print(lam_ladder)
 		# 	latents = latents.repeat_interleave(n_replicas, dim=0)  # [n_replicas*batch, C, H, W]
-		if replica_exchange:
-			lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
-			# scale std of each replica according to its temperature
-			scaled = [latents * torch.sqrt(torch.tensor(lam_ladder[i])) for i in range(n_replicas)]
-			latents = torch.cat(scaled, dim=0)  # [n_replicas*batch, C, H, W]
+		# if replica_exchange:
+		# 	lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
+		# 	# scale std of each replica according to its temperature
+		# 	scaled = [latents * torch.sqrt(torch.tensor(lam_ladder[i])) for i in range(n_replicas)]
+		# 	latents = torch.cat(scaled, dim=0)  # [n_replicas*batch, C, H, W]
 
 		# 5. Prepare timesteps
 		scheduler_kwargs = {}
@@ -1075,6 +1075,11 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 				self._joint_attention_kwargs = {"ip_adapter_image_embeds": ip_adapter_image_embeds}
 			else:
 				self._joint_attention_kwargs.update(ip_adapter_image_embeds=ip_adapter_image_embeds)
+
+
+		if swap_algorithm["debug"]:	 
+			print(f" We tsr by {tsr_lam:.2f} with replica exchange {replica_exchange}") 
+			sys.stdout.flush()
 
 		# 7. Denoising loop
 		with self.progress_bar(total=num_inference_steps) as progress_bar:
@@ -1131,20 +1136,13 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 
 				if tsr_lam is not None and tsr_sigma is not None: # NEW CODE
 					sigma_i = self.scheduler.sigmas[i].to(device=latents.device, dtype=latents.dtype)
-					n_replicas = swap_algorithm["n_replicas"]
 					if replica_exchange:
-						lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
-						for lam_index, tsr_lam_item in enumerate(lam_ladder):
-							tsr = compute_tsr_constant(tsr_lam_item, sigma_i, tsr_sigma)
-							if swap_algorithm["debug"]:	
-								print(f" We tsr by {tsr_lam_item:.2f}")
-								sys.stdout.flush()
-							noise_pred[batch_size * lam_index : batch_size * (lam_index+1)] *= tsr
+						tsr = compute_tsr_constant(lam_ladder, sigma_i, tsr_sigma)  # [n_replicas]
+						tsr = tsr.view(n_replicas, *([1] * (noise_pred.dim() - 1)))  # [n_replicas, 1, 1, 1]
+						noise_pred = noise_pred.view(n_replicas, batch_size, *noise_pred.shape[1:]) * tsr
+						noise_pred = noise_pred.view(-1, *noise_pred.shape[2:])
 					else:
 						tsr = compute_tsr_constant(tsr_lam, sigma_i, tsr_sigma)
-						if swap_algorithm["debug"]:	 
-							print(f" We tsr by {tsr_lam:.2f}") 
-							sys.stdout.flush()
 						noise_pred *= tsr
 
 				# compute the previous noisy sample x_t -> x_t-1
@@ -1167,6 +1165,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 						alpha_bar_i=alpha_bar_i,
 						prompt_embeds=prompt_embeds,
 						pooled_prompt_embeds=pooled_prompt_embeds,
+						lam_ladder=lam_ladder,
 						joint_attention_kwargs=self.joint_attention_kwargs,
 					)
 
