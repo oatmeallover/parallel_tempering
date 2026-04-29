@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import math
 from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
-from .config import DATASETS, DATASETS_IMG, DEVICE
+from .config_toy import DATASETS, DATASETS_IMG, DEVICE
 
 torch.manual_seed(42)
 device = DEVICE

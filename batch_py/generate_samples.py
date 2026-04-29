@@ -38,6 +38,7 @@ pipe = StableDiffusion3Pipeline.from_pretrained(
 	cache_dir=MODEL_CACHE,
 )
 pipe = pipe.to("cuda")
+pipe.transformer = torch.compile(pipe.transformer, mode="reduce-overhead") 
 pipe.set_progress_bar_config(disable=True)
 
 # ── Sweep ─────────────────────────────────────────────────────────────────────

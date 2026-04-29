@@ -6,7 +6,7 @@ import os
 from .model import MLP, UNet    
 from .dataset import generate_gaussian_mixture, build_training_tensor
 from .schedule import betas, alphas, alpha_bars, ts_desc
-from .config import DEVICE, TRAINING, TRAINING_IMG, DATASETS,DATASETS_IMG, N_DIFFUSION_STEPS, CKPT_DIR
+from .config_toy import DEVICE, TRAINING, TRAINING_IMG, DATASETS,DATASETS_IMG, N_DIFFUSION_STEPS, CKPT_DIR
 from .model import build_model_for_dataset
 
 device = DEVICE

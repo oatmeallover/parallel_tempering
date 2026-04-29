@@ -1,0 +1,15 @@
+Loaded 50 prompts
+
+[k=0.9] Starting fresh
+[k=0.9] Done — 50 images saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_generated_pt_ind/k0p900
+
+[k=0.93] Starting fresh
+[k=0.93] Done — 50 images saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_generated_pt_ind/k0p930
+
+[k=0.95] Resuming — 2/50 done
+[k=0.95] Done — 50 images saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_generated_pt_ind/k0p950
+
+[k=0.98] Resuming — 5/50 done
+[k=0.98] Done — 50 images saved to /n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_generated_pt_ind/k0p980
+
+[k=1.05] Starting fresh

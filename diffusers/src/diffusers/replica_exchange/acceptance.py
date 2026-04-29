@@ -1,34 +1,34 @@
 import torch 
 import sys
 @torch.no_grad()
-def compute_tsr_constant(k, sigma: torch.Tensor, tsr_sigma: float):
+def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
     sigma = sigma.float()
     
     # Handle both float and tensor inputs for k
-    if not isinstance(k, torch.Tensor):
-        k = torch.tensor([k], device=sigma.device, dtype=torch.float32)
+    if not isinstance(lam, torch.Tensor):
+        lam = torch.tensor([lam], device=sigma.device, dtype=torch.float32)
     else:
-        k = k.float()
+        lam = lam.float()
     
     eta_t = ((1.0 - sigma) ** 2) / (sigma**2 + 1e-12)
     base = eta_t * (tsr_sigma**2)
-    tsr = (base + 1.0) / (base / k.unsqueeze(-1) + 1.0)  # (n_replicas, sigma_dim)
+    tsr = (base + 1.0) / (base * lam.unsqueeze(-1) + 1.0)  # (n_replicas, sigma_dim)
     
-    # Replace nan with per-replica k value
-    tsr = torch.where(torch.isnan(tsr), k.unsqueeze(-1), tsr)
-    tsr = torch.min(tsr, k.unsqueeze(-1))  # clamp max per-replica
+    # Replace nan with per-replica lam value
+    tsr = torch.where(torch.isnan(tsr), lam.unsqueeze(-1), tsr)
+    tsr = torch.min(tsr, lam.unsqueeze(-1))  # clamp max per-replica
     
     return tsr.squeeze().to(sigma.dtype)  # squeeze so scalar k returns scalar-like tensor
 
 
 @torch.no_grad()
-def _k_ladder(tsr_k, n_replicas, device, dtype):
-    k = float(tsr_k)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype):
+    lam = float(tsr_lam)
     half = int(n_replicas // 2)
-    bottom = torch.linspace(1.0/k, 1.0, half + 1, device=device, dtype=dtype)
-    top = torch.linspace(1.0, k, half + 1, device=device, dtype=dtype)
+    bottom = torch.linspace(1.0 + ( 1.0-lam), 1.0, half + 1, device=device, dtype=dtype)
+    top = torch.linspace(1.0, lam, half + 1, device=device, dtype=dtype)
     ladder = torch.cat([bottom, top[1:]])
-    return ladder.flip(0)  # [k, ..., 1.0, ..., 1/k]
+    return ladder  # [k, ..., 1.0, ..., 1/k]
 
 
 @torch.no_grad()
@@ -63,11 +63,11 @@ def compute_score(
 
 
 @torch.no_grad()
-def swap_schedule(latents, i, t, tsr_k, tsr_sigma, sigma, swap_algorithm):
+def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	n_replicas = int(swap_algorithm["n_replicas"])
 
 	if swap_algorithm["debug"]:
-		print(f"t is {t}")
+		print(f"t is {t:.2f}")
 
 	if i in swap_algorithm["even_indices"]:
 		start = 0
@@ -76,11 +76,11 @@ def swap_schedule(latents, i, t, tsr_k, tsr_sigma, sigma, swap_algorithm):
 	else:
 		return []
 	x, _ = _replica_view(latents, n_replicas)
-	k_ladder = _k_ladder(tsr_k, n_replicas, latents.device, latents.dtype)
-	temp_ladder = compute_tsr_constant(k_ladder, sigma, tsr_sigma) 
+	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+	temp_ladder = compute_tsr_constant(lam_ladder, sigma, tsr_sigma) 
 	
-	return [((x[i].clone(), temp_ladder[i], k_ladder[i], i),
-		  (x[j].clone(), temp_ladder[j], k_ladder[j], j))
+	return [((x[i].clone(), temp_ladder[i], lam_ladder[i], i),
+		  (x[j].clone(), temp_ladder[j], lam_ladder[j], j))
 		for i, j in ((i, i + 1) for i in range(start, n_replicas - 1, 2))
 	]
 
@@ -104,10 +104,10 @@ def compute_score_integral(
 	prompt_embeds,
 	pooled_prompt_embeds,
 	joint_attention_kwargs=None,
-	n_segments=8,
+	n_segments=4,
 ):
-	x_t, temp_t, k_t, i_t = target
-	x_s, temp_s, k_s, i_s = source
+	x_t, temp_t, lam_t, i_t = target
+	x_s, temp_s, lam_s, i_s = source
 
 	orig_shape = x_s.shape
 	bs = orig_shape[0]
@@ -169,7 +169,7 @@ def exchanged_replicas(
 	latents,
 	i,
 	t,
-	tsr_k,
+	tsr_lam,
 	tsr_sigma,
 	sigma,
 	swap_algorithm,
@@ -182,10 +182,10 @@ def exchanged_replicas(
 	n_replicas = int(swap_algorithm["n_replicas"])
 	x, _ = _replica_view(latents, n_replicas)
 
-	for target, source in swap_schedule(latents, i, t, tsr_k, tsr_sigma, sigma, swap_algorithm):
+	for target, source in swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 
-		x_t, temp_t, k_t, i_t = target
-		x_s, temp_s, k_s, i_s = source
+		x_t, temp_t, lam_t, i_t = target
+		x_s, temp_s, lam_s, i_s = source
 
 		accept = compute_correction(
 			model,
@@ -201,7 +201,7 @@ def exchanged_replicas(
 
 		if swap_algorithm["debug"]:
 			rate = accept.mean().item()
-			print(f"Time {t} swap btwn source {float(k_s):.2f} and target {float(k_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
+			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
 		mask = accept.bool()
 		x[i_t] = torch.where(mask, x_s, x_t)

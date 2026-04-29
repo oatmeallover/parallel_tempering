@@ -1,7 +1,7 @@
 import torch 
 import numpy as np
 from scipy.stats import norm
-from .config import DATASETS_IMG, DATASETS
+from .config_toy import DATASETS_IMG, DATASETS
 
 from torchvision import datasets as tv_datasets
 from torchvision import transforms
@@ -71,7 +71,7 @@ def build_training_tensor(dataset_name, n_samples=None, train=True):
 
 
 @torch.no_grad()
-def compute_mixture_pdf(dataset_name, x_axis, k=1.0):
+def compute_mixture_pdf(dataset_name, x_axis, lam=1.0):
 	"""Computes analytical pdf of training dataset from dataset config file, used for plotting"""
 
 	dataset_config = DATASETS[dataset_name]
@@ -83,7 +83,7 @@ def compute_mixture_pdf(dataset_name, x_axis, k=1.0):
 	else:
 		stds = np.array(stds)
 		
-	stds = stds / np.sqrt(k)
+	stds = stds * np.sqrt(lam)
 	
 	n_gaussians = len(means)
 	pdf = np.zeros_like(x_axis)

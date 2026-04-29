@@ -26,7 +26,7 @@ from transformers import (
 	T5TokenizerFast,
 )
 
-from ...replica_exchange.acceptance import exchanged_replicas, compute_tsr_constant, _k_ladder
+from ...replica_exchange.acceptance import exchanged_replicas, compute_tsr_constant, _lam_ladder
 from ...callbacks import MultiPipelineCallbacks, PipelineCallback
 from ...image_processor import PipelineImageInput, VaeImageProcessor
 from ...loaders import FromSingleFileMixin, SD3IPAdapterMixin, SD3LoraLoaderMixin
@@ -806,7 +806,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 		skip_layer_guidance_stop: float = 0.2,
 		skip_layer_guidance_start: float = 0.01,
 		mu: float | None = None,
-		tsr_k: float | None = None, # NEW CODE
+		tsr_lam: float | None = None, # NEW CODE
 		tsr_sigma: float | None = None,
 		replica_exchange: bool = False,
 		swap_algorithm: dict[str, Any] | None = None,
@@ -966,7 +966,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 
 		if replica_exchange: # NEW CODE
 			n_replicas = swap_algorithm["n_replicas"]
-			print(f"We will be running with replica swaps with {n_replicas} replicas")
+			if swap_algorithm["debug"]: print(f"We will be running with replica swaps with {n_replicas} replicas")
 			sys.stdout.flush()
 		else:
 			n_replicas = 1
@@ -1021,7 +1021,10 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 		)
 
 		if replica_exchange:
-			latents = latents.repeat_interleave(n_replicas, dim=0)  # [n_replicas*batch, C, H, W]
+			lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
+			# scale std of each replica according to its temperature
+			scaled = [latents * lam_ladder[i] for i in range(n_replicas)]
+			latents = torch.cat(scaled, dim=0)  # [n_replicas*batch, C, H, W]
 
 		# 5. Prepare timesteps
 		scheduler_kwargs = {}
@@ -1122,21 +1125,21 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 							noise_pred + (noise_pred_text - noise_pred_skip_layers) * self._skip_layer_guidance_scale
 						)
 
-				if tsr_k is not None and tsr_sigma is not None: # NEW CODE
+				if tsr_lam is not None and tsr_sigma is not None: # NEW CODE
 					sigma_i = self.scheduler.sigmas[i].to(device=latents.device, dtype=latents.dtype)
 					n_replicas = swap_algorithm["n_replicas"]
 					if replica_exchange:
-						k_ladder = _k_ladder(tsr_k, n_replicas, latents.device, latents.dtype)
-						for k_index, tsr_k_item in enumerate(k_ladder):
-							tsr = compute_tsr_constant(tsr_k_item, sigma_i, tsr_sigma)
+						lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+						for lam_index, tsr_lam_item in enumerate(lam_ladder):
+							tsr = compute_tsr_constant(tsr_lam_item, sigma_i, tsr_sigma)
 							if swap_algorithm["debug"]:	
-								print(f" We tsr by {tsr_k_item:.2f}")
+								print(f" We tsr by {tsr_lam_item:.2f}")
 								sys.stdout.flush()
-							noise_pred[batch_size * k_index : batch_size * (k_index+1)] *= tsr
+							noise_pred[batch_size * lam_index : batch_size * (lam_index+1)] *= tsr
 					else:
-						tsr = compute_tsr_constant(tsr_k, sigma_i, tsr_sigma)
+						tsr = compute_tsr_constant(tsr_lam, sigma_i, tsr_sigma)
 						if swap_algorithm["debug"]:	 
-							print(f" We tsr by {tsr_k:.2f}") 
+							print(f" We tsr by {tsr_lam:.2f}") 
 							sys.stdout.flush()
 						noise_pred *= tsr
 
@@ -1153,7 +1156,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 						latents=latents,
 						i=i,
 						t=t,  # use step index for acceptance.py indexing/schedules
-						tsr_k=tsr_k,
+						tsr_lam=tsr_lam,
 						tsr_sigma=tsr_sigma,
 						sigma = sigma_i,
 						swap_algorithm=swap_algorithm,

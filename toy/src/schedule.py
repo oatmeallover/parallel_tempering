@@ -1,6 +1,6 @@
 import torch
 import math
-from .config import DEVICE, N_DIFFUSION_STEPS, TSR
+from .config_toy import DEVICE, N_DIFFUSION_STEPS, TSR
 
 torch.manual_seed(42)
 
@@ -24,7 +24,7 @@ alpha_bars = torch.cumprod(alphas, dim=0)  # alphā_t
 ts_desc = torch.arange(n_diffusion_steps - 1, -1, -1, device=device)
 
 @torch.no_grad()
-def compute_tsr_schedule(k, t):
+def compute_tsr_schedule(lam, t):
 	"""Computes temporal score rescaling coefficient. Outpit will be shape (N_DIFFUSION_STEPS, n_langevin_steps)"""
 
 	sigma = TSR["sigma"]
@@ -35,7 +35,7 @@ def compute_tsr_schedule(k, t):
 
 	eta_t = (alpha_t**2) / (sigma_t**2)
 	num = eta_t * (sigma ** 2) + 1
-	den = (eta_t * (sigma ** 2)) / k + 1
+	den = (eta_t * (sigma ** 2)) * lam + 1
 	tsr = num / den
 
 	return tsr
