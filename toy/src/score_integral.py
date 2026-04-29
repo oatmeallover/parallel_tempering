@@ -10,9 +10,9 @@ import numpy as np
 def _lam_ladder(tsr_lam, n_replicas):
 	l = float(tsr_lam)
 	half = int(n_replicas // 2)
-	bottom = np.linspace(2.0-l, 1.0, half + 1)  # [1/k, ..., 1.0]
-	top = np.linspace(1.0, l, half + 1)          # [1.0, ..., k]
-	return np.concat([bottom, top[1:]])  # drop duplicate 1.0 from top
+	bottom = np.linspace((2.0-l)*2, (2.0-l), half )  # [1/k, ..., 1.0]
+	top = np.linspace(l, l/2, half )          # [1.0, ..., k]
+	return np.array([(2.0-l)-0.2, (2.0-l), 1.0, l, l/2 +0.2])
 
 
 @torch.no_grad()

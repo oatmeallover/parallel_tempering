@@ -2,34 +2,42 @@ import torch
 import sys
 @torch.no_grad()
 def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
-    sigma = sigma.float()
-    
-    # Handle both float and tensor inputs for k
-    if not isinstance(lam, torch.Tensor):
-        lam = torch.tensor([lam], device=sigma.device, dtype=torch.float32)
-    else:
-        lam = lam.float()
-    
-    eta_t = ((1.0 - sigma) ** 2) / (sigma**2 + 1e-12)
-    base = eta_t * (tsr_sigma**2)
-    tsr = (base + 1.0) / (base * lam.unsqueeze(-1) + 1.0)  # (n_replicas, sigma_dim)
-    
-    # Replace nan with per-replica lam value
-    tsr = torch.where(torch.isnan(tsr), lam.unsqueeze(-1), tsr)
-    tsr = torch.min(tsr, lam.unsqueeze(-1))  # clamp max per-replica
-    
-    return tsr.squeeze().to(sigma.dtype)  # squeeze so scalar k returns scalar-like tensor
+	sigma = sigma.float()
+	
+	# Handle both float and tensor inputs for k
+	if not isinstance(lam, torch.Tensor):
+		lam = torch.tensor([lam], device=sigma.device, dtype=torch.float32)
+	else:
+		lam = lam.float()
+	
+	eta_t = ((1.0 - sigma) ** 2) / (sigma**2 + 1e-12)
+	base = eta_t * (tsr_sigma**2)
+	tsr = (base + 1.0) / (base * lam.unsqueeze(-1) + 1.0)  # (n_replicas, sigma_dim)
+	
+	# Replace nan with per-replica lam value
+	tsr = torch.where(torch.isnan(tsr), lam.unsqueeze(-1), tsr)
+	tsr = torch.min(tsr, lam.unsqueeze(-1))  # clamp max per-replica
+	
+	return tsr.squeeze().to(sigma.dtype)  # squeeze so scalar k returns scalar-like tensor
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype):
-    lam = float(tsr_lam)
-    half = int(n_replicas // 2)
-    bottom = torch.linspace(1.0 + ( 1.0-lam), 1.0, half + 1, device=device, dtype=dtype)
-    top = torch.linspace(1.0, lam, half + 1, device=device, dtype=dtype)
-    ladder = torch.cat([bottom, top[1:]])
-    return ladder  # [k, ..., 1.0, ..., 1/k]
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, gap = 0.2):
+	lam = tsr_lam
+	# half = int(n_replicas // 2)
+	# bottom = torch.linspace((2.0-lam)-0.1, (2.0-lam), half , device=device, dtype=dtype)
+	# top = torch.linspace(lam, lam-0.1, half , device=device, dtype=dtype)
+	# ladder = torch.cat([bottom, top])
+	# print(ladder)
+	return torch.tensor([lam-gap, lam, 2.0-lam, 2.0-lam+gap], device=device, dtype=dtype)  # [k, ..., 1.0, ..., 1/k]
 
+	# half = n_replicas // 2
+	# gap = 1.0 - tsr_lam # distance from l to 1.0
+	# bottom = torch.linspace(tsr_lam - gap * half, tsr_lam - gap, half)
+	# top    = torch.linspace(tsr_lam, tsr_lam + gap * half, half + 1)
+	# ladder = torch.round(torch.cat([bottom, top]) * 1e6) / 1e6
+	# ladder = torch.round(torch.cat([bottom, top[1:]]) * 1e6) / 1e6
+	# return ladder
 
 @torch.no_grad()
 def _replica_view(latents, n_replicas):

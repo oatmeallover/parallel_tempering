@@ -1020,10 +1020,14 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 			latents,
 		)
 
+		# if replica_exchange:
+		# 	lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
+		# 	print(lam_ladder)
+		# 	latents = latents.repeat_interleave(n_replicas, dim=0)  # [n_replicas*batch, C, H, W]
 		if replica_exchange:
 			lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
 			# scale std of each replica according to its temperature
-			scaled = [latents * lam_ladder[i] for i in range(n_replicas)]
+			scaled = [latents * torch.sqrt(torch.tensor(lam_ladder[i])) for i in range(n_replicas)]
 			latents = torch.cat(scaled, dim=0)  # [n_replicas*batch, C, H, W]
 
 		# 5. Prepare timesteps

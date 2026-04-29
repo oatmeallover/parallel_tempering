@@ -56,7 +56,7 @@ def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=Fa
 
 	x_init = torch.randn(dataset_shape, device=device)
 
-	x_ladder = {lam_val: x_init/np.sqrt(lam_val) for lam_val in lam_ladder}
+	x_ladder = {lam_val: x_init * np.sqrt(lam_val) for lam_val in lam_ladder}
 		
 	for t in ts_desc: 
 
