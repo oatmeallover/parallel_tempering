@@ -1009,7 +1009,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 		# 4. Prepare latent variables
 		num_channels_latents = self.transformer.config.in_channels
 		latents = self.prepare_latents(
-			batch_size * num_images_per_prompt * n_replicas,
+			batch_size * num_images_per_prompt,
 			num_channels_latents,
 			height,
 			width,
@@ -1018,6 +1018,12 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 			generator,
 			latents,
 		)
+
+		if replica_exchange:
+			latents = latents.repeat_interleave(n_replicas, dim=0)
+			lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+			for lam_index, tsr_lam_item in enumerate(lam_ladder):
+				latents[batch_size * lam_index : batch_size * (lam_index+1)] *= torch.sqrt(tsr_lam_item)
 
 		# 5. Prepare timesteps
 		scheduler_kwargs = {}

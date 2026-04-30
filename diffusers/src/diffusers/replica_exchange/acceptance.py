@@ -22,8 +22,9 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 0.1):
-	return torch.tensor([tsr_lam, 1.0-scale, tsr_lam+scale/2], device=device, dtype=dtype)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype):
+	scale = 2 * abs(tsr_lam - 1.0)
+	return torch.tensor([tsr_lam, tsr_lam+scale, tsr_lam-scale], device=device, dtype=dtype)
 
 
 @torch.no_grad()
