@@ -1018,17 +1018,6 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 			generator,
 			latents,
 		)
-		lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
-
-		# if replica_exchange:
-		# 	lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
-		# 	print(lam_ladder)
-		# 	latents = latents.repeat_interleave(n_replicas, dim=0)  # [n_replicas*batch, C, H, W]
-		# if replica_exchange:
-		# 	lam_ladder = _lam_ladder(torch.tensor(tsr_lam), n_replicas, device=device, dtype=latents.dtype)
-		# 	# scale std of each replica according to its temperature
-		# 	scaled = [latents * torch.sqrt(torch.tensor(lam_ladder[i])) for i in range(n_replicas)]
-		# 	latents = torch.cat(scaled, dim=0)  # [n_replicas*batch, C, H, W]
 
 		# 5. Prepare timesteps
 		scheduler_kwargs = {}
@@ -1136,11 +1125,12 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 
 				if tsr_lam is not None and tsr_sigma is not None: # NEW CODE
 					sigma_i = self.scheduler.sigmas[i].to(device=latents.device, dtype=latents.dtype)
+					n_replicas = swap_algorithm["n_replicas"]
 					if replica_exchange:
-						tsr = compute_tsr_constant(lam_ladder, sigma_i, tsr_sigma)  # [n_replicas]
-						tsr = tsr.view(n_replicas, *([1] * (noise_pred.dim() - 1)))  # [n_replicas, 1, 1, 1]
-						noise_pred = noise_pred.view(n_replicas, batch_size, *noise_pred.shape[1:]) * tsr
-						noise_pred = noise_pred.view(-1, *noise_pred.shape[2:])
+						lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+						for lam_index, tsr_lam_item in enumerate(lam_ladder):
+							tsr = compute_tsr_constant(tsr_lam_item, sigma_i, tsr_sigma)
+							noise_pred[batch_size * lam_index : batch_size * (lam_index+1)] *= tsr
 					else:
 						tsr = compute_tsr_constant(tsr_lam, sigma_i, tsr_sigma)
 						noise_pred *= tsr
@@ -1165,7 +1155,6 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 						alpha_bar_i=alpha_bar_i,
 						prompt_embeds=prompt_embeds,
 						pooled_prompt_embeds=pooled_prompt_embeds,
-						lam_ladder=lam_ladder,
 						joint_attention_kwargs=self.joint_attention_kwargs,
 					)
 

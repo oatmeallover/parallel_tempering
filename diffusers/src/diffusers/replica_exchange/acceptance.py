@@ -23,7 +23,7 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 0.1):
-	return torch.tensor([tsr_lam, tsr_lam+scale, tsr_lam-scale], device=device, dtype=dtype)
+	return torch.tensor([tsr_lam, 1.0-scale, tsr_lam+scale/2], device=device, dtype=dtype)
 
 
 @torch.no_grad()
@@ -33,32 +33,28 @@ def _replica_view(latents, n_replicas):
 
 
 @torch.no_grad()
-def compute_score(
-	model,
-	x,
-	t,
-	alpha_bar_i,
-	prompt_embeds,
-	pooled_prompt_embeds,
-	joint_attention_kwargs=None,
-):
-	batch_size = x.shape[0]
-	timestep = t.expand(batch_size)
-	pe = prompt_embeds.repeat_interleave(max(1, batch_size // prompt_embeds.shape[0]), dim=0)
-	ppe = pooled_prompt_embeds.repeat_interleave(max(1, batch_size // pooled_prompt_embeds.shape[0]), dim=0)
-	eps_hat = model(
-		hidden_states=x,
-		timestep=timestep,
-		encoder_hidden_states=pe,
-		pooled_projections=ppe,
-		joint_attention_kwargs=joint_attention_kwargs,
-		return_dict=False,
-	)[0]
-	return -eps_hat / torch.sqrt(1.0 - alpha_bar_i) 
+def compute_score(model, x, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds, joint_attention_kwargs=None):
+    batch_size = x.shape[0]
+    timestep = t.expand(batch_size)
+    
+    # tile to exactly batch_size rather than using integer division
+    n_repeats = (batch_size + prompt_embeds.shape[0] - 1) // prompt_embeds.shape[0]
+    pe  = prompt_embeds.repeat(n_repeats, 1, 1)[:batch_size]
+    ppe = pooled_prompt_embeds.repeat(n_repeats, 1)[:batch_size]
+    
+    eps_hat = model(
+        hidden_states=x,
+        timestep=timestep,
+        encoder_hidden_states=pe,
+        pooled_projections=ppe,
+        joint_attention_kwargs=joint_attention_kwargs,
+        return_dict=False,
+    )[0]
+    return -eps_hat / torch.sqrt(1.0 - alpha_bar_i)
 
 
 @torch.no_grad()
-def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm, lam_ladder):
+def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	n_replicas = int(swap_algorithm["n_replicas"])
 
 	if i in swap_algorithm["even_indices"]:
@@ -68,10 +64,11 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm, lam_
 	else:
 		return []
 	x, _ = _replica_view(latents, n_replicas)
+	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
 	temp_ladder = compute_tsr_constant(lam_ladder, sigma, tsr_sigma) 
 	
-	return [((x[0], temp_ladder[0], lam_ladder[0], 0),
-		     (x[j], temp_ladder[j], lam_ladder[j], j))
+	return [((x[0].clone(), temp_ladder[0], lam_ladder[0], 0),
+		  (x[j].clone(), temp_ladder[j], lam_ladder[j], j))
 		for i, j in ((i, i + 1) for i in range(start, n_replicas - 1, 2))
 	]
 
@@ -95,7 +92,7 @@ def compute_score_integral(
 	prompt_embeds,
 	pooled_prompt_embeds,
 	joint_attention_kwargs=None,
-	n_segments=3,
+	n_segments=4,
 ):
 	x_t, temp_t, lam_t, i_t = target
 	x_s, temp_s, lam_s, i_s = source
@@ -117,6 +114,13 @@ def compute_score_integral(
 		joint_attention_kwargs=joint_attention_kwargs,
 	).reshape(n_seg, bs, d)
 	f = -torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
+	
+	p_ratio = swap_algorithm["p_ratio"]
+
+	if p_ratio == "s":
+		return f * temp_s
+	if p_ratio == "t":
+		return -f * temp_t
 	return f * (temp_s - temp_t)
 
 
@@ -160,14 +164,13 @@ def exchanged_replicas(
 	alpha_bar_i,
 	prompt_embeds,
 	pooled_prompt_embeds,
-	lam_ladder,
 	joint_attention_kwargs=None,
 ):
 
 	n_replicas = int(swap_algorithm["n_replicas"])
 	x, _ = _replica_view(latents, n_replicas)
 
-	for target, source in swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm, lam_ladder):
+	for target, source in swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 
 		x_t, temp_t, lam_t, i_t = target
 		x_s, temp_s, lam_s, i_s = source
