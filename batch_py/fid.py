@@ -91,10 +91,13 @@ def compute_sweep(
 	device,
 	target_indices=None,
 	index_until=None,
+	tsr_dir = None,
 	pt_sr_dir = None,
 ):
 
 	if pt_sr_dir is not None: PT_TSR_DIR= pt_sr_dir
+	if tsr_dir is not None: 
+		TSR_DIR= tsr_dir	
 
 	prompt_map                 = build_prompt_map(index_until=index_until)
 	clip_model, clip_processor = build_clip_model(device)
