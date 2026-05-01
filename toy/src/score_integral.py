@@ -4,15 +4,14 @@ from .schedule import compute_tsr_schedule
 import matplotlib.pyplot as plt
 import scipy
 import numpy as np
-
+from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas):
-	l = float(tsr_lam)
-	half = int(n_replicas // 2)
-	bottom = np.linspace((2.0-l)*2, (2.0-l), half )  # [1/k, ..., 1.0]
-	top = np.linspace(l, l/2, half )          # [1.0, ..., k]
-	return np.array([(2.0-l)-0.2, (2.0-l), 1.0, l, l/2 +0.2])
+
+	step = tsr_lam - 1.0
+
+	return np.array([tsr_lam-step, tsr_lam, tsr_lam+step])
 
 
 @torch.no_grad()
@@ -59,18 +58,9 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 
 	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
 
-	f = - f_flat.reshape(original_shape) # p(x_s) / p(x_t)
+	f = f_flat.reshape(original_shape) # p(x_s) / p(x_t)
 
-	if swap_algorithm["p_ratio"] == "s":
-		temp_s = compute_tsr_schedule(lam_s, t)
-		return f * temp_s
-	elif swap_algorithm["p_ratio"] == "t":
-		temp_t = compute_tsr_schedule(lam_t, t)
-		return - f * temp_t
-	elif swap_algorithm["p_ratio"] == "p":
-		temp_t = compute_tsr_schedule(lam_t, t)
-		temp_s = compute_tsr_schedule(lam_s, t)
-		return f * (temp_s - temp_t) 
+	return f 
 	
 
 @torch.no_grad() 
@@ -105,8 +95,22 @@ def compute_correction(model, target, source, t, swap_algorithm):
 	x_t, lam_t = target
 	x_s, lam_s = source
 
-	f = compute_score_integral(model, target, source, t, swap_algorithm) 
-	a = torch.clamp(torch.exp(f), max = 1.0)
+	# f = compute_score_integral(model, target, source, t, swap_algorithm) 
+
+	ones = torch.ones((x_t.shape[0], 1), device=x_t.device)
+	eps_hat_t = model(x_t, t * ones)   
+	eps_hat_s = model(x_s, t * ones)  
+	a_bar_t = alpha_bars[t] 
+
+	log_A_log_B = - ((eps_hat_t - eps_hat_s)+(x_t - x_s))**2
+	log_C_log_D = a_bar_t*(eps_hat_t + eps_hat_s)
+	p_ratio = torch.exp( log_A_log_B - log_C_log_D  )
+
+	print(f"log a plus log b {log_A_log_B.mean().item()} std {log_A_log_B.mean().item()}")
+	print(f"log c plus log d {log_C_log_D.mean().item()} std {log_C_log_D.mean().item()}")
+	print(f"p ratio.         {p_ratio.mean().item()} std {p_ratio.mean().item()}")
+
+	a = torch.clamp(p_ratio, max = 1.0)
 
 	if swap_algorithm["debug"]:
 

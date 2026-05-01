@@ -22,9 +22,9 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype):
-	scale = 2 * abs(tsr_lam - 1.0)
-	return torch.tensor([tsr_lam, tsr_lam+scale, tsr_lam-scale], device=device, dtype=dtype)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, k = 10):
+	scale = abs(tsr_lam - 1.0)**(1/k)
+	return torch.tensor([tsr_lam, tsr_lam-scale, tsr_lam+scale], device=device, dtype=dtype)
 
 
 @torch.no_grad()
@@ -118,11 +118,7 @@ def compute_score_integral(
 	
 	p_ratio = swap_algorithm["p_ratio"]
 
-	if p_ratio == "s":
-		return f * temp_s
-	if p_ratio == "t":
-		return -f * temp_t
-	return f * (temp_s - temp_t)
+	return f * (1/temp_s - 1/temp_t)
 
 
 @torch.no_grad()
@@ -147,8 +143,10 @@ def compute_correction(
 		prompt_embeds,
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
-	)
-	a = torch.clamp(torch.exp(f), max=1.0)
+		)
+	# pass i (timestep index) in and tighten beta as denoising progresses
+	beta = 1.0 + 3.0 * (1.0 - t / 1000.0)  # grows from 1 to 4 as t -> 0
+	a = torch.clamp(torch.exp(f * beta), max=1.0)
 	return (torch.rand_like(a) < a).float()
 
 

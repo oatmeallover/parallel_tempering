@@ -16,9 +16,9 @@ ckpt_dir = CKPT_DIR
 def swap_schedule(t, lam_ladder, x_ladder, swap_algorithm):
     n = len(lam_ladder)
 
-    if t in swap_algorithm["even"]:
+    if t % 2 ==0:
         start = 0
-    elif t in swap_algorithm["odd"]:
+    elif t % 2 ==1:
         start = 1
     else:
         return []
@@ -56,7 +56,7 @@ def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=Fa
 
 	x_init = torch.randn(dataset_shape, device=device)
 
-	x_ladder = {lam_val: x_init * np.sqrt(lam_val) for lam_val in lam_ladder}
+	x_ladder = {lam_val: torch.randn(dataset_shape, device=device) for lam_val in lam_ladder}
 		
 	for t in ts_desc: 
 
