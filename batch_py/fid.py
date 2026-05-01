@@ -12,13 +12,11 @@ from cleanfid.fid import get_files_features, frechet_distance
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-INDEX_UNTIL = 5
-
 # ── Setup ─────────────────────────────────────────────────────────────────────
 
-def build_prompt_map(prompts_file=PROMPTS_FILE, index_until=INDEX_UNTIL):
+def build_prompt_map(prompts_file=PROMPTS_FILE, index_until=None):
 	df = pd.read_csv(prompts_file)
-	df = df.iloc[:index_until]
+	if index_until: df = df.iloc[:index_until]
 	return {i: row["text"] for i, (_, row) in enumerate(df.iterrows())}
 
 def build_clip_model(device):
@@ -34,31 +32,17 @@ def build_feat_model(device):
 
 # ── Feature extraction ────────────────────────────────────────────────────────
 
-def get_features_subset(folder, model, device, n=INDEX_UNTIL, target_indices = None):
-	if target_indices is None:
-		files = sorted(Path(folder).glob("*.png"))[:n]
-		return get_files_features(
-			[str(f) for f in files],
-			model,
-			device=device,
-		)
-	else:
-		all_files = {int(f.stem): f for f in sorted(Path(folder).glob("*.png"))}
-		files = []
-		for targ_idx in target_indices:
-			if targ_idx in all_files:
-				files.append(all_files[targ_idx])
-			else:
-				print(f"Warning: {targ_idx}.png not found in {folder}")
-		
-		if not files:
-			raise FileNotFoundError(f"No matching PNGs found in {folder}")
-		
-		return get_files_features([str(f) for f in files], model, device=device)
+def get_features_subset(folder, model, device, n=None, target_indices = None):
+	files = sorted(Path(folder).glob("*.png"))[:n]
+	return get_files_features(
+		[str(f) for f in files],
+		model,
+		device=device,
+	)
 
 # ── FID ───────────────────────────────────────────────────────────────────────
 
-def compute_real_stats(feat_model, device, real_dir=REAL_DIR, n=INDEX_UNTIL, target_indices=None):
+def compute_real_stats(feat_model, device, real_dir=REAL_DIR, n=None, target_indices=None):
 	print("Computing real image features...")
 	real_feats = get_features_subset(real_dir, feat_model, device=torch.device(device), n=n, target_indices=target_indices)
 	mu_real = np.mean(real_feats, axis=0)
@@ -67,7 +51,7 @@ def compute_real_stats(feat_model, device, real_dir=REAL_DIR, n=INDEX_UNTIL, tar
 	return mu_real, sigma_real
 
 
-def compute_fid_score(gen_dir, feat_model, mu_real, sigma_real, device, n=INDEX_UNTIL, target_indices=None):
+def compute_fid_score(gen_dir, feat_model, mu_real, sigma_real, device, n=None, target_indices=None):
 	gen_feats = get_features_subset(gen_dir, feat_model, device=torch.device(device), n=n, target_indices=target_indices)
 	mu_gen = np.mean(gen_feats, axis=0)
 	sigma_gen = np.cov(gen_feats, rowvar=False)
@@ -76,7 +60,7 @@ def compute_fid_score(gen_dir, feat_model, mu_real, sigma_real, device, n=INDEX_
 
 # ── CLIP ──────────────────────────────────────────────────────────────────────
 
-def compute_clip(gen_dir, tsr_lam, prompt_map, clip_model, clip_processor, device, index_until=INDEX_UNTIL):
+def compute_clip(gen_dir, tsr_lam, prompt_map, clip_model, clip_processor, device, index_until=None):
 	scores = []
 	for img_path in tqdm(sorted(gen_dir.glob("*.png"))[:index_until], desc=f"CLIP lam={tsr_lam}"):
 		idx = int(img_path.stem)
@@ -99,14 +83,6 @@ def compute_clip(gen_dir, tsr_lam, prompt_map, clip_model, clip_processor, devic
 	return np.mean(scores)
 
 
-# ── Sanity check ──────────────────────────────────────────────────────────────
-
-def sanity_check(gen_dir, prompt_map, idx=1000):
-	img_path = gen_dir / f"{idx:05d}.png"
-	prompt = prompt_map.get(idx, "NOT FOUND")
-	print(f"idx={idx}  prompt: {prompt}")
-	return Image.open(img_path).convert("RGB")
-
 # ── Sweep ─────────────────────────────────────────────────────────────────────
 
 def compute_sweep(
@@ -114,16 +90,16 @@ def compute_sweep(
 	replica_exchanges,
 	device,
 	target_indices=None,
-	index_until=INDEX_UNTIL,
+	index_until=None,
 	pt_sr_dir = None,
 ):
 
 	if pt_sr_dir is not None: PT_TSR_DIR= pt_sr_dir
 
-	prompt_map                 = build_prompt_map()
+	prompt_map                 = build_prompt_map(index_until=index_until)
 	clip_model, clip_processor = build_clip_model(device)
 	feat_model                 = build_feat_model(device)
-	mu_real, sigma_real        = compute_real_stats(feat_model, device, n=INDEX_UNTIL)
+	mu_real, sigma_real        = compute_real_stats(feat_model, device, n=index_until)
 	
 	tsr_results = {alg: {} for alg in replica_exchanges}
 
