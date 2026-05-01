@@ -52,7 +52,7 @@ def replica_exchange(model, t, lam, lam_ladder, x_ladder, swap_algorithm):
 
 
 @torch.no_grad()
-def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=False, swap_algorithm=None,):
+def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=False, swap_algorithm=None):
 
 	x_init = torch.randn(dataset_shape, device=device)
 
