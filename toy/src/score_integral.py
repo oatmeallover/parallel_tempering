@@ -8,10 +8,8 @@ from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas):
-
-	step = tsr_lam - 1.0
-
-	return np.array([tsr_lam-step, tsr_lam, tsr_lam+step])
+	scale = tsr_lam -1
+	return np.array([tsr_lam, 1.0, 1.0/tsr_lam])
 
 
 @torch.no_grad()
@@ -95,32 +93,16 @@ def compute_correction(model, target, source, t, swap_algorithm):
 	x_t, lam_t = target
 	x_s, lam_s = source
 
-	# f = compute_score_integral(model, target, source, t, swap_algorithm) 
+	f = compute_score_integral(model, target, source, t, swap_algorithm) 
+	temp_t = compute_tsr_schedule(lam_t, t)
+	temp_s = compute_tsr_schedule(lam_s, t)
 
-	ones = torch.ones((x_t.shape[0], 1), device=x_t.device)
-	eps_hat_t = model(x_t, t * ones)   
-	eps_hat_s = model(x_s, t * ones)  
-	a_bar_t = alpha_bars[t] 
+	diff = (1/temp_s - 1/temp_t)
+	print(f" diff {diff.mean().item()}")
 
-	log_A_log_B = - ((eps_hat_t - eps_hat_s)+(x_t - x_s))**2
-	log_C_log_D = a_bar_t*(eps_hat_t + eps_hat_s)
-	p_ratio = torch.exp( log_A_log_B - log_C_log_D  )
+	a = torch.exp(f * diff)  # clamp in log space, safer
 
-	print(f"log a plus log b {log_A_log_B.mean().item()} std {log_A_log_B.mean().item()}")
-	print(f"log c plus log d {log_C_log_D.mean().item()} std {log_C_log_D.mean().item()}")
-	print(f"p ratio.         {p_ratio.mean().item()} std {p_ratio.mean().item()}")
-
-	a = torch.clamp(p_ratio, max = 1.0)
-
-	if swap_algorithm["debug"]:
-
-		x_np = x_s.flatten().cpu().numpy()
-		means, edges, _ = scipy.stats.binned_statistic(x_np, a.flatten().cpu().numpy(), bins=100)
-		plt.scatter((edges[:-1]+edges[1:])/2, means, label='Acceptances')
-		plt.scatter([-3,0,3], [1,1,1], label="Distribution modes")
-		plt.title(f"Time {t.item()} lam target = {lam_t} and source {lam_s}")
-		plt.legend()
-		plt.show()
+	print(f"p ratio.         {a.mean().item()} std {a.std().item()}")
 
 	u = torch.rand_like(a)
 	accept_mask = (u < a).float()
