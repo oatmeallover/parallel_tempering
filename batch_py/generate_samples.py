@@ -31,7 +31,7 @@ pipe = StableDiffusion3Pipeline.from_pretrained(
 pipe = pipe.to("cuda")
 pipe.set_progress_bar_config(disable=True)
 
-replica_exchanges = [True]
+replica_exchanges = [True, False]
 
 lam_dirs = {}
 for re in replica_exchanges:

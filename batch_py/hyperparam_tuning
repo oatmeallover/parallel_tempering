@@ -4,6 +4,7 @@ import gc
 import torch
 import pandas as pd
 from tqdm import tqdm
+from fid import compute_sweep
 
 import argparse
 
@@ -52,6 +53,20 @@ swap_algorithms = [
 		"even_indices": [14, 18, 22],   # t ≈ 870, 763, 648, 536
 		"odd_indices":  [15, 19, 23],
 		"debug": True,
+	},
+ 	{
+		"n_replicas": 3,
+		"p_ratio": "p",
+		"even_indices": [12, 16, 20],   # t ≈ 870, 763, 648, 536
+		"odd_indices":  [14, 18, 22],
+		"debug": True,
+	},
+  	{
+		"n_replicas": 3,
+		"p_ratio": "p",
+		"even_indices": [14, 18, 22],   # t ≈ 870, 763, 648, 536
+		"odd_indices":  [15, 19, 23],
+		"debug": True,
 	}
 ]
 
@@ -86,6 +101,17 @@ for s_idx, swap_algorithm in enumerate(swap_algorithms):
 
 				out_path = output_dir / f"{idx:05d}_{s_idx}.png"
 				images[0].save(out_path, icc_profile=None)
+				
+				compute_sweep(
+					lam_values=LAM_VALUES,
+					replica_exchanges=[True, False],
+					device="cuda",
+					target_indices=None,
+					index_until=INDEX_UNTIL,
+					tsr_dir = TSR_DIR,
+					pt_sr_dir = PT_TSR_DIR,
+				)
+    
 				del images
 			torch.cuda.empty_cache()
 
