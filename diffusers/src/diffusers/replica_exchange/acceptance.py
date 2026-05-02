@@ -23,10 +23,11 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = None):
-	scale = tsr_lam - 1.0
-	lam_mid = 1/(scale + 1/tsr_lam)
-	lam_high = 1/(scale + 1/lam_mid)
-	return torch.tensor([tsr_lam, lam_mid, lam_high], device=device, dtype=dtype)
+	scale =  0.3
+	lam_low = 1/(1 * scale + 1/tsr_lam)
+	lam_mid = 1/(-1 * scale + 1/tsr_lam)
+	lam_high = 1/(-1 * scale + 1/lam_mid)
+	return torch.tensor([tsr_lam, lam_low,lam_mid, lam_high], device=device, dtype=dtype)
 
 @torch.no_grad()
 def _replica_view(latents, n_replicas):
@@ -59,17 +60,19 @@ def compute_score(model, x, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds,
 def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	n_replicas = int(swap_algorithm["n_replicas"])
 
-	if i in swap_algorithm["even_indices"]:
+	if i in swap_algorithm["low_indices"]:
 		start = 0
-	elif i in swap_algorithm["odd_indices"]:
+	elif i in swap_algorithm["mid_indices"]:
 		start = 1
+  	elif i in swap_algorithm["high_indices"]:
+		start = 2
 	else:
 		return []
 	x, _ = _replica_view(latents, n_replicas)
 	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
 	temp_ladder = compute_tsr_constant(lam_ladder, sigma, tsr_sigma) 
 	
-	return [((x[i].clone(), temp_ladder[i], lam_ladder[i], i),
+	return [((x[0].clone(), temp_ladder[0], lam_ladder[0], 0),
 		  (x[j].clone(), temp_ladder[j], lam_ladder[j], j))
 		for i, j in ((i, i + 1) for i in range(start, n_replicas - 1, 2))
 	]
@@ -115,7 +118,7 @@ def compute_score_integral(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 	).reshape(n_seg, bs, d)
-	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
+	f =  - torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 	
 	return f * (1/temp_s - 1/temp_t)
 

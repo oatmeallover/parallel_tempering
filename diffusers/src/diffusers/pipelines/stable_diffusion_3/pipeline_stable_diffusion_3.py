@@ -1021,9 +1021,9 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 
 		if replica_exchange:
 			latents = latents.repeat_interleave(n_replicas, dim=0)
-			lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
-			for lam_index, tsr_lam_item in enumerate(lam_ladder):
-				latents[batch_size * lam_index : batch_size * (lam_index+1)] *= torch.sqrt(tsr_lam_item)
+			# lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+			# for lam_index, tsr_lam_item in enumerate(lam_ladder):
+			# 	latents[batch_size * lam_index : batch_size * (lam_index+1)] *= torch.sqrt(tsr_lam_item)
 
 		# 5. Prepare timesteps
 		scheduler_kwargs = {}
