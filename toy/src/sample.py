@@ -14,21 +14,21 @@ ckpt_dir = CKPT_DIR
 
 @torch.no_grad()
 def swap_schedule(t, lam_ladder, x_ladder, swap_algorithm):
-    n = len(lam_ladder)
+	n = len(lam_ladder)
 
-    if t in swap_algorithm["even"]:
-        start = 0
-    elif t in swap_algorithm["odd"]:
-        start = 1
-    else:
-        return []
+	if t in swap_algorithm["even"]:
+		start = 0
+	elif t in swap_algorithm["odd"]:
+		start = 1
+	else:
+		return []
 
-    pairs = [(i, i + 1) for i in range(start, n - 1, 2)]
-    return [
-        ((x_ladder[lam_ladder[i]].clone(), lam_ladder[i]),
-         (x_ladder[lam_ladder[j]].clone(), lam_ladder[j]))
-        for i, j in pairs
-    ]
+	pairs = [(i, i + 1) for i in range(start, n - 1, 2)]
+	return [
+		((x_ladder[lam_ladder[i]].clone(), lam_ladder[i]),
+		 (x_ladder[lam_ladder[j]].clone(), lam_ladder[j]))
+		for i, j in pairs
+	]
 
 
 @torch.no_grad()
@@ -41,12 +41,17 @@ def replica_exchange(model, t, lam, lam_ladder, x_ladder, swap_algorithm):
 		(x_t, lam_t) = target
 		(x_s, lam_s) = source
 
-		accept_mask = compute_correction(model, target, source, t, swap_algorithm)
+		# Random pairing permutation
+		N = x_t.shape[0]
+		perm = torch.randperm(N)
+		x_s_proposed = x_s[perm]
 
-		if swap_algorithm["debug"]: print(f"Time {t} swap btwn source {lam_s.item():.2f} and target {lam_t.item():.2f} accept {accept_mask.sum().item() / 100_000 :.2f} ")
+		accept_mask = compute_correction(model, (x_t, lam_t), (x_s_proposed, lam_s), t, swap_algorithm)
 
-		x_ladder[lam_t] = accept_mask * x_s + (1 - accept_mask) * x_t
-		x_ladder[lam_s] = accept_mask * x_t + (1 - accept_mask) * x_s
+		if swap_algorithm["debug"]: print(f"Time {t} swap btwn source {lam_s.item():.2f} and target {lam_t.item():.2f} accept {accept_mask.sum().item() / N :.2f} ")
+
+		x_ladder[lam_t] = accept_mask * x_s_proposed + (1 - accept_mask) * x_t
+		x_ladder[lam_s][perm] = accept_mask * x_t + (1 - accept_mask) * x_s_proposed
 	
 	return x_ladder
 
