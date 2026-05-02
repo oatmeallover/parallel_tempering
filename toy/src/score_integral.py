@@ -8,7 +8,7 @@ from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas):
-	scale = 0.5
+	scale = 0.4
 	return np.array([tsr_lam, tsr_lam / scale , tsr_lam /(scale**2)])
 
 
