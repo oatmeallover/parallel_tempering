@@ -8,8 +8,8 @@ from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas):
-	scale = tsr_lam -1
-	return np.array([tsr_lam, 1.0, 1.0/tsr_lam])
+	scale = 1.2
+	return np.array([tsr_lam, tsr_lam  + 1.5 , tsr_lam + 1.75])
 
 
 @torch.no_grad()
@@ -56,7 +56,7 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 
 	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
 
-	f = f_flat.reshape(original_shape) # p(x_s) / p(x_t)
+	f = - f_flat.reshape(original_shape) # p(x_t) / p(x_s)
 
 	return f 
 	
@@ -97,10 +97,20 @@ def compute_correction(model, target, source, t, swap_algorithm):
 	temp_t = compute_tsr_schedule(lam_t, t)
 	temp_s = compute_tsr_schedule(lam_s, t)
 
-	diff = (1/temp_s - 1/temp_t)
+	diff = (1/temp_t)
 	print(f" diff {diff.mean().item()}")
+ 
+	f_diff = torch.clamp(f*diff, max=0)
 
-	a = torch.exp(f * diff)  # clamp in log space, safer
+	a = torch.exp(f_diff) # clamp in log space, safer
+
+	x_np = x_t.flatten().cpu().numpy()
+	means, edges, _ = scipy.stats.binned_statistic(x_np, a.flatten().cpu().numpy(), bins=100)
+	plt.scatter((edges[:-1]+edges[1:])/2, means)
+	plt.title(f"Time {t.item()} targ = {lam_t} and sour= {lam_s}")
+	plt.scatter([-3,0,3], [1,1,1])
+	plt.legend()
+	plt.show()
 
 	print(f"p ratio.         {a.mean().item()} std {a.std().item()}")
 

@@ -22,7 +22,7 @@ def plot_temperature_triptych(
 	n_samples=4,
 	n_replicas=3,
 	replica_swaps=False,
-	swap_algorithm= None
+	swap_algorithm= None,
 	x_limit=8,
 	n_bins=220,
 	best_of_n_runs=1,  # set > 1 to enable best-of-N
