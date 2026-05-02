@@ -9,7 +9,7 @@ from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas):
 	scale = 1.2
-	return np.array([tsr_lam, tsr_lam  + 1.5 , tsr_lam + 1.75])
+	return np.array([tsr_lam, tsr_lam  + 1.73 , tsr_lam + 1.75])
 
 
 @torch.no_grad()
