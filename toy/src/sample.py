@@ -65,9 +65,10 @@ def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=Fa
 		sqrt_alpha_t = torch.sqrt(alpha_t)
 		sqrt_beta_t = torch.sqrt(beta_t)
 
+		noise = torch.randn(dataset_shape, device=device)
+
 		for lam_val in lam_ladder:
 			x = x_ladder[lam_val].clone()
-			noise = torch.randn(dataset_shape, device=device)
 			score_hat = compute_score(model, x, t, lam_val)
 			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 			x_ladder[lam_val] = x.clone()

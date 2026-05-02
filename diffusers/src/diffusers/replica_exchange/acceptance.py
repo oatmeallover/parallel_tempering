@@ -23,10 +23,8 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = None):
-	scale = tsr_lam - 1.0
-	lam_mid = 1/(scale + 1/tsr_lam)
-	lam_high = 1/(scale + 1/lam_mid)
-	return torch.tensor([tsr_lam, lam_mid, lam_high], device=device, dtype=dtype)
+	scale = 0.9
+	return torch.tensor([tsr_lam, tsr_lam / scale , tsr_lam /(scale**2)], device=device, dtype=dtype)
 
 @torch.no_grad()
 def _replica_view(latents, n_replicas):
@@ -115,9 +113,9 @@ def compute_score_integral(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 	).reshape(n_seg, bs, d)
-	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
+	f = - torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 	
-	return f * (1/temp_s - 1/temp_t)
+	return f * (1/temp_t)
 
 
 @torch.no_grad()
