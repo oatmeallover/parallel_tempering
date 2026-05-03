@@ -1138,7 +1138,7 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 							tsr = compute_tsr_constant(t, tsr_lam_item, sigma_i, tsr_sigma)
 							noise_pred[batch_size * lam_index : batch_size * (lam_index+1)] *= tsr
 					else:
-						tsr = compute_tsr_constant(t, tsr_lam, sigma_i, tsr_sigma, replica_exchange =False)
+						tsr = compute_tsr_constant(t, tsr_lam, sigma_i, tsr_sigma)
 						noise_pred *= tsr
 
 				# compute the previous noisy sample x_t -> x_t-1

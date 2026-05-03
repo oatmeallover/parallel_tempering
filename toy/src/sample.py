@@ -79,7 +79,10 @@ def ddpm_tsr_swapped(model, dataset_shape, lam, lam_ladder=1.0, replica_swaps=Fa
 
 		for lam_val in lam_ladder:
 			x = x_ladder[lam_val].clone()
-			score_hat = compute_score(model, x, t, lam_val)
+			if replica_swaps:
+				score_hat = compute_score(model, x, t, lam_val, replica_swap = True)
+			else:
+				score_hat = compute_score(model, x, t, lam_val)
 			x = (x + beta_t * score_hat) / sqrt_alpha_t + sqrt_beta_t * noise
 			x_ladder[lam_val] = x.clone()
 

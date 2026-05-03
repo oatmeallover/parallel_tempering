@@ -135,7 +135,7 @@ def build_model_for_dataset(dataset_name):
 	
 
 @torch.no_grad()
-def compute_score(model, x, t, k):
+def compute_score(model, x, t, k, replica_swap = False):
 	"""Computes score = - epsilon * temp / √(1 - α_bar)"""
 	
 	x_shape = x.shape
@@ -143,6 +143,6 @@ def compute_score(model, x, t, k):
 	a_bar = alpha_bars[t]
 
 	eps_hat = model(x, t * ones)   
-	temp_t = compute_tsr_schedule(k, t)
+	temp_t = compute_tsr_schedule(k, t, replica_swap)
 
 	return - eps_hat * temp_t / torch.sqrt(1.0 - a_bar)

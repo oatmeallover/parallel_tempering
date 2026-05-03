@@ -2,8 +2,7 @@ import torch
 import sys
 @torch.no_grad()
 def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_exchange = True):
-	if replica_exchange: 
-		return 1/lam
+    
 	sigma = sigma.float()
 	
 	# Handle both float and tensor inputs for k
@@ -24,8 +23,8 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.3):
-	return torch.tensor([tsr_lam, scale * tsr_lam, scale**2 * tsr_lam], device=device, dtype=dtype)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.5):
+	return torch.tensor([tsr_lam, scale * tsr_lam,  1/(scale * tsr_lam)], device=device, dtype=dtype)
 
 
 @torch.no_grad()
@@ -69,7 +68,7 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
 	temp_ladder = compute_tsr_constant(t, lam_ladder, sigma, tsr_sigma) 
 	
-	return [((x[i].clone(), temp_ladder[i], lam_ladder[i], i),
+	return [((x[0].clone(), temp_ladder[0], lam_ladder[0], 0),
 		  (x[j].clone(), temp_ladder[j], lam_ladder[j], j))
 		for i, j in ((i, i + 1) for i in range(start, n_replicas - 1, 2))
 	]
@@ -106,6 +105,7 @@ def compute_score_integral(
 	s, r, r_deriv = _segment_path(x_flat, x_hat_flat, n_segments)
 	n_seg, _, d = r.shape
 	r_in = r.reshape(n_seg * bs, *orig_shape[1:]).to(next(model.parameters()).dtype)
+	
 	score = compute_score(
 		model,
 		r_in,
@@ -117,9 +117,7 @@ def compute_score_integral(
 	).reshape(n_seg, bs, d)
 	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 
-	diff = (1/temp_s - 1/ temp_t)
-	
-	return torch.clamp(f * diff, max = 1.0)
+	return f * temp_s
 
 
 @torch.no_grad()
@@ -134,7 +132,7 @@ def compute_correction(
 	pooled_prompt_embeds,
 	joint_attention_kwargs=None,
 ):
-	f = compute_score_integral(
+	f_t_s = compute_score_integral(
 		model,
 		target,
 		source,
@@ -144,8 +142,20 @@ def compute_correction(
 		prompt_embeds,
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
+		) # p (t) / p(s)
+	f_s_t = compute_score_integral(
+		model,
+		source,
+		target,
+		t,
+		swap_algorithm,
+		alpha_bar_i,
+		prompt_embeds,
+		pooled_prompt_embeds,
+		joint_attention_kwargs=joint_attention_kwargs,
 		)
-	a = torch.exp(f )
+	energy_diff_clamped = torch.clamp(f_t_s + f_s_t, max = 0.0)
+	a = torch.exp(energy_diff_clamped )
 	return (torch.rand_like(a) < a).float()
 
 
@@ -187,7 +197,7 @@ def exchanged_replicas(
 
 		if swap_algorithm["debug"]:
 			rate = accept.mean().item()
-			print(f"Time {t:.2f} swap btwn source {float(temp_s):.2f} and target {float(temp_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
+			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
 		mask = accept.bool()
 		x[i_t] = torch.where(mask, x_s, x_t)

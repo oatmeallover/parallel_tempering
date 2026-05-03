@@ -24,8 +24,10 @@ alpha_bars = torch.cumprod(alphas, dim=0)  # alphā_t
 ts_desc = torch.arange(n_diffusion_steps - 1, -1, -1, device=device)
 
 @torch.no_grad()
-def compute_tsr_schedule(lam, t):
+def compute_tsr_schedule(lam, t, replica_swap = False):
 	"""Computes temporal score rescaling coefficient. Outpit will be shape (N_DIFFUSION_STEPS, n_langevin_steps)"""
+	if replica_swap:
+		return 1/ lam
 
 	sigma = TSR["sigma"]
 

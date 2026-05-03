@@ -16,8 +16,8 @@ TSR_SIGMA = 3.0
 SWAP_ALGORITHM = {
 	"n_replicas": 3,
 	"p_ratio": "p",
-	"even_indices": [0, 2, 4, 6, 8, 10],
-	"odd_indices": 	[1, 3, 5, 7, 9, 11],
+	"even_indices": [ 1, 4, 8],
+	"odd_indices": 	[ 0, 2, 6],
 	"debug": True,
 }
 
