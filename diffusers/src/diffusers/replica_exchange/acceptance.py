@@ -19,7 +19,7 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.5):
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.1):
 	lam_ladder = torch.tensor([tsr_lam , tsr_lam /scale, tsr_lam * scale**2], device=device, dtype=dtype)
 	assert (len(lam_ladder) == n_replicas)
 	return lam_ladder
