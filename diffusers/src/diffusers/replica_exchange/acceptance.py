@@ -23,8 +23,8 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = None):
-	scale = 0.9
-	return torch.tensor([tsr_lam, tsr_lam / scale , tsr_lam /(scale**2)], device=device, dtype=dtype)
+	return torch.tensor([tsr_lam, 1/ tsr_lam], device=device, dtype=dtype)
+
 
 @torch.no_grad()
 def _replica_view(latents, n_replicas):
@@ -113,9 +113,11 @@ def compute_score_integral(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 	).reshape(n_seg, bs, d)
-	f = - torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
+	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
+
+	diff = (1/temp_s - 1/ temp_t)
 	
-	return torch.clamp(f * temp_t, max = 1.0)
+	return torch.clamp(f * diff, max = 1.0)
 
 
 @torch.no_grad()
@@ -174,9 +176,13 @@ def exchanged_replicas(
 		perm = torch.randperm(N)
 		x_s_proposed = x_s[perm]
 
+		N = x_t.shape[0]
+		perm_t = torch.randperm(N)
+		x_t_proposed = x_t[perm_t]
+
 		accept = compute_correction(
 			model,
-			target,
+			(x_t_proposed, temp_t, lam_t, i_t),
 			(x_s_proposed, temp_s, lam_s, i_s),
 			t,
 			swap_algorithm,
@@ -191,7 +197,7 @@ def exchanged_replicas(
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
 		mask = accept.bool()
-		x[i_t] = torch.where(mask, x_s_proposed, x_t)
-		x[i_s] = torch.where(mask, x_t, x_s_proposed)[perm.argsort()]
+		x[i_t] = torch.where(mask, x_s_proposed, x_t_proposed)
+		x[i_s] = torch.where(mask, x_t_proposed, x_s_proposed)[perm.argsort()]
 
 	return x.reshape_as(latents)

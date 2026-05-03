@@ -1,0 +1,2521 @@
+Loaded 5000 prompts
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.936
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.925
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.914
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.903
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.892
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.861
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.824
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.804
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.943
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.920
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.909
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.898
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.888
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.858
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.833
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.859
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.941
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.918
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.907
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.896
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.885
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.857
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.841
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.902
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.916
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.904
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.893
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.856
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.847
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.894
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.856
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.844
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.921
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.939
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.927
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.916
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.904
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.894
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.856
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.846
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.932
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.937
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.926
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.916
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.905
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.894
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.865
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.833
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.822
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.922
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.899
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.889
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.860
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.837
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.872
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.931
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.919
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.908
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.896
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.886
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.857
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.839
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.897
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.894
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.855
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.841
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.922
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.906
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.895
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.856
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.841
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.912
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.929
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.917
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.905
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.894
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.855
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.841
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.920
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.981
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.959
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.936
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.924
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.898
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.842
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.782
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.709
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.957
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.919
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.906
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.892
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.877
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.834
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.775
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.719
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.967
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.916
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.888
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.874
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.829
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.772
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.734
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.883
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.869
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.824
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.769
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.751
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.886
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.871
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.826
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.771
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.743
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.978
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.926
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.913
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.898
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.884
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.869
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.824
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.770
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.749
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.959
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.936
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.924
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.913
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.900
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.888
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.849
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.798
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.752
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.920
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.907
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.895
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.881
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.842
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.793
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.766
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.904
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.891
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.878
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.838
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.793
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.784
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.887
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.873
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.833
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.792
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.802
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.916
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.902
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.889
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.875
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.835
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.792
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.792
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.927
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.914
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.901
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.887
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.874
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.834
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.792
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.799
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.967
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.945
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.921
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.909
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.896
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.845
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.790
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.728
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.965
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.941
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.916
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.903
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.877
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.836
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.783
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.740
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.886
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.831
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.779
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.751
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.962
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.949
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.936
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.923
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.909
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.868
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.826
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.777
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.766
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.897
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.870
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.828
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.778
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.759
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.962
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.949
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.936
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.923
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.882
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.868
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.827
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.777
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.765
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.967
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.944
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.933
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.920
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.908
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.895
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.882
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.843
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.789
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.737
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.965
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.941
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.916
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.889
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.876
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.835
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.785
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.751
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.886
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.832
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.784
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.771
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.962
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.949
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.936
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.923
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.909
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.868
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.828
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.786
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.801
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.897
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.870
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.830
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.785
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.787
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.975
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.962
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.950
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.937
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.923
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.882
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.869
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.829
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.786
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.797
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.966
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.955
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.943
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.931
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.919
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.907
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.895
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.882
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.842
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.785
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.730
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.964
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.940
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.927
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.915
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.902
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.889
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.875
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.836
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.788
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.762
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.938
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.912
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.885
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.833
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.791
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.791
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.961
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.948
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.935
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.922
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.909
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.869
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.832
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.796
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.829
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.962
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.949
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.923
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.910
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.897
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.871
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.833
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.793
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.811
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.975
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.961
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.949
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.936
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.922
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.909
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.870
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.833
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.797
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.828
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.947
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.936
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.925
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.913
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.902
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.890
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.856
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.814
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.785
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.920
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.908
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.896
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.884
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.851
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.817
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.824
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.893
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.881
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.848
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.818
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.853
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.890
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.877
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.845
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.819
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.873
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.916
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.903
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.891
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.879
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.846
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.819
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.864
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.927
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.915
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.902
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.890
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.878
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.845
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.819
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.870
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.945
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.921
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.909
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.896
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.883
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.843
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.788
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.734
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.903
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.876
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.834
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.778
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.737
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.886
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.829
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.775
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.748
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.910
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.868
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.825
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.773
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.764
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.870
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.827
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.774
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.756
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.950
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.911
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.869
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.825
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.774
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.762
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.922
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.910
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.897
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.844
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.788
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.733
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.903
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.876
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.834
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.780
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.737
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.886
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.829
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.775
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.747
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.923
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.910
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.867
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.823
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.772
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.763
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.869
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.826
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.774
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.758
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.882
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.868
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.824
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.773
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.762
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.938
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.990 std 0.927
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.916
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.990 std 0.905
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.895
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.864
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.828
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.811
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.922
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.900
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.862
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.842
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.876
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.931
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.919
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.908
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.897
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.887
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.861
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.850
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.924
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.895
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.884
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.860
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.856
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.958
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.906
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.896
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.885
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.860
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.853
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.928
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.917
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.905
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.895
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.884
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.859
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.854
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.935
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.922
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.911
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.898
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.885
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.847
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.793
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.736
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.943
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.918
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.905
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.892
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.879
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.840
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.792
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.763
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.915
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.889
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.876
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.837
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.793
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.787
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.885
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.833
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.794
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.816
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.887
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.874
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.835
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.794
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.803
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.926
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.913
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.899
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.886
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.873
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.833
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.794
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.812
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.960
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.949
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.939
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.929
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.918
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.908
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.897
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.869
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.839
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.837
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.957
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.946
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.935
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.924
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.913
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.902
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.892
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.865
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.848
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.967
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.921
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.900
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.890
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.864
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.854
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.930
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.942
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.919
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.908
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.887
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.862
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.858
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.959
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.943
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.932
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.920
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.909
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.898
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.888
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.863
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.856
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.947
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.954
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.942
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.931
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.919
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.908
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.897
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.887
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.862
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.857
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.956
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.959
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.938
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.988 std 0.926
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.915
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.988 std 0.904
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.893
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.990 std 0.859
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.818
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.795
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.933
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.995 std 0.921
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.910
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.994 std 0.898
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.887
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.994 std 0.855
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.826
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.840
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.918
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.906
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.895
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.883
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.853
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.829
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.875
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.903
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.892
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.880
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.851
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.836
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.916
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.893
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.882
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.852
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.833
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.899
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.928
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.916
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.903
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.892
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.880
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.851
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.835
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.911
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.947
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.935
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.923
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.910
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.897
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.843
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.787
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.720
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.943
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.931
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.918
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.904
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.891
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.877
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.835
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.779
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.732
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.941
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.928
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.915
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.901
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.887
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.873
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.830
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.775
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.743
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.897
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.883
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.868
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.824
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.773
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.760
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.913
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.885
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.870
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.827
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.774
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.754
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.939
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.926
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.912
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.898
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.869
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.825
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.773
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.758
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.981
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.971
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.960
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.949
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.938
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.927
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.915
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.903
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.891
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.854
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.803
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.754
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.969
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.946
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.934
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.995 std 0.922
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.910
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.994 std 0.897
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.885
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.995 std 0.847
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.803
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.782
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.932
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.919
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.907
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.894
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.882
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.845
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.806
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.813
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.904
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.891
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.878
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.843
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.811
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.849
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.943
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.918
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.893
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.880
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.844
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.808
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.831
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.978
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.966
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.954
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.942
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.929
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.917
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.904
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.892
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.879
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.843
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.810
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.844
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.937
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.925
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.913
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.900
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.888
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.850
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.801
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.752
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.920
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.907
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.895
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.881
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.843
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.798
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.777
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.904
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.891
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.877
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.839
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.798
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.801
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.887
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.873
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.835
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.797
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.824
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.888
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.875
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.836
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.797
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.812
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.927
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.914
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.900
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.887
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.874
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.835
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.798
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.821
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.959
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.937
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.926
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.914
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.902
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.891
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.854
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.807
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.766
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.933
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.921
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.909
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.896
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.884
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.848
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.807
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.794
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.931
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.918
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.906
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.894
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.881
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.845
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.809
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.822
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.890
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.877
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.842
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.812
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.854
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.904
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.892
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.879
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.843
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.811
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.839
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.928
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.916
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.903
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.890
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.877
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.842
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.812
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.850
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.921
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.908
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.895
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.881
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.838
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.776
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.700
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.903
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.889
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.874
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.829
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.765
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.699
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.913
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.884
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.870
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.823
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.760
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.703
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.910
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.880
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.865
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.818
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.756
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.715
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.897
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.867
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.820
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.758
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.709
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.952
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.881
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.866
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.818
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.756
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.713
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.922
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.909
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.896
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.883
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.842
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.782
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.714
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.903
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.890
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.876
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.833
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.777
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.729
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.886
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.829
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.775
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.746
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.910
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.867
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.824
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.773
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.766
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.869
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.826
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.774
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.756
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.896
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.882
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.868
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.824
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.773
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.763
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.937
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.926
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.915
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.987 std 0.904
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.893
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.861
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.825
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.804
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.945
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.922
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.900
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.889
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.858
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.831
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.853
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.931
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.919
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.907
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.896
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.885
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.855
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.831
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.873
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.893
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.882
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.853
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.835
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.904
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.930
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.906
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.895
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.883
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.854
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.833
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.888
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.929
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.917
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.905
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.894
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.883
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.854
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.835
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.901
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.967
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.988 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.935
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.987 std 0.924
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.912
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.985 std 0.901
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.890
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.988 std 0.857
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.817
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.790
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.965
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.931
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.994 std 0.918
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.907
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.993 std 0.896
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.884
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.993 std 0.853
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.824
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.843
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.928
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.997 std 0.916
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.904
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.997 std 0.892
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.880
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.996 std 0.850
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.826
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.874
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.962
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.890
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.879
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.851
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.836
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.918
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.975
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.903
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.892
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.880
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.851
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.834
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.903
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.975
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.962
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.926
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.914
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.902
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.891
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.879
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.851
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.835
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.913
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.945
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.933
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.920
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.908
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.895
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.988 std 0.881
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.839
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.990 std 0.780
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.711
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.941
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.929
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.916
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.902
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.888
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.874
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.831
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.774
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.729
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.939
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.926
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.912
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.898
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.884
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.869
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.825
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.771
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.740
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.923
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.909
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.895
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.879
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.864
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.819
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.765
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.748
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.896
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.882
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.867
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.822
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.768
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.744
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.937
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.910
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.895
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.880
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.865
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.820
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.766
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.747
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.935
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.923
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.911
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.897
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.844
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.787
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.736
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.943
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.931
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.918
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.905
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.891
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.877
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.835
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.778
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.733
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.915
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.901
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.888
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.874
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.831
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.777
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.749
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.912
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.884
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.869
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.826
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.776
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.769
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.885
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.871
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.828
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.777
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.761
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.964
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.925
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.912
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.898
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.884
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.870
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.827
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.776
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.767
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.959
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.948
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.937
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.926
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.915
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.903
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.891
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.857
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.814
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.778
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.957
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.945
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.933
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.921
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.909
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.897
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.885
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.851
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.815
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.814
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.955
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.930
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.918
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.906
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.894
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.881
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.848
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.817
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.843
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.903
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.890
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.878
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.845
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.819
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.870
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.904
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.892
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.879
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.846
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.817
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.856
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.978
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.928
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.916
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.903
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.891
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.879
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.846
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.820
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.871
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.945
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.934
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.985 std 0.922
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.910
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.983 std 0.897
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.884
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.984 std 0.845
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.792
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.735
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.905
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.892
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.879
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.841
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.797
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.777
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.914
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.901
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.888
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.875
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.837
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.798
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.802
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.885
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.872
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.835
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.801
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.834
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.926
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.899
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.886
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.873
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.836
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.799
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.817
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.925
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.912
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.898
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.885
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.873
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.836
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.802
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.834
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.981
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.970
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.960
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.949
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.938
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.927
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.916
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.904
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.893
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.860
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.821
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.801
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.968
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.957
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.946
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.922
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.911
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.899
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.887
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.852
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.817
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.823
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.967
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.944
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.932
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.920
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.908
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.896
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.883
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.849
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.816
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.840
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.942
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.917
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.905
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.892
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.880
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.846
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.817
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.861
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.955
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.943
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.931
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.918
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.906
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.894
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.881
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.847
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.817
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.852
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.978
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.966
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.954
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.942
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.930
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.917
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.905
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.893
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.880
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.846
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.817
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.859
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.980
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.969
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.947
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.936
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.924
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.913
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.900
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.888
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.990 std 0.851
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.802
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.759
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.967
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.956
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.944
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.932
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.919
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.907
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.995 std 0.895
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.882
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.995 std 0.844
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.798
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.778
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.966
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.942
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.929
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.917
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.904
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.891
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.878
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.840
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.800
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.802
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.940
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.901
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.888
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.875
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.837
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.801
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.828
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.978
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.965
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.941
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.915
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.902
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.889
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.876
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.839
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.801
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.817
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.977
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.965
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.953
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.940
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.927
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.914
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.901
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.888
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.875
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.837
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.801
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.825
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.958
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.946
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.935
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.991 std 0.923
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.912
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.989 std 0.899
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.888
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.853
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.808
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.996 std 0.768
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.966
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.943
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.931
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.919
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.907
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.895
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.882
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.847
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.809
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.806
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.953
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.940
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.928
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.916
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.903
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.891
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.878
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.843
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.808
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.825
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.887
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.874
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.838
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.806
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.841
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.964
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.939
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.914
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.901
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.889
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.876
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.840
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.807
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.833
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.951
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.926
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.913
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.900
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.887
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.875
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.839
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.806
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.838
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False
+ We tsr by 1.40 with replica exchange True
+Time 988.27 swap btwn source 0.71 and target 1.40 accept 1.000 std 0.979
+Time 975.98 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.968
+Time 963.08 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.957
+Time 949.53 swap btwn source 0.71 and target 1.40 accept 0.994 std 0.945
+Time 935.28 swap btwn source 0.71 and target 1.40 accept 0.999 std 0.934
+Time 920.28 swap btwn source 0.71 and target 1.40 accept 0.993 std 0.922
+Time 904.45 swap btwn source 0.71 and target 1.40 accept 0.998 std 0.910
+Time 887.74 swap btwn source 0.71 and target 1.40 accept 0.992 std 0.898
+Time 870.06 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.887
+Time 810.31 swap btwn source 0.71 and target 1.40 accept 0.995 std 0.851
+Time 710.47 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.808
+Time 536.03 swap btwn source 0.71 and target 1.40 accept 0.997 std 0.771
+ We tsr by 1.20 with replica exchange True
+Time 988.27 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.965
+Time 963.08 swap btwn source 0.83 and target 1.20 accept 1.000 std 0.954
+Time 949.53 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.942
+Time 935.28 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.930
+Time 920.28 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.917
+Time 904.45 swap btwn source 0.83 and target 1.20 accept 0.999 std 0.905
+Time 887.74 swap btwn source 0.83 and target 1.20 accept 0.996 std 0.893
+Time 870.06 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.880
+Time 810.31 swap btwn source 0.83 and target 1.20 accept 0.997 std 0.845
+Time 710.47 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.808
+Time 536.03 swap btwn source 0.83 and target 1.20 accept 0.998 std 0.805
+ We tsr by 1.10 with replica exchange True
+Time 988.27 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.977
+Time 975.98 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.964
+Time 963.08 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.952
+Time 949.53 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.939
+Time 935.28 swap btwn source 0.91 and target 1.10 accept 1.000 std 0.927
+Time 920.28 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.914
+Time 904.45 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.902
+Time 887.74 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.889
+Time 870.06 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.876
+Time 810.31 swap btwn source 0.91 and target 1.10 accept 0.998 std 0.842
+Time 710.47 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.810
+Time 536.03 swap btwn source 0.91 and target 1.10 accept 0.999 std 0.833
+ We tsr by 1.01 with replica exchange True
+Time 988.27 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.962
+Time 963.08 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.950
+Time 949.53 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.937
+Time 935.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.924
+Time 920.28 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.911
+Time 904.45 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.898
+Time 887.74 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.885
+Time 870.06 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.873
+Time 810.31 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.839
+Time 710.47 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.813
+Time 536.03 swap btwn source 0.99 and target 1.01 accept 1.000 std 0.866
+ We tsr by 1.05 with replica exchange True
+Time 988.27 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.976
+Time 975.98 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.963
+Time 963.08 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.951
+Time 949.53 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.938
+Time 935.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.925
+Time 920.28 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.913
+Time 904.45 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.900
+Time 887.74 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.887
+Time 870.06 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.875
+Time 810.31 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.840
+Time 710.47 swap btwn source 0.95 and target 1.05 accept 0.999 std 0.812
+Time 536.03 swap btwn source 0.95 and target 1.05 accept 1.000 std 0.850
+ We tsr by 0.98 with replica exchange True
+Time 988.27 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.976
+Time 975.98 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.963
+Time 963.08 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.950
+Time 949.53 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.938
+Time 935.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.924
+Time 920.28 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.912
+Time 904.45 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.898
+Time 887.74 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.886
+Time 870.06 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.874
+Time 810.31 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.840
+Time 710.47 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.813
+Time 536.03 swap btwn source 1.02 and target 0.98 accept 1.000 std 0.862
+ We tsr by 1.40 with replica exchange False
+ We tsr by 1.20 with replica exchange False
+ We tsr by 1.10 with replica exchange False
+ We tsr by 1.01 with replica exchange False
+ We tsr by 1.05 with replica exchange False
+ We tsr by 0.98 with replica exchange False

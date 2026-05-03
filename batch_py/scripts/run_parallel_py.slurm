@@ -1,15 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=pt_tsr_100_new
+#SBATCH --job-name=pt_ind_swaps
 #SBATCH --account=kempner_undergrads
 #SBATCH --partition=kempner_h100
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --gpus-per-node=1
-#SBATCH --time=0-12:00:00
+#SBATCH --time=0-00:30:00
 #SBATCH --mem=32G
-#SBATCH --output=output_files/12_hrs_pt_ptsr.out
-#SBATCH --error=output_files/12_hrs_pt_ptsr.err
+#SBATCH --output=output_files/half_hr_pt_ptsr.out
+#SBATCH --error=output_files/half_hr_pt_ptsr.err
 #SBATCH --mail-type=END
 #SBATCH --mail-user=zoewu@g.harvard.edu
 
