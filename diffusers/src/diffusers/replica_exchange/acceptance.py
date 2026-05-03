@@ -19,10 +19,10 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 2):
-    lam_ladder = torch.tensor([tsr_lam, scale*tsr_lam], device=device, dtype=dtype)
-    assert (len(lam_ladder) == n_replicas)
-    return lam_ladder
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.5):
+	lam_ladder = torch.tensor([tsr_lam , tsr_lam /scale, tsr_lam * scale**2], device=device, dtype=dtype)
+	assert (len(lam_ladder) == n_replicas)
+	return lam_ladder
 
 
 @torch.no_grad()
@@ -67,12 +67,14 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	pairs = []
 
 	for i in range(start, n_replicas - 1, 2):
-		j = i+1
+		index_i = 0
 
-		temp_ladder_i = compute_tsr_constant(t, lam_ladder[i], sigma, tsr_sigma) 
-		temp_ladder_j = compute_tsr_constant(t, lam_ladder[j], sigma, tsr_sigma) 
+		index_j = i+1
 
-		pairs.append(((x[i].clone(), temp_ladder_i, lam_ladder[i], i), (x[j].clone(), temp_ladder_j, lam_ladder[j], j)))
+		temp_ladder_i = compute_tsr_constant(t, lam_ladder[index_i], sigma, tsr_sigma) 
+		temp_ladder_j = compute_tsr_constant(t, lam_ladder[index_j], sigma, tsr_sigma) 
+
+		pairs.append(((x[index_i].clone(), temp_ladder_i, lam_ladder[index_i], index_i), (x[index_j].clone(), temp_ladder_j, lam_ladder[index_j], index_j)))
 	return pairs
 
 
@@ -196,7 +198,7 @@ def exchanged_replicas(
 			rate = accept.mean().item()
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
-		mask = accept 
+		mask = accept / 2
 		x[i_t] = mask * x_s + (1-mask) * x_t
 		x[i_s] = mask * x_t + (1-mask) * x_s
 

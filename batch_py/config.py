@@ -14,10 +14,10 @@ SEED = 42
 TSR_SIGMA = 3.0
 
 SWAP_ALGORITHM = {
-	"n_replicas": 2,
+	"n_replicas": 3,
 	"p_ratio": "p",
-	"even_indices": [27,28],
-	"odd_indices": 	[ ],
+	"even_indices": [               13,14,        22,23,  27,28 ],
+	"odd_indices":  [ 7,8,  10,11,         16,17,],
 	"debug": True,
 }
 
