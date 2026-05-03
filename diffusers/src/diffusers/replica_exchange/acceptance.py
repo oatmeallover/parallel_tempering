@@ -1,8 +1,8 @@
 import torch 
 import sys
 @torch.no_grad()
-def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float):
-	if tsr_sigma > 20:
+def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_exchange = True):
+	if replica_exchange: 
 		return 1/lam
 	sigma = sigma.float()
 	
@@ -24,8 +24,8 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float):
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = None):
-	return torch.tensor([tsr_lam, 3* tsr_lam], device=device, dtype=dtype)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.3):
+	return torch.tensor([tsr_lam, scale * tsr_lam, scale**2 * tsr_lam], device=device, dtype=dtype)
 
 
 @torch.no_grad()
@@ -57,7 +57,6 @@ def compute_score(model, x, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds,
 
 @torch.no_grad()
 def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
-	tsr_sigma *= (t / 1000)
 	n_replicas = int(swap_algorithm["n_replicas"])
 
 	if i in swap_algorithm["even_indices"]:

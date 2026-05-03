@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-LAM_VALUES    = [1.4, 1.2, 1.1, 1.01, 1.05, 0.98]
+LAM_VALUES    = [1.15, 1.1, 1.01]
 
 REAL_DIR    = "/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/laion_5k_real"
 TSR_DIR     = Path("/n/netscratch/kempner_undergrads/Everyone/zwu/parallel_toy/images/tsr_samples")
@@ -14,13 +14,13 @@ SEED = 42
 TSR_SIGMA = 3.0
 
 SWAP_ALGORITHM = {
-	"n_replicas": 2,
+	"n_replicas": 3,
 	"p_ratio": "p",
-	"even_indices": [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 16, 21],
-	"odd_indices": 	[],
+	"even_indices": [0, 2, 4, 6, 8, 10],
+	"odd_indices": 	[1, 3, 5, 7, 9, 11],
 	"debug": True,
 }
 
 N_INF_STEPS = 30
 
-GUIDANCE_SCALE = 7.6
+GUIDANCE_SCALE = 7.5

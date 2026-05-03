@@ -18,4 +18,4 @@ module load python
 source activate /n/netscratch/kempner_undergrads/Everyone/zwu/environments/diffusers_env
 
 cd ..
-srun python generate_samples.py --index_until 5000
+srun python generate_samples.py --index_until 20
