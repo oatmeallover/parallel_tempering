@@ -149,7 +149,7 @@ def compute_sweep(
 	ax.legend(fontsize=9)
 	ax.grid(True, alpha=0.3)
 	plt.tight_layout()
-	plt.savefig("fid_vs_clip.png", dpi=150)
+	plt.savefig(f"figures/fid_vs_clip_until{index_until}_len{len(lam_values)}.png", dpi=150)
 	plt.show()
 
 	return tsr_results

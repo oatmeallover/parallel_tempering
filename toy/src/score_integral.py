@@ -55,7 +55,7 @@ def compute_score_integral(model, target, source, t, swap_algorithm, second_ener
 
 	f_flat = torch.trapz(integrand, s, dim=0)            # (bs, D)
 
-	f = f_flat.reshape(original_shape) # p(x_s) / p(x_t)?
+	f = - f_flat.reshape(original_shape) # p(x_s) / p(x_t)?
 
 	return f 
 	
