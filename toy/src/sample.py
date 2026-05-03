@@ -3,7 +3,7 @@ import numpy as np
 
 from .schedule import betas, alphas, alpha_bars, ts_desc, compute_tsr_schedule
 from .config_toy import DEVICE, CKPT_DIR
-from .score_integral import compute_score_integral, analytical_energy, compute_correction
+from .score_integral import compute_score_integral, compute_correction
 from .model import compute_score
 
 torch.manual_seed(42)
@@ -45,13 +45,18 @@ def replica_exchange(model, t, lam, lam_ladder, x_ladder, swap_algorithm):
 		N = x_t.shape[0]
 		perm = torch.randperm(N)
 		x_s_proposed = x_s[perm]
+  
+  		# Random pairing permutation
+		N = x_t.shape[0]
+		perm_t = torch.randperm(N)
+		x_t_proposed = x_t[perm_t]
 
-		accept_mask = compute_correction(model, (x_t, lam_t), (x_s_proposed, lam_s), t, swap_algorithm)
+		accept_mask = compute_correction(model, (x_t_proposed, lam_t), (x_s_proposed, lam_s), t, swap_algorithm)
 
 		if swap_algorithm["debug"]: print(f"Time {t} swap btwn source {lam_s.item():.2f} and target {lam_t.item():.2f} accept {accept_mask.sum().item() / N :.2f} ")
 
-		x_ladder[lam_t] = accept_mask * x_s_proposed + (1 - accept_mask) * x_t
-		x_ladder[lam_s][perm] = accept_mask * x_t + (1 - accept_mask) * x_s_proposed
+		x_ladder[lam_t] = (accept_mask * x_s_proposed + (1 - accept_mask) * x_t_proposed)[perm_t.argsort()]
+		x_ladder[lam_s] = (accept_mask * x_t_proposed + (1 - accept_mask) * x_s_proposed)[perm.argsort()]
 	
 	return x_ladder
 

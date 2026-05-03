@@ -115,7 +115,7 @@ def compute_score_integral(
 	).reshape(n_seg, bs, d)
 	f = - torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 	
-	return f * (1/temp_t)
+	return torch.clamp(f * temp_t, max = 1.0)
 
 
 @torch.no_grad()
@@ -141,7 +141,7 @@ def compute_correction(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 		)
-	a = torch.clamp(torch.exp(f ), max=1.0)
+	a = torch.exp(f )
 	return (torch.rand_like(a) < a).float()
 
 
@@ -169,10 +169,15 @@ def exchanged_replicas(
 		x_t, temp_t, lam_t, i_t = target
 		x_s, temp_s, lam_s, i_s = source
 
+		# Random pairing permutation
+		N = x_t.shape[0]
+		perm = torch.randperm(N)
+		x_s_proposed = x_s[perm]
+
 		accept = compute_correction(
 			model,
 			target,
-			source,
+			(x_s_proposed, temp_s, lam_s, i_s),
 			t,
 			swap_algorithm,
 			alpha_bar_i,
@@ -186,7 +191,7 @@ def exchanged_replicas(
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
 		mask = accept.bool()
-		x[i_t] = torch.where(mask, x_s, x_t)
-		x[i_s] = torch.where(mask, x_t, x_s)
+		x[i_t] = torch.where(mask, x_s_proposed, x_t)
+		x[i_s] = torch.where(mask, x_t, x_s_proposed)[perm.argsort()]
 
 	return x.reshape_as(latents)
