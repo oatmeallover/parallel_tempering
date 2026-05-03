@@ -19,7 +19,7 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.2):
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 2):
     lam_ladder = torch.tensor([tsr_lam, scale*tsr_lam], device=device, dtype=dtype)
     assert (len(lam_ladder) == n_replicas)
     return lam_ladder
@@ -196,7 +196,7 @@ def exchanged_replicas(
 			rate = accept.mean().item()
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
-		mask = accept / 2
+		mask = accept 
 		x[i_t] = mask * x_s + (1-mask) * x_t
 		x[i_s] = mask * x_t + (1-mask) * x_s
 
