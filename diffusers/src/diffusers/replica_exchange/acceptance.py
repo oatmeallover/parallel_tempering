@@ -1,7 +1,9 @@
 import torch 
 import sys
 @torch.no_grad()
-def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
+def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float):
+	if tsr_sigma > 20:
+		return 1/lam
 	sigma = sigma.float()
 	
 	# Handle both float and tensor inputs for k
@@ -23,7 +25,7 @@ def compute_tsr_constant(lam, sigma: torch.Tensor, tsr_sigma: float):
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = None):
-	return torch.tensor([tsr_lam, 1/ tsr_lam], device=device, dtype=dtype)
+	return torch.tensor([tsr_lam, 3* tsr_lam], device=device, dtype=dtype)
 
 
 @torch.no_grad()
@@ -55,6 +57,7 @@ def compute_score(model, x, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds,
 
 @torch.no_grad()
 def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
+	tsr_sigma *= (t / 1000)
 	n_replicas = int(swap_algorithm["n_replicas"])
 
 	if i in swap_algorithm["even_indices"]:
@@ -65,7 +68,7 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 		return []
 	x, _ = _replica_view(latents, n_replicas)
 	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
-	temp_ladder = compute_tsr_constant(lam_ladder, sigma, tsr_sigma) 
+	temp_ladder = compute_tsr_constant(t, lam_ladder, sigma, tsr_sigma) 
 	
 	return [((x[i].clone(), temp_ladder[i], lam_ladder[i], i),
 		  (x[j].clone(), temp_ladder[j], lam_ladder[j], j))
@@ -171,19 +174,10 @@ def exchanged_replicas(
 		x_t, temp_t, lam_t, i_t = target
 		x_s, temp_s, lam_s, i_s = source
 
-		# Random pairing permutation
-		N = x_t.shape[0]
-		perm = torch.randperm(N)
-		x_s_proposed = x_s[perm]
-
-		N = x_t.shape[0]
-		perm_t = torch.randperm(N)
-		x_t_proposed = x_t[perm_t]
-
 		accept = compute_correction(
 			model,
-			(x_t_proposed, temp_t, lam_t, i_t),
-			(x_s_proposed, temp_s, lam_s, i_s),
+			target,
+			source,
 			t,
 			swap_algorithm,
 			alpha_bar_i,
@@ -194,10 +188,10 @@ def exchanged_replicas(
 
 		if swap_algorithm["debug"]:
 			rate = accept.mean().item()
-			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
+			print(f"Time {t:.2f} swap btwn source {float(temp_s):.2f} and target {float(temp_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
 		mask = accept.bool()
-		x[i_t] = torch.where(mask, x_s_proposed, x_t_proposed)
-		x[i_s] = torch.where(mask, x_t_proposed, x_s_proposed)[perm.argsort()]
+		x[i_t] = torch.where(mask, x_s, x_t)
+		x[i_s] = torch.where(mask, x_t, x_s)
 
 	return x.reshape_as(latents)

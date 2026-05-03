@@ -1135,10 +1135,10 @@ class StableDiffusion3Pipeline(DiffusionPipeline, SD3LoraLoaderMixin, FromSingle
 					if replica_exchange:
 						lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
 						for lam_index, tsr_lam_item in enumerate(lam_ladder):
-							tsr = compute_tsr_constant(tsr_lam_item, sigma_i, tsr_sigma)
+							tsr = compute_tsr_constant(t, tsr_lam_item, sigma_i, tsr_sigma)
 							noise_pred[batch_size * lam_index : batch_size * (lam_index+1)] *= tsr
 					else:
-						tsr = compute_tsr_constant(tsr_lam, sigma_i, tsr_sigma)
+						tsr = compute_tsr_constant(t, tsr_lam, sigma_i, tsr_sigma)
 						noise_pred *= tsr
 
 				# compute the previous noisy sample x_t -> x_t-1
