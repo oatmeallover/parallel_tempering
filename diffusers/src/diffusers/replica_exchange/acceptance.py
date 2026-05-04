@@ -91,6 +91,7 @@ def compute_score_integral(
 	model,
 	target,
 	source,
+	temp,
 	t,
 	swap_algorithm,
 	alpha_bar_i,
@@ -99,8 +100,8 @@ def compute_score_integral(
 	joint_attention_kwargs=None,
 	n_segments=4,
 ):
-	x_t = target
-	x_s = source
+	x_t, temp_t, lam_t, i_t = target
+	x_s, temp_s, lam_s, i_s = source
 
 	orig_shape = x_s.shape
 	bs = orig_shape[0]
@@ -121,55 +122,7 @@ def compute_score_integral(
 	).reshape(n_seg, bs, d)
 	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 
-	return  f 
-
-def euler_step(noise_pred, sigma, sigma_next, sample):
-	"""
-	Simple Euler step for flow matching, no side effects.
-	sigma, sigma_next: scalar tensors
-	"""
-	dt = sigma_next - sigma
-	return sample + noise_pred * dt
-
-@torch.no_grad()
-def swapped(model, target, source, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds, scheduler, joint_attention_kwargs=None):
-	x_t, temp_t, lam_t, i_t = target
-	x_s, temp_s, lam_s, i_s = source
-
-	batch_size = x_t.shape[0]
-	timestep = t.expand(batch_size)
-	
-	# tile to exactly batch_size rather than using integer division
-	n_repeats = (batch_size + prompt_embeds.shape[0] - 1) // prompt_embeds.shape[0]
-	pe  = prompt_embeds.repeat(n_repeats, 1, 1)[:batch_size]
-	ppe = pooled_prompt_embeds.repeat(n_repeats, 1)[:batch_size]
- 
-	noise_pred_t = model(
-		hidden_states=x_t,
-		timestep=timestep,
-		encoder_hidden_states=pe,
-		pooled_projections=ppe,
-		joint_attention_kwargs=joint_attention_kwargs,
-		return_dict=False,
-	)[0]
- 
-	noise_pred_s = model(
-		hidden_states=x_s,
-		timestep=timestep,
-		encoder_hidden_states=pe,
-		pooled_projections=ppe,
-		joint_attention_kwargs=joint_attention_kwargs,
-		return_dict=False,
-	)[0]
-
-	sigma_i    = scheduler.sigmas[scheduler._step_index]
-	sigma_next = scheduler.sigmas[scheduler._step_index + 1]
-
-	x_t_under_s = euler_step(noise_pred_t * temp_s, sigma_i, sigma_next, x_t)
-	x_s_under_t = euler_step(noise_pred_s * temp_t, sigma_i, sigma_next, x_s)
-	x_t_under_t = euler_step(noise_pred_t * temp_t, sigma_i, sigma_next, x_t)
-	x_s_under_s = euler_step(noise_pred_s * temp_s, sigma_i, sigma_next, x_s)
-	return x_t_under_s, x_s_under_t, x_t_under_t, x_s_under_s
+	return  f * 2
 
 
 @torch.no_grad()
@@ -187,18 +140,12 @@ def compute_correction(
 ):
 	x_t, temp_t, lam_t, i_t = target
 	x_s, temp_s, lam_s, i_s = source
-
-	x_t_under_s, x_s_under_t, x_t_under_t, x_s_under_s = swapped(
-		model, 
-		target, 
-		source, 
-	 	t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds, scheduler, joint_attention_kwargs=joint_attention_kwargs,
-	)
  	
 	f_s = compute_score_integral(
 		model,
-		x_t_under_s,
-		x_s_under_s,
+		target,
+		source,
+		temp_s,
 		t,
 		swap_algorithm,
 		alpha_bar_i,
@@ -207,20 +154,8 @@ def compute_correction(
 		joint_attention_kwargs=joint_attention_kwargs,
 		) # p (t) / p(s)
 
-	f_t = compute_score_integral(
-		model,
-		x_s_under_t,
-		x_t_under_t,
-		t,
-		swap_algorithm,
-		alpha_bar_i,
-		prompt_embeds,
-		pooled_prompt_embeds,
-		joint_attention_kwargs=joint_attention_kwargs,
-		) # p (t) / p(s)
-
-	print(f" ft {f_t.mean().item()}  s {f_s.mean().item()} temp ratio {temp_s / temp_t} between lams s {lam_s} and t {lam_t} temp s {float(temp_s)} t {float(temp_t)}")
-	energy_diff_clamped = torch.clamp(f_t + f_s, max = 0.0)
+	print(f" fs {f_s.mean().item()} between lams s {lam_s} and lam t {lam_t} temp s {float(temp_s)} temp t {float(temp_t)}")
+	energy_diff_clamped = torch.clamp(f_s , max = 0.0)
 	a = torch.exp(energy_diff_clamped)
 	return a
 
