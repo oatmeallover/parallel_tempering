@@ -19,8 +19,8 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 
 @torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.1):
-	lam_ladder = torch.tensor([tsr_lam , tsr_lam /scale, tsr_lam * scale**2], device=device, dtype=dtype)
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 3.0):
+	lam_ladder = torch.tensor([tsr_lam , tsr_lam * scale], device=device, dtype=dtype)
 	assert (len(lam_ladder) == n_replicas)
 	return lam_ladder
 
@@ -68,13 +68,13 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 
 	for i in range(start, n_replicas - 1, 2):
 		index_i = 0
-
 		index_j = i+1
 
 		temp_ladder_i = compute_tsr_constant(t, lam_ladder[index_i], sigma, tsr_sigma) 
 		temp_ladder_j = compute_tsr_constant(t, lam_ladder[index_j], sigma, tsr_sigma) 
 
 		pairs.append(((x[index_i].clone(), temp_ladder_i, lam_ladder[index_i], index_i), (x[index_j].clone(), temp_ladder_j, lam_ladder[index_j], index_j)))
+	
 	return pairs
 
 
@@ -152,10 +152,10 @@ def compute_correction(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 		) # p (t) / p(s)
-	print(f" energy diff { float(temp_s - temp_t)} between lams s {lam_s} and t {lam_t} temp s {float(temp_s)} t {float(temp_t)}")
-	energy_diff_clamped = torch.clamp(f_t_s * (temp_s - temp_t), max = 0.0)
+	print(f" temp ratio {temp_s / temp_t} between lams s {lam_s} and t {lam_t} temp s {float(temp_s)} t {float(temp_t)}")
+	energy_diff_clamped = torch.clamp(f_t_s, max = 0.0)
 	a = torch.exp(energy_diff_clamped )
-	return (torch.rand_like(a) < a).float()
+	return a
 
 
 @torch.no_grad()
@@ -198,7 +198,7 @@ def exchanged_replicas(
 			rate = accept.mean().item()
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
-		mask = accept / 2
+		mask = (accept).float()
 		x[i_t] = mask * x_s + (1-mask) * x_t
 		x[i_s] = mask * x_t + (1-mask) * x_s
 
