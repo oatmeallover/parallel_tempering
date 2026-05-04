@@ -13,7 +13,7 @@ parser.add_argument("--index_until", type=int, default=None)
 
 args = parser.parse_args()
 
-LAM_VALUES = args.lam_values if args.lam_values is not None else LAM_VALUES
+LAM_VALUES = [1.2, 1.15, 1.1, 1.05]
 INDEX_UNTIL = args.index_until 
 
 # ── Load prompts once ─────────────────────────────────────────────────────────
@@ -31,7 +31,7 @@ pipe = StableDiffusion3Pipeline.from_pretrained(
 pipe = pipe.to("cuda")
 pipe.set_progress_bar_config(disable=True)
 
-replica_exchanges = [True]
+replica_exchanges = [False]
 
 lam_dirs = {}
 for re in replica_exchanges:

@@ -25,7 +25,7 @@ def compute_tsr_constant(t, tsr_lam, lam, sigma: torch.Tensor, tsr_sigma: float,
 
 	if replica_exchange:
 		if lam != tsr_lam:
-			tsr = 1/(tsr_lam - (1/tsr - tsr_lam))
+			tsr = 1/(tsr_lam - (1/tsr.clone() - tsr_lam))
 
 	return tsr.squeeze().to(sigma.dtype)  # squeeze so scalar k returns scalar-like tensor
 
@@ -126,7 +126,7 @@ def compute_score_integral(
 	).reshape(n_seg, bs, d)
 	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 
-	return  f * 2
+	return  f * temp_t
 
 
 @torch.no_grad()
