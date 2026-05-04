@@ -1,7 +1,15 @@
 import torch 
 import sys
+
 @torch.no_grad()
-def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_exchange = True):
+def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 1.3):
+	lam_ladder = torch.tensor([tsr_lam, scale * tsr_lam], device=device, dtype=dtype)
+	assert (len(lam_ladder) == n_replicas)
+	return lam_ladder
+
+
+@torch.no_grad()
+def compute_tsr_constant(t, tsr_lam, lam, sigma: torch.Tensor, tsr_sigma: float, replica_exchange = True):
 	
 	sigma = sigma.float()
 	
@@ -15,14 +23,11 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 	base = eta_t * (tsr_sigma**2)
 	tsr = (base + 1.0) / (base * lam.unsqueeze(-1) + 1.0)  # (n_replicas, sigma_dim)
 
+	if replica_exchange:
+		if lam != tsr_lam:
+			tsr = 1/(tsr_lam - (1/tsr - tsr_lam))
+
 	return tsr.squeeze().to(sigma.dtype)  # squeeze so scalar k returns scalar-like tensor
-
-
-@torch.no_grad()
-def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 3.0):
-	lam_ladder = torch.tensor([tsr_lam , 1/tsr_lam], device=device, dtype=dtype)
-	assert (len(lam_ladder) == n_replicas)
-	return lam_ladder
 
 
 @torch.no_grad()
@@ -53,7 +58,7 @@ def compute_score(model, x, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds,
 
 
 @torch.no_grad()
-def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
+def swap_schedule(x, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 	n_replicas = int(swap_algorithm["n_replicas"])
 
 	if i in swap_algorithm["even_indices"]:
@@ -62,16 +67,15 @@ def swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 		start = 1
 	else:
 		return []
-	x, _ = _replica_view(latents, n_replicas)
-	lam_ladder = _lam_ladder(tsr_lam, n_replicas, latents.device, latents.dtype)
+	lam_ladder = _lam_ladder(tsr_lam, n_replicas, x.device, x.dtype)
 	pairs = []
 
 	for i in range(start, n_replicas - 1, 2):
 		index_i = 0
 		index_j = i+1
 
-		temp_ladder_i = compute_tsr_constant(t, lam_ladder[index_i], sigma, tsr_sigma) 
-		temp_ladder_j = compute_tsr_constant(t, lam_ladder[index_j], sigma, tsr_sigma) 
+		temp_ladder_i = compute_tsr_constant(t, tsr_lam, lam_ladder[index_i], sigma, tsr_sigma) 
+		temp_ladder_j = compute_tsr_constant(t, tsr_lam, lam_ladder[index_j], sigma, tsr_sigma) 
 
 		pairs.append(((x[index_i].clone(), temp_ladder_i, lam_ladder[index_i], index_i), (x[index_j].clone(), temp_ladder_j, lam_ladder[index_j], index_j)))
 	
@@ -135,7 +139,6 @@ def compute_correction(
 	alpha_bar_i,
 	prompt_embeds,
 	pooled_prompt_embeds,
-	scheduler,
 	joint_attention_kwargs=None,
 ):
 	x_t, temp_t, lam_t, i_t = target
@@ -157,7 +160,7 @@ def compute_correction(
 	print(f" fs {f_s.mean().item()} between lams s {lam_s} and lam t {lam_t} temp s {float(temp_s)} temp t {float(temp_t)}")
 	energy_diff_clamped = torch.clamp(f_s , max = 0.0)
 	a = torch.exp(energy_diff_clamped)
-	return a
+	return a 
 
 
 @torch.no_grad()
@@ -173,14 +176,13 @@ def exchanged_replicas(
 	alpha_bar_i,
 	prompt_embeds,
 	pooled_prompt_embeds,
-	scheduler,
 	joint_attention_kwargs=None,
 ):
 
 	n_replicas = int(swap_algorithm["n_replicas"])
 	x, _ = _replica_view(latents, n_replicas)
 
-	for target, source in swap_schedule(latents, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
+	for target, source in swap_schedule(x, i, t, tsr_lam, tsr_sigma, sigma, swap_algorithm):
 
 		x_t, temp_t, lam_t, i_t = target
 		x_s, temp_s, lam_s, i_s = source
@@ -194,13 +196,11 @@ def exchanged_replicas(
 			alpha_bar_i,
 			prompt_embeds,
 			pooled_prompt_embeds,
-			scheduler,
 			joint_attention_kwargs=joint_attention_kwargs,
 		)
 
 		if swap_algorithm["debug"]:
-			rate = accept.mean().item()
-			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
+			print(f"Time {t:.2f} swap. Target {float(lam_t):.2f} takes from source {float(lam_s)} ACCEPT {accept.mean().item():.3f}")
 				
 		mask = (torch.rand_like(accept)<accept).float()
 		x[i_t] = mask * x_s + (1-mask) * x_t
