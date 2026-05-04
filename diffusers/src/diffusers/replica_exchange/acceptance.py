@@ -20,7 +20,7 @@ def compute_tsr_constant(t, lam, sigma: torch.Tensor, tsr_sigma: float, replica_
 
 @torch.no_grad()
 def _lam_ladder(tsr_lam, n_replicas, device, dtype, scale = 3.0):
-	lam_ladder = torch.tensor([tsr_lam , tsr_lam * scale], device=device, dtype=dtype)
+	lam_ladder = torch.tensor([tsr_lam , 1/tsr_lam], device=device, dtype=dtype)
 	assert (len(lam_ladder) == n_replicas)
 	return lam_ladder
 
@@ -99,8 +99,8 @@ def compute_score_integral(
 	joint_attention_kwargs=None,
 	n_segments=4,
 ):
-	x_t, temp_t, lam_t, i_t = target
-	x_s, temp_s, lam_s, i_s = source
+	x_t = target
+	x_s = source
 
 	orig_shape = x_s.shape
 	bs = orig_shape[0]
@@ -121,9 +121,55 @@ def compute_score_integral(
 	).reshape(n_seg, bs, d)
 	f = torch.trapezoid(score * r_deriv, s, dim=0).reshape(orig_shape)
 
-	print(f" f between {float(lam_t)} and {float(lam_s)} mean {f.mean().item()}")
-
 	return  f 
+
+def euler_step(noise_pred, sigma, sigma_next, sample):
+	"""
+	Simple Euler step for flow matching, no side effects.
+	sigma, sigma_next: scalar tensors
+	"""
+	dt = sigma_next - sigma
+	return sample + noise_pred * dt
+
+@torch.no_grad()
+def swapped(model, target, source, t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds, scheduler, joint_attention_kwargs=None):
+	x_t, temp_t, lam_t, i_t = target
+	x_s, temp_s, lam_s, i_s = source
+
+	batch_size = x_t.shape[0]
+	timestep = t.expand(batch_size)
+	
+	# tile to exactly batch_size rather than using integer division
+	n_repeats = (batch_size + prompt_embeds.shape[0] - 1) // prompt_embeds.shape[0]
+	pe  = prompt_embeds.repeat(n_repeats, 1, 1)[:batch_size]
+	ppe = pooled_prompt_embeds.repeat(n_repeats, 1)[:batch_size]
+ 
+	noise_pred_t = model(
+		hidden_states=x_t,
+		timestep=timestep,
+		encoder_hidden_states=pe,
+		pooled_projections=ppe,
+		joint_attention_kwargs=joint_attention_kwargs,
+		return_dict=False,
+	)[0]
+ 
+	noise_pred_s = model(
+		hidden_states=x_s,
+		timestep=timestep,
+		encoder_hidden_states=pe,
+		pooled_projections=ppe,
+		joint_attention_kwargs=joint_attention_kwargs,
+		return_dict=False,
+	)[0]
+
+	sigma_i    = scheduler.sigmas[scheduler._step_index]
+	sigma_next = scheduler.sigmas[scheduler._step_index + 1]
+
+	x_t_under_s = euler_step(noise_pred_t * temp_s, sigma_i, sigma_next, x_t)
+	x_s_under_t = euler_step(noise_pred_s * temp_t, sigma_i, sigma_next, x_s)
+	x_t_under_t = euler_step(noise_pred_t * temp_t, sigma_i, sigma_next, x_t)
+	x_s_under_s = euler_step(noise_pred_s * temp_s, sigma_i, sigma_next, x_s)
+	return x_t_under_s, x_s_under_t, x_t_under_t, x_s_under_s
 
 
 @torch.no_grad()
@@ -136,15 +182,23 @@ def compute_correction(
 	alpha_bar_i,
 	prompt_embeds,
 	pooled_prompt_embeds,
+	scheduler,
 	joint_attention_kwargs=None,
 ):
 	x_t, temp_t, lam_t, i_t = target
 	x_s, temp_s, lam_s, i_s = source
 
-	f_t_s = compute_score_integral(
+	x_t_under_s, x_s_under_t, x_t_under_t, x_s_under_s = swapped(
+		model, 
+		target, 
+		source, 
+	 	t, alpha_bar_i, prompt_embeds, pooled_prompt_embeds, scheduler, joint_attention_kwargs=joint_attention_kwargs,
+	)
+ 	
+	f_s = compute_score_integral(
 		model,
-		target,
-		source,
+		x_t_under_s,
+		x_s_under_s,
 		t,
 		swap_algorithm,
 		alpha_bar_i,
@@ -152,9 +206,22 @@ def compute_correction(
 		pooled_prompt_embeds,
 		joint_attention_kwargs=joint_attention_kwargs,
 		) # p (t) / p(s)
-	print(f" temp ratio {temp_s / temp_t} between lams s {lam_s} and t {lam_t} temp s {float(temp_s)} t {float(temp_t)}")
-	energy_diff_clamped = torch.clamp(f_t_s, max = 0.0)
-	a = torch.exp(energy_diff_clamped )
+
+	f_t = compute_score_integral(
+		model,
+		x_s_under_t,
+		x_t_under_t,
+		t,
+		swap_algorithm,
+		alpha_bar_i,
+		prompt_embeds,
+		pooled_prompt_embeds,
+		joint_attention_kwargs=joint_attention_kwargs,
+		) # p (t) / p(s)
+
+	print(f" ft {f_t.mean().item()}  s {f_s.mean().item()} temp ratio {temp_s / temp_t} between lams s {lam_s} and t {lam_t} temp s {float(temp_s)} t {float(temp_t)}")
+	energy_diff_clamped = torch.clamp(f_t + f_s, max = 0.0)
+	a = torch.exp(energy_diff_clamped)
 	return a
 
 
@@ -171,6 +238,7 @@ def exchanged_replicas(
 	alpha_bar_i,
 	prompt_embeds,
 	pooled_prompt_embeds,
+	scheduler,
 	joint_attention_kwargs=None,
 ):
 
@@ -191,6 +259,7 @@ def exchanged_replicas(
 			alpha_bar_i,
 			prompt_embeds,
 			pooled_prompt_embeds,
+			scheduler,
 			joint_attention_kwargs=joint_attention_kwargs,
 		)
 
@@ -198,7 +267,7 @@ def exchanged_replicas(
 			rate = accept.mean().item()
 			print(f"Time {t:.2f} swap btwn source {float(lam_s):.2f} and target {float(lam_t):.2f} accept {rate:.3f} std {x.std().item():.3f}")
 				
-		mask = (accept).float()
+		mask = (torch.rand_like(accept)<accept).float()
 		x[i_t] = mask * x_s + (1-mask) * x_t
 		x[i_s] = mask * x_t + (1-mask) * x_s
 
